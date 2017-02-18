@@ -13,16 +13,15 @@ import java.awt.Graphics;
  *
  * @author Rahul
  */
-public class Shop extends Script{
+public class Storage extends Script{
     
-    public Shop() {
-        super(7);
+    public Storage() {
+        super(8);
     }
     
-    @Override
     public void render(Graphics g, int x, int y) {
-        g.setColor(Color.cyan);
+        g.setColor(Color.orange);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g.drawString("M", x + 8, y + 16);
+        g.drawString("S", x + 8, y + 16);
     }
 }

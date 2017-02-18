@@ -18,6 +18,7 @@ public class Script {
     // SPAWNLIST = 3, 4, 5
     // HEAL = 6
     // SHOP = 7
+    // STORAGE = 8
 
     public static Script[] scripts = new Script[32];
     

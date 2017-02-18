@@ -55,7 +55,7 @@ public class Spawn {
         //and assign it random amounts to stats until theres no more tp
         //for now its just 1 added to each stat cause fk it
         int lvl = (int) (Math.random() * (max_lvl - min_lvl)) + min_lvl;
-        return new Pokemon(Pokemon.POKEMON_LIST[pokemon_id], shiny,
+        return new Pokemon(pokemon_id, shiny,
                 lvl, 1, 1, 1, 1, 1, 1, moveset);
     }
 
@@ -122,7 +122,7 @@ public class Spawn {
         if (pokemon_id < 0){
             return "null";
         }
-        return Pokemon.POKEMON_LIST[pokemon_id].getName();
+        return Pokemon.getPokemonName(pokemon_id);
     }
 
     public void setPokemon_id(int pokemon_id) {

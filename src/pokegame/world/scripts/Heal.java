@@ -15,6 +15,8 @@ import java.awt.Graphics;
  */
 public class Heal extends Script{
     
+    private String message;
+    
     public Heal() {
         super(6);
     }
@@ -24,5 +26,9 @@ public class Heal extends Script{
         g.setColor(Color.green);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
         g.drawString("H", x + 8, y + 16);
+    }
+    
+    public String getMessage(){
+        return message;
     }
 }

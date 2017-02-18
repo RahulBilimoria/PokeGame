@@ -7,6 +7,7 @@ package pokegame.pokemon;
 
 import java.awt.image.BufferedImage;
 import pokegame.gfx.ImageLoader;
+import pokegame.item.Item;
 import pokegame.pokemon.move.Move;
 import pokegame.pokemon.move.Moveset;
 import pokegame.pokemon.move.learn.Learnset;
@@ -25,19 +26,96 @@ public class Pokemon {
     public static final int EXP[][] = new int[4][LEVELS];
 
     public static final int POKEMON_COUNT = 151;
-    public static final Pokemon POKEMON_LIST[] = new Pokemon[POKEMON_COUNT];
+    public static final BasePokemon POKEMON_LIST[] = new BasePokemon[POKEMON_COUNT];
 
-    static class BaseStats {
+    static class BasePokemon {
 
-        private final int hp, att, def, spatt, spdef, speed;
+        private final int hp, att, def, spatt, spdef, speed; //Pokemons base stats
+        private final int id; //Pokemon ID
+        private final int evolvesTo, evolvesAt; //ID of evolved pokemon and level of evolution
+        private final float genderChance;
+        private final int expType, baseExp; //Type of exp gain (fast, slow, medium) and base exp given when defeated (for wild pokemon)
+        private final int catchRate; //Pokemon catch rate
+        private String name, description; //Name and description of pokemon
+        private Type type1, type2; //Type(s) of pokemon
+        //Images for the pokemon
+        private BufferedImage front, back, shinyFront, shinyBack, icon;
+        private Learnset learnableMoves;
 
-        public BaseStats(int hp, int att, int def, int spatt, int spdef, int speed) {
+        public BasePokemon(int id, String name, Type type1, Type type2, 
+                int evolvesTo, int evolvesAt, int hp, int att, int def, 
+                int spatt, int spdef, int speed, float genderChance, 
+                int catchRate, int baseExp) {
+            this.id = id;
+            this.name = name;
+            this.type1 = type1;
+            this.type2 = type2;
+            this.evolvesTo = evolvesTo;
+            this.evolvesAt = evolvesAt;
+            this.genderChance = genderChance;
+            this.catchRate = catchRate;
+            this.baseExp = baseExp;
             this.hp = hp;
             this.att = att;
             this.def = def;
             this.spatt = spatt;
             this.spdef = spdef;
             this.speed = speed;
+            expType = 0;
+            learnableMoves = Learnset.LEARN_SET[id];
+            loadImages();
+        }
+        
+        public void loadImages() {
+            icon = ImageLoader.loadImage("/pokemon/icons/" + (id + 1) + ".png");
+            front = ImageLoader.loadImage("/pokemon/front/normal/" + (id + 1) + ".png");
+            back = ImageLoader.loadImage("/pokemon/back/normal/" + (id + 1) + ".png");
+            shinyFront = ImageLoader.loadImage("/pokemon/front/shiny/" + (id + 1) + ".png");
+            shinyBack = ImageLoader.loadImage("/pokemon/back/shiny/" + (id + 1) + ".png");
+        }
+        
+        public int getId(){
+            return id;
+        }
+        
+        public String getName(){
+            return name;
+        }
+        
+        public String getDescription(){
+            return description;
+        }
+        
+        public Type getType1(){
+            return type1;
+        }
+        
+        public Type getType2(){
+            return type2;
+        }
+        
+        public int getEvolvesTo(){
+            return evolvesTo;
+        }
+        
+        public int getEvolvesAt(){
+            return evolvesAt;
+        }
+        
+        public float getGenderChance(){
+            return genderChance;
+        }
+        
+        public int getExpType(){
+            return expType;
+        }
+        
+        public int getBaseExp(){
+            return baseExp;
+        }
+        
+        public int getCatchRate(){
+            return catchRate;
         }
 
         public int getHp() {
@@ -63,68 +141,61 @@ public class Pokemon {
         public int getSpeed() {
             return speed;
         }
+
+        public BufferedImage getIcon(){
+            return icon;
+        }
+        
+        public BufferedImage getFront(boolean shiny){
+            if (shiny)
+                return shinyFront;
+            return front;
+        }
+        
+        public BufferedImage getBack(boolean shiny){
+            if (shiny)
+                return shinyBack;
+            return back;
+        }
+        
+        public Learnset getLearnableMoves(){
+            return learnableMoves;
+        }
     }
 
-    private int id, evolvesTo, evolvesAt, level, currentHP, hp, att, def, spatt, spdef, speed;
-    private float genderChance;
-    private int myExp, maxExp, expType, baseExp;
-    private int catchRate;
+    private int id, level, currentHP, hp, att, def, spatt, spdef, speed;
+    private int myExp, expToLevel;
     private int tpPoints;
-    private String nickname, pokemonName, description;
+    private String nickname;
     //male = true, female = false
     private boolean gender, shiny;
     private BufferedImage front, back, icon;
-    private BaseStats baseStats;
-    private final Type type1, type2;
-    private final Learnset MOVE_LIST;
     private Moveset moveset;
     private Nature nature;
     private Status status;
+    private Item heldItem;
 
-    public Pokemon(int id, String pokemonName, Type type1, Type type2, int evolvesTo, int evolvesAt, BaseStats baseStats, float genderChance, int catchRate, int baseExp) {
-        this.id = id;
-        this.pokemonName = pokemonName;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.evolvesTo = evolvesTo;
-        this.evolvesAt = evolvesAt;
-        this.baseStats = baseStats;
-        this.MOVE_LIST = Learnset.LEARN_SET[id];
-        this.genderChance = genderChance;
-        this.catchRate = catchRate;
-        this.baseExp = baseExp;
-    }
-
-    public Pokemon(Pokemon p, boolean shiny, int level, int hp,
+    public Pokemon(int id, boolean shiny, int level, int hp,
             int att, int def, int spatt, int spdef, int speed, Moveset moveset) {
-        this.id = p.id;
-        this.pokemonName = p.pokemonName;
+        BasePokemon p = POKEMON_LIST[id];
+        this.id = id;
         this.nickname = "";
-        this.evolvesTo = p.evolvesTo;
-        this.evolvesAt = p.evolvesAt;
         this.shiny = shiny;
         this.level = level;
-        this.hp = hp + p.baseStats.hp;
-        this.att = att + p.baseStats.att;
-        this.def = def + p.baseStats.def;
-        this.spatt = spatt + p.baseStats.spatt;
-        this.spdef = spdef + p.baseStats.spdef;
-        this.speed = speed + p.baseStats.speed;
-        this.type1 = p.type1;
-        this.type2 = p.type2;
-        this.MOVE_LIST = Learnset.LEARN_SET[id];
+        this.hp = hp + p.getHp();
+        this.att = att + p.getAtt();
+        this.def = def + p.getDef();
+        this.spatt = spatt + p.getSpatt();
+        this.spdef = spdef + p.getSpdef();
+        this.speed = speed + p.getSpeed();
         this.moveset = moveset;
         this.myExp = 0;
-        this.expType = 0;
-        this.maxExp = EXP[expType][level];
-        this.catchRate = p.getCatchRate();
-        this.baseExp = p.getBaseExp();
+        this.expToLevel = EXP[p.getExpType()][level];
         this.status = new Status();
         tpPoints = 0;
         currentHP = this.hp;
         nature = Nature.getRandomNature();
         chooseGender();
-        loadImages();
     }
 
     public static void init() {
@@ -132,19 +203,19 @@ public class Pokemon {
         String[] pokemon = file.split("\\s+");
         for (int x = 0; x < POKEMON_COUNT; x++) {
             int a = (x * 15);
-            POKEMON_LIST[x] = new Pokemon(
+            POKEMON_LIST[x] = new BasePokemon(
                     Utils.parseInt(pokemon[a + 0]),
                     pokemon[a + 1],
                     Type.getType(Utils.parseInt(pokemon[a + 2])),
                     Type.getType(Utils.parseInt(pokemon[a + 3])),
                     Utils.parseInt(pokemon[a + 4]),
                     Utils.parseInt(pokemon[a + 5]),
-                    new BaseStats(Utils.parseInt(pokemon[a + 6]),
-                            Utils.parseInt(pokemon[a + 7]),
-                            Utils.parseInt(pokemon[a + 8]),
-                            Utils.parseInt(pokemon[a + 9]),
-                            Utils.parseInt(pokemon[a + 10]),
-                            Utils.parseInt(pokemon[a + 11])),
+                    Utils.parseInt(pokemon[a + 6]),
+                    Utils.parseInt(pokemon[a + 7]),
+                    Utils.parseInt(pokemon[a + 8]),
+                    Utils.parseInt(pokemon[a + 9]),
+                    Utils.parseInt(pokemon[a + 10]),
+                    Utils.parseInt(pokemon[a + 11]),
                     Utils.parseFloat(pokemon[a + 12]),
                     Utils.parseInt(pokemon[a + 13]),
                     Utils.parseInt(pokemon[a + 14]));
@@ -179,7 +250,7 @@ public class Pokemon {
     }
 
     public void chooseGender() {
-        if (Math.random() < genderChance) {
+        if (Math.random() < POKEMON_LIST[id].getGenderChance()) {
             gender = true;
         }
         gender = false;
@@ -187,11 +258,11 @@ public class Pokemon {
 
     public void addExp(int exp) {
         this.myExp += exp;
-        while (myExp >= maxExp) {
-            myExp -= maxExp;
+        while (myExp >= expToLevel) {
+            myExp -= expToLevel;
             level++;
             addTp(3);
-            maxExp = EXP[expType][level];
+            expToLevel = EXP[POKEMON_LIST[id].getExpType()][level];
             System.out.println("LEVEL UP");
             checkLevelUp();
             //check moves when level up
@@ -201,10 +272,10 @@ public class Pokemon {
     }
 
     public void checkLevelUp() {
-        if (level == evolvesAt) {
+        if (level == POKEMON_LIST[id].getEvolvesAt()) {
 
         } else {
-            Move[] learnable = MOVE_LIST.getLearnableMove(level);
+            Move[] learnable = getLearnableMoves();
             for (int x = 0; x < learnable.length; x++) {
                 for (int y = 0; y < 4; y++) {
                     if (moveset.getMove(y) == null) {
@@ -217,22 +288,13 @@ public class Pokemon {
         }
     }
 
-    public void loadImages() {
-        icon = ImageLoader.loadImage("/pokemon/icons/" + (id + 1) + ".png");
-        front = ImageLoader.loadImage("/pokemon/front/normal/" + (id + 1) + ".png");
-        back = ImageLoader.loadImage("/pokemon/back/normal/" + (id + 1) + ".png");
-        if (shiny) {
-            front = ImageLoader.loadImage("/pokemon/front/shiny/" + (id + 1) + ".png");
-            back = ImageLoader.loadImage("/pokemon/back/shiny/" + (id + 1) + ".png");
-        }
-    }
-
     public void damage(int dam) {
         this.currentHP = this.currentHP - dam;
     }
 
     public float getModifier(Type type) {
-        float m = Type.MODIFIER[type.getID()][type1.getID()];
+        float m = Type.MODIFIER[type.getID()][POKEMON_LIST[id].getType1().getID()];
+        Type type2 = POKEMON_LIST[id].getType2();
         if (type2 != null) {
             m = m * Type.MODIFIER[type.getID()][type2.getID()];
         }
@@ -248,11 +310,11 @@ public class Pokemon {
     }
 
     public int getMaxExp() {
-        return maxExp;
+        return expToLevel;
     }
 
     public String getName() {
-        return pokemonName;
+        return POKEMON_LIST[id].getName();
     }
 
     public int getID() {
@@ -260,7 +322,11 @@ public class Pokemon {
     }
 
     public Type getType1() {
-        return type1;
+        return POKEMON_LIST[id].getType1();
+    }
+    
+    public Type getType2() {
+        return POKEMON_LIST[id].getType2();
     }
 
     public String getGender() {
@@ -269,11 +335,7 @@ public class Pokemon {
         }
         return "Female";
     }
-
-    public Type getType2() {
-        return type2;
-    }
-
+    
     public String getNick() {
         return nickname;
     }
@@ -378,15 +440,15 @@ public class Pokemon {
     }
 
     public int getCatchRate() {
-        return catchRate;
+        return POKEMON_LIST[id].getCatchRate();
     }
 
     public int getBaseExp() {
-        return baseExp;
+        return POKEMON_LIST[id].getBaseExp();
     }
 
     public Move[] getLearnableMoves() {
-        return MOVE_LIST.getLearnableMove(level);
+        return POKEMON_LIST[id].getLearnableMoves().getLearnableMove(level);
     }
 
     public static int getIdByName(String s) {
@@ -442,7 +504,7 @@ public class Pokemon {
     public String toString() {
         String s = "";
         s = s + "ID:" + id + "\n";
-        s = s + "Name:" + pokemonName + "\n";
+        s = s + "Name:" + POKEMON_LIST[id].getName() + "\n";
         s = s + "Level:" + level + "\n";
         s = s + "Hp:" + hp + "\n";
         s = s + "Att:" + att + "\n";
@@ -451,5 +513,9 @@ public class Pokemon {
         s = s + "Spdef:" + spdef + "\n";
         s = s + "Speed:" + speed + "\n";
         return s;
+    }
+    
+    public static String getPokemonName(int pokemonId){
+        return POKEMON_LIST[pokemonId].getName();
     }
 }

@@ -5,7 +5,6 @@
  */
 package pokegame.pokemon.move.learn;
 
-import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
 import pokegame.utils.Utils;
 

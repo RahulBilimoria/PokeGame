@@ -22,6 +22,7 @@ public class Storage {
     private int selectedPokemon;
     private int[][] boxes = new int[BOXES_COUNT][BOXES_SIZE];
     private String[][] pokemonBoxes = new String[BOXES_COUNT][BOXES_SIZE];
+    private Pokemon[][] pokemon;
     
     public Storage(Player player){
         this.player = player;
