@@ -58,12 +58,7 @@ public class Battle {
             battleHandler.updateSeconds(seconds);
         } else if (seconds == 0) {
             damage(-1);
-            for (int x = 0; x < 6; x++) {
-                if (player.getPokemon(x).getHp() > 0) {
-                    activePokemon = x;
-                    break;
-                }
-            }
+            battleHandler.updateEverything();
         }
         battleHandler.updateSeconds(seconds);
     }
@@ -152,18 +147,21 @@ public class Battle {
     }
 
     public void faintedPokemon() {
+        boolean f = true;
         if (getPokemon().getHp() <= 0) {
             fainted = true;
             addText(getPokemon().getName() + " has fainted!");
+            if (bag)
+                openBag();
             battleHandler.disableButtons();
             for (int x = 0; x < 6; x++) {
                 if (player.getPokemon(x).getHp() > 0) {
+                    f = false;
                     addText("Pick your next pokemon.");
-                    fainted = false;
                     break;
                 }
             }
-            if (fainted) {
+            if (f) {
                 battleHandler.lose(); // put fainted screen
             }
         }
@@ -201,7 +199,7 @@ public class Battle {
     }
 
     public void usePokeball(Pokeball pokeball) {
-        int a = (((3 * enemy.getMaxHp() - 2 * enemy.getHp()) * enemy.getCatchRate() * pokeball.getCatchRate()) / (3 * enemy.getMaxHp())) * enemy.getStatus();
+        int a = (((3 * enemy.getMaxHp() - 2 * enemy.getHp()) * enemy.getCatchRate() * pokeball.getCatchRate()) / (3 * enemy.getMaxHp())) * enemy.getStatusInt();
         int b = 1048560 / (int) Math.sqrt(Math.sqrt(16711680 / a));
         for (int x = 0; x < 3; x++) {
             int y = (int) (Math.random() * 65535);
@@ -273,6 +271,10 @@ public class Battle {
 
     public void addText(String text) {
         battleHandler.addText("\n" + text);
+    }
+    
+    public void setFainted(boolean f){
+        this.fainted = f;
     }
 
     public void changePokemon(int ap) {

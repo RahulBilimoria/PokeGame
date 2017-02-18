@@ -73,7 +73,7 @@ public class Pokemon {
     private String nickname, pokemonName, description;
     //male = true, female = false
     private boolean gender, shiny;
-    private BufferedImage front, back;
+    private BufferedImage front, back, icon;
     private BaseStats baseStats;
     private final Type type1, type2;
     private final Learnset MOVE_LIST;
@@ -95,13 +95,13 @@ public class Pokemon {
         this.baseExp = baseExp;
     }
 
-    public Pokemon(Pokemon p, boolean gender, boolean shiny, int level, int hp,
+    public Pokemon(Pokemon p, boolean shiny, int level, int hp,
             int att, int def, int spatt, int spdef, int speed, Moveset moveset) {
         this.id = p.id;
         this.pokemonName = p.pokemonName;
+        this.nickname = "";
         this.evolvesTo = p.evolvesTo;
         this.evolvesAt = p.evolvesAt;
-        this.gender = gender;
         this.shiny = shiny;
         this.level = level;
         this.hp = hp + p.baseStats.hp;
@@ -119,8 +119,11 @@ public class Pokemon {
         this.maxExp = EXP[expType][level];
         this.catchRate = p.getCatchRate();
         this.baseExp = p.getBaseExp();
+        this.status = new Status();
+        tpPoints = 0;
         currentHP = this.hp;
         nature = Nature.getRandomNature();
+        chooseGender();
         loadImages();
     }
 
@@ -175,11 +178,19 @@ public class Pokemon {
         moveset.heal();
     }
 
+    public void chooseGender() {
+        if (Math.random() < genderChance) {
+            gender = true;
+        }
+        gender = false;
+    }
+
     public void addExp(int exp) {
         this.myExp += exp;
         while (myExp >= maxExp) {
             myExp -= maxExp;
             level++;
+            addTp(3);
             maxExp = EXP[expType][level];
             System.out.println("LEVEL UP");
             checkLevelUp();
@@ -191,22 +202,23 @@ public class Pokemon {
 
     public void checkLevelUp() {
         if (level == evolvesAt) {
-            
+
         } else {
             Move[] learnable = MOVE_LIST.getLearnableMove(level);
-            for (int x = 0; x < learnable.length; x++){
-                for (int y = 0; y < 4; y++){
-                    if (moveset.getMove(y) == null){
+            for (int x = 0; x < learnable.length; x++) {
+                for (int y = 0; y < 4; y++) {
+                    if (moveset.getMove(y) == null) {
                         moveset.setMove(y, learnable[x]);
                         break;
                     }
                 }
-                
+
             }
         }
     }
 
     public void loadImages() {
+        icon = ImageLoader.loadImage("/pokemon/icons/" + (id + 1) + ".png");
         front = ImageLoader.loadImage("/pokemon/front/normal/" + (id + 1) + ".png");
         back = ImageLoader.loadImage("/pokemon/back/normal/" + (id + 1) + ".png");
         if (shiny) {
@@ -218,20 +230,24 @@ public class Pokemon {
     public void damage(int dam) {
         this.currentHP = this.currentHP - dam;
     }
-    
-    public float getModifier(Type type){
+
+    public float getModifier(Type type) {
         float m = Type.MODIFIER[type.getID()][type1.getID()];
-        if (type2 != null){
+        if (type2 != null) {
             m = m * Type.MODIFIER[type.getID()][type2.getID()];
         }
         return m;
     }
-    
-    public int getExp(){
+
+    public void addTp(int tp) {
+        this.tpPoints += tp;
+    }
+
+    public int getExp() {
         return myExp;
     }
-    
-    public int getMaxExp(){
+
+    public int getMaxExp() {
         return maxExp;
     }
 
@@ -247,6 +263,13 @@ public class Pokemon {
         return type1;
     }
 
+    public String getGender() {
+        if (gender) {
+            return "Male";
+        }
+        return "Female";
+    }
+
     public Type getType2() {
         return type2;
     }
@@ -259,6 +282,10 @@ public class Pokemon {
         return level;
     }
 
+    public int getTP() {
+        return tpPoints;
+    }
+
     public int getHp() {
         return currentHP;
     }
@@ -266,20 +293,20 @@ public class Pokemon {
     public int getMaxHp() {
         return hp;
     }
-    
-    public int getAttack(){
+
+    public int getAttack() {
         return att;
     }
-    
-    public int getDefense(){
+
+    public int getDefense() {
         return def;
     }
-    
-    public int getSpatt(){
+
+    public int getSpatt() {
         return spatt;
     }
-    
-    public int getSpdef(){
+
+    public int getSpdef() {
         return spdef;
     }
 
@@ -287,13 +314,45 @@ public class Pokemon {
         return speed;
     }
 
-    public int getStatus() {
+    public void addHp(int hp) {
+        this.hp += hp;
+    }
+
+    public void addAttack(int att) {
+        this.att += att;
+    }
+
+    public void addDefense(int def) {
+        this.def += def;
+    }
+
+    public void addSpAtt(int spatt) {
+        this.spatt += spatt;
+    }
+
+    public void addSpDef(int spdef) {
+        this.spdef += spdef;
+    }
+
+    public void addSpeed(int speed) {
+        this.speed += speed;
+    }
+
+    public String getStatus() {
+        return "Status";
+    }
+
+    public int getStatusInt() {
         return 1;
     }
-    
-    public void addHp(int heal){
+
+    public String getNature() {
+        return "Nature";
+    }
+
+    public void heal(int heal) {
         this.currentHP += heal;
-        if (currentHP >= hp){
+        if (currentHP >= hp) {
             currentHP = hp;
         }
     }
@@ -310,6 +369,10 @@ public class Pokemon {
         return back;
     }
 
+    public BufferedImage getIcon() {
+        return icon;
+    }
+
     public Moveset getMoveset() {
         return moveset;
     }
@@ -322,6 +385,60 @@ public class Pokemon {
         return baseExp;
     }
 
+    public Move[] getLearnableMoves() {
+        return MOVE_LIST.getLearnableMove(level);
+    }
+
+    public static int getIdByName(String s) {
+        for (int x = 0; x < POKEMON_COUNT; x++) {
+            if (POKEMON_LIST[x].getName().toLowerCase().equals(s.toLowerCase())) {
+                return x;
+            }
+        }
+        return -1;
+    }
+
+    public String toStorage() {
+        String s;
+        s = id + " " + nickname + " " + level + " " + tpPoints + " ";
+        if (gender) {
+            s = s + "0 ";
+        } else {
+            s = s + "1 ";
+        }
+        s = s + myExp + " ";
+        if (shiny) {
+            s = s + "0 ";
+        } else {
+            s = s + "1 ";
+        }
+        s = s + nature.getId() + " " + status.getId() + " " + currentHP + " " + hp + " ";
+        s = s + att + " " + def + " " + spatt + " " + spdef + " " + speed + " ";
+        if (moveset.getMove(0) != null) {
+            s = s + moveset.getMove(0).getId() + " ";
+        }
+        else 
+            s = s + "-1 ";
+        if (moveset.getMove(1) != null) {
+            s = s + moveset.getMove(1).getId() + " ";
+        }
+        else 
+            s = s + "-1 ";
+        if (moveset.getMove(2) != null) {
+            s = s + moveset.getMove(2).getId() + " ";
+        }
+        else 
+            s = s + "-1 ";
+        if (moveset.getMove(3) != null) {
+            s = s + moveset.getMove(3).getId();
+        }
+        else 
+            s = s + "-1";
+        System.out.println(s);
+        return s;
+    }
+
+    @Override
     public String toString() {
         String s = "";
         s = s + "ID:" + id + "\n";

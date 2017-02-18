@@ -10,7 +10,9 @@ import pokegame.Game;
 import pokegame.entity.player.Player;
 import pokegame.gfx.GameCamera;
 import pokegame.input.KeyManager;
+import pokegame.input.MouseManager;
 import pokegame.world.World;
+import pokegame.world.mapeditor.MapEditor;
 
 /**
  *
@@ -49,12 +51,24 @@ public class Handler {
         return game.getKeyManager();
     }
     
+    public MouseManager getMouseManager(){
+        return game.getMouseManager();
+    }
+    
+    public MapEditor getMapEditor(){
+        return world.getMapEditor();
+    }
+    
     public Player getPlayer(){
         return world.getPlayer();
     }
     
     public Canvas getCanvas(){
         return game.getCanvas();
+    }
+    
+    public boolean getEditWorld(){
+        return world.getEdit();
     }
     
     public void setMovable(boolean moveable){

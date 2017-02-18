@@ -12,6 +12,12 @@ import java.awt.Graphics;
  * @author minim_000
  */
 public class Script {
+    
+    // BLOCK = 1
+    // WARP = 2
+    // SPAWNLIST = 3, 4, 5
+    // HEAL = 6
+    // SHOP = 7
 
     public static Script[] scripts = new Script[32];
     
@@ -35,6 +41,7 @@ public class Script {
         for (int x = 2; x < 32; x++) {
             scripts[x] = new Script(x);
         }
+        scripts[6] = new Heal();
     }
 
     public void setScriptNumber(int scriptNumber) {

@@ -11,4 +11,14 @@ package pokegame.pokemon.status;
  */
 public class Status {
     
+    private int id;
+    private String name;
+    
+    public Status(){
+        this.id = 0;
+    }
+    
+    public int getId(){
+        return id;
+    }
 }

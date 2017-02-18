@@ -5,8 +5,8 @@
  */
 package pokegame;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,10 +14,16 @@ import java.awt.image.BufferStrategy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import pokegame.gfx.Asset;
 import pokegame.gfx.GameCamera;
 import pokegame.handler.Handler;
+import pokegame.handler.InputHandler;
 import pokegame.input.KeyManager;
+import pokegame.input.MouseManager;
 import pokegame.menu.GameMenu;
 import pokegame.pokemon.Pokemon;
 import pokegame.type.Type;
@@ -44,9 +50,15 @@ public class Game implements Runnable {
     private Handler handler;
     private GameCamera gameCamera;
     private KeyManager keyManager;
+    private MouseManager mouseManager;
+    private InputHandler ih;
 
     private GameState state;
     private Thread thread;
+    
+    private JTextArea text;
+    private JTextField input;
+    private JScrollPane scroll;
 
     private boolean running = false;
 
@@ -64,27 +76,57 @@ public class Game implements Runnable {
 
     private void createDisplay() {
         frame = new JFrame(title);
+        frame.setLayout(null);
         createGameMenu();
+        
+        JPanel p = new JPanel(null);
+        p.setOpaque(false);
+        p.setSize(width, 125);
+        p.setPreferredSize(new Dimension(width, 125));
+        p.setMaximumSize(new Dimension(width, 125));
+        p.setMinimumSize(new Dimension(width, 125));
+        
+        text = new JTextArea();
+        text.setBackground(Color.black);
+        text.setCaretColor(Color.gray);
+        text.setForeground(Color.white);
+        text.setSize(width, 100);
+        text.setWrapStyleWord(true);
+        text.setLineWrap(true);
+        text.setEditable(false);
+        
+        scroll = new JScrollPane(text);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        
+        input = new JTextField();
+        input.setBackground(Color.black);
+        input.setCaretColor(Color.gray);
+        input.setForeground(Color.white);
+        input.setSize(width, 25);
+        p.add(scroll).setBounds(0,0,text.getWidth(), text.getHeight());
+        p.add(input).setBounds(0,text.getHeight()-1, input.getWidth(), input.getHeight());
 
         Dimension d = new Dimension(width, height);
         canvas = new Canvas();
+        canvas.setSize(width, height);
         canvas.setPreferredSize(d);
         canvas.setMaximumSize(d);
         canvas.setMinimumSize(d);
+        canvas.setBackground(Color.black);
 
-        frame.setSize(width, height);
+        frame.setSize(width+menu.getWidth()+5, height+153);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.add(menu.getMenu(), BorderLayout.WEST);
-        frame.add(canvas);
-        frame.pack();
+        frame.getLayeredPane().add(p).setBounds(menu.getWidth(), canvas.getHeight(), p.getWidth(), p.getHeight());
+        frame.add(menu.getMenu()).setBounds(0,0,menu.getWidth(), menu.getHeight());
+        frame.add(canvas).setBounds(menu.getWidth(), 0, canvas.getWidth(), canvas.getHeight());
     }
 
     private void createGameMenu() {
-        menu = new GameMenu(100, height);
+        menu = new GameMenu(100, height+153);
     }
 
     public synchronized void start() {
@@ -107,11 +149,13 @@ public class Game implements Runnable {
     }
 
     public void init() {
+        handler = new Handler(this);
+        
         frame.addKeyListener(keyManager);
+        //frame.addMouseListener(mouseManager);
+        //frame.addMouseMotionListener(mouseManager);
         canvas.addKeyListener(keyManager);
         menu.addKeyListener(keyManager);
-        handler = new Handler(this);
-        menu.addHandler(handler);
         Asset.init();
         Tile.init();
         Script.init();
@@ -122,6 +166,12 @@ public class Game implements Runnable {
         Learnset.init();
         gameCamera = new GameCamera(handler, 0, 0);
         state = new GameState(handler);
+        ih = new InputHandler(handler);
+        mouseManager = new MouseManager(handler);
+        canvas.addMouseListener(mouseManager);
+        canvas.addMouseMotionListener(mouseManager);
+        menu.addHandler(handler);
+        input.addActionListener(ih);
     }
 
     private void tick() {
@@ -170,7 +220,7 @@ public class Game implements Runnable {
             }
 
             if (timer >= 1000000000) {
-                System.out.println(ticks);
+                //System.out.println(ticks);
                 ticks = 0;
                 timer = 0;
             }
@@ -185,6 +235,23 @@ public class Game implements Runnable {
     public void remove(Component c) {
         frame.getLayeredPane().remove(c);
     }
+    
+    public void addText(){
+        text.setForeground(Color.white);
+        if (input.getText().equals("/mapeditor")){
+            handler.getWorld().openMapEditor();
+            canvas.requestFocus();
+        }
+        else if (input.getText().equals("/loc")){
+            text.append("Map: " + handler.getWorld().getMapNumber() + "\n");
+            text.append("X: " + handler.getWorld().getPlayerX() + "\n");
+            text.append("Y: " + handler.getWorld().getPlayerY() + "\n");
+        } else {
+            text.append("Username: " + input.getText() + "\n");
+        }
+        text.setCaretPosition(text.getDocument().getLength());    
+        input.setText("");
+    }
 
     public int getWidth() {
         return width;
@@ -192,6 +259,10 @@ public class Game implements Runnable {
 
     public int getHeight() {
         return height;
+    }
+    
+    public JTextField getInput(){
+        return input;
     }
 
     public GameCamera getGameCamera() {
@@ -201,8 +272,20 @@ public class Game implements Runnable {
     public KeyManager getKeyManager() {
         return keyManager;
     }
+    
+    public MouseManager getMouseManager(){
+        return mouseManager;
+    }
+    
+    public JFrame getFrame(){
+        return frame;
+    }
 
     public Canvas getCanvas() {
         return canvas;
+    }
+    
+    public GameMenu getGameMenu(){
+        return menu;
     }
 }

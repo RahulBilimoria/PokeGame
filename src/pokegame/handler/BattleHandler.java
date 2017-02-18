@@ -91,30 +91,45 @@ public class BattleHandler implements ActionListener, MouseListener {
         if (e.getSource() == bs.getLabel(0)) {
             battle.changePokemon(0);
             bs.updateMoves();
+            if (!battle.getFainted()){
+                battle.damage(-1);
+            }
         } else if (e.getSource() == bs.getLabel(1)) {
             battle.changePokemon(1);
             bs.updateMoves();
+            if (!battle.getFainted()){
+                battle.damage(-1);
+            }
         } else if (e.getSource() == bs.getLabel(2)) {
             battle.changePokemon(2);
             bs.updateMoves();
+            if (!battle.getFainted()){
+                battle.damage(-1);
+            }
         } else if (e.getSource() == bs.getLabel(3)) {
             battle.changePokemon(3);
             bs.updateMoves();
+            if (!battle.getFainted()){
+                battle.damage(-1);
+            }
         } else if (e.getSource() == bs.getLabel(4)) {
             battle.changePokemon(4);
             bs.updateMoves();
+            if (!battle.getFainted()){
+                battle.damage(-1);
+            }
         } else if (e.getSource() == bs.getLabel(5)) {
             battle.changePokemon(5);
             bs.updateMoves();
+            if (!battle.getFainted()){
+                battle.damage(-1);
+            }
         } else {
             JLabel label = (JLabel)e.getSource();
             battle.useItem(label.getText());
             bs.updateItemLabels(label);
         }
-        if (!battle.getFainted() && battle.getItemUsed()) { //only attacks pokemon that u swap in if main poke
-            battle.damage(-1);      // is still alive
-            battle.setItemUsed(false);
-        }
+        battle.setFainted(false);
         bs.updateEverything();
     }
 
@@ -130,7 +145,7 @@ public class BattleHandler implements ActionListener, MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        
     }
 
     @Override

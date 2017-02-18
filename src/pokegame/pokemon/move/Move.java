@@ -5,6 +5,8 @@
  */
 package pokegame.pokemon.move;
 
+import java.awt.image.BufferedImage;
+import pokegame.gfx.ImageLoader;
 import pokegame.type.Type;
 import pokegame.utils.Utils;
 
@@ -21,6 +23,7 @@ public class Move {
     private int id, maxPP, pp, power, category;
     private float acc;
     private String name;
+    private BufferedImage cat;
 
     private Type type;
 
@@ -33,6 +36,7 @@ public class Move {
         this.power = power;
         this.acc = acc;
         this.category = category;
+        setImage();
     }
 
     public Move(Move move) {
@@ -44,6 +48,7 @@ public class Move {
         this.power = move.getPower();
         this.acc = move.getAccuracy();
         this.category = move.getCategory();
+        this.cat = move.cat;
     }
 
     public static void init() {
@@ -68,6 +73,29 @@ public class Move {
             }
         }
         return null;
+    }
+    
+    public static Move getMoveById(int id){
+        if (id < 0 || id > MOVE_COUNT){
+            return null;
+        }
+        return MOVE_LIST[id];
+    }
+    
+    public void setImage(){
+        switch(category){
+            case 0:
+                cat = ImageLoader.loadImage("/type/physical.png");
+                break;
+            case 1:
+                cat = ImageLoader.loadImage("/type/special.png");
+                break;
+            case 2:
+                cat = ImageLoader.loadImage("/type/neutral.png");
+                break;
+            default:
+                break;
+        }
     }
 
     public void usePP() {
@@ -106,6 +134,10 @@ public class Move {
 
     public int getCategory() {
         return category;
+    }
+    
+    public BufferedImage getCategoryImage(){
+        return cat;
     }
 
     public float getAccuracy() {

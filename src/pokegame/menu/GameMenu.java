@@ -7,7 +7,6 @@ package pokegame.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,7 +24,7 @@ import pokegame.input.KeyManager;
 public class GameMenu {
     
     private Handler handler;
-    private JPanel menuPanel, panel;
+    private JPanel menuPanel;
     private JButton pokemon, bag, buddy, settings, logout;
     private JLabel background;
     
@@ -55,14 +54,12 @@ public class GameMenu {
         menuPanel.setPreferredSize(d);
         menuPanel.setMaximumSize(d);
         menuPanel.setMinimumSize(d);
-        
-        GameMenuHandler h = new GameMenuHandler(this);
-        
-        pokemon = newButton("Pokemon", h);
-        bag = newButton("Bag", h);        
-        buddy = newButton("Buddy",h);        
-        settings = newButton("Settings",h);
-        logout = newButton("Logout",h);
+
+        pokemon = newButton("Pokemon");
+        bag = newButton("Bag");        
+        buddy = newButton("Buddy");        
+        settings = newButton("Settings");
+        logout = newButton("Logout");
         
         menuPanel.add(pokemon).setBounds(5,10,pokemon.getWidth(),pokemon.getHeight());
         menuPanel.add(bag).setBounds(5,45,bag.getWidth(),bag.getHeight());
@@ -72,7 +69,7 @@ public class GameMenu {
         menuPanel.add(background).setBounds(0,0,width,height);
     }
     
-    public JButton newButton(String text, GameMenuHandler h){
+    public JButton newButton(String text){
         JButton b = new JButton(text);
         b.setSize(90,25);
         b.setForeground(Color.white);
@@ -83,15 +80,16 @@ public class GameMenu {
         b.setBorderPainted(false);
         b.setBorder(null);
         b.setHorizontalTextPosition(SwingConstants.CENTER);
-        b.addActionListener(h);
         return b;
     }
     
     public void openPokemon(){
         if (pMenu){
+            m.saveData();
             handler.setMovable(true);
             handler.getGame().remove(m.getPanel());
         } else {
+            m.updatePokemon();
             m.update();
             handler.setMovable(false);
             handler.getGame().add(m.getPanel());
@@ -147,6 +145,7 @@ public class GameMenu {
     public void addHandler(Handler handler){
         this.handler = handler;
         m = new PokemonMenu(handler);
+        addGameListener();
     }
     
     public void addKeyListener(KeyManager keyManager){
@@ -156,5 +155,14 @@ public class GameMenu {
         buddy.addKeyListener(keyManager);
         settings.addKeyListener(keyManager);
         logout.addKeyListener(keyManager);
+    }
+    
+    public void addGameListener(){
+        GameMenuHandler h = new GameMenuHandler(this);
+        pokemon.addActionListener(h);
+        bag.addActionListener(h);
+        buddy.addActionListener(h);
+        settings.addActionListener(h);
+        logout.addActionListener(h);
     }
 }

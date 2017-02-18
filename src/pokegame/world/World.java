@@ -13,6 +13,7 @@ import pokegame.handler.GameHandler;
 import pokegame.handler.Handler;
 import pokegame.pokemon.Pokemon;
 import pokegame.tiles.Tile;
+import pokegame.world.mapeditor.MapEditor;
 import pokegame.world.scripts.Script;
 import pokegame.world.scripts.SpawnList;
 import pokegame.world.scripts.Warp;
@@ -29,9 +30,11 @@ public class World {
     private BattleScreen battleScreen;
     private Battle battle;
     private Pokemon p;
-    
+    private MapEditor me;
+
     private float playerX, playerY;
     private boolean b;
+    private boolean edit;
     private boolean playerEnabled;
 
     public World(Handler handler) {
@@ -39,8 +42,8 @@ public class World {
         gameHandler = new GameHandler(handler, new Player(handler, 100, 100));
         loadMap(new Map(handler, 1));
 
-        gameHandler.getPlayer().setX(4 * Tile.TILE_WIDTH);
-        gameHandler.getPlayer().setY(4 * Tile.TILE_HEIGHT);
+        gameHandler.getPlayer().setX(8 * Tile.TILE_WIDTH);
+        gameHandler.getPlayer().setY(8 * Tile.TILE_HEIGHT);
         b = true;
         playerEnabled = true;
     }
@@ -54,16 +57,22 @@ public class World {
     }
 
     public void tick() {
-            gameHandler.tick();
-            if (battle != null){
-                battle.tick();
-            }
-            if (!gameHandler.getPlayer().getIsMoving()){
-                b = true;
-            }
-            playerX = gameHandler.getPlayer().getX() / Tile.TILE_WIDTH;
-            playerY = gameHandler.getPlayer().getY() / Tile.TILE_HEIGHT;
-        //if (handler.getGame().getGameMouseManager().getWorldEditor() == null) {
+        gameHandler.tick();
+        if (edit) {
+            gameHandler.getPlayer().setSpeed(8.0f);
+            me.tick();
+        } else {
+            gameHandler.getPlayer().setSpeed(2.0f);
+        }
+        if (battle != null) {
+            battle.tick();
+        }
+        if (!gameHandler.getPlayer().getIsMoving()) {
+            b = true;
+        }
+        playerX = gameHandler.getPlayer().getX() / Tile.TILE_WIDTH;
+        playerY = gameHandler.getPlayer().getY() / Tile.TILE_HEIGHT;
+        if (!edit) {
             if (playerX <= -1) {
                 loadMap(leftMap);
                 gameHandler.getPlayer().setX((Map.MAP_WIDTH - 1) * Tile.TILE_WIDTH);
@@ -79,9 +88,10 @@ public class World {
             }
             checkWarp(playerX, playerY);
             checkSpawn(playerX, playerY);
-        //} else {
-            //setBoundaries();
-        //}
+            checkHeal(playerX, playerY);
+        } else {
+            setBoundaries();
+        }
     }
 
     public void render(Graphics g) {
@@ -100,7 +110,7 @@ public class World {
         leftMap.renderGround(g, xUnderflow - 1, 0, yStart, yEnd);
         rightMap.renderGround(g, Map.MAP_WIDTH, xOverflow, yStart, yEnd);
 
-        currentMap.renderMask(g, xStart, xEnd, yStart, yEnd+1);
+        currentMap.renderMask(g, xStart, xEnd, yStart, yEnd);
         upMap.renderMask(g, xStart, xEnd, yUnderflow - 1, 0);
         downMap.renderMask(g, xStart, xEnd, Map.MAP_HEIGHT, yOverflow);
         leftMap.renderMask(g, xUnderflow - 1, 0, yStart, yEnd);
@@ -114,40 +124,88 @@ public class World {
         leftMap.renderFringe(g, xUnderflow - 1, 0, yStart, yEnd);
         rightMap.renderFringe(g, Map.MAP_WIDTH, xOverflow, yStart, yEnd);
 
-        /*if (handler.getGame().getGameMouseManager().getWorldEditor() != null
-                && handler.getGame().getGameMouseManager().getWorldEditor().getScript().isSelected()) {*/
+        if (edit) {
+            me.render(g);
+        }
+
+        if (edit) {
             currentMap.renderScript(g, xStart, xEnd, yStart, yEnd);
-        //}
+        }
     }
 
-    public void setTile(int x, int y, int myX, int myY, int width, int height, int layer) {
-        myX = myX + (int) handler.getGameCamera().getXOffset();
-        myY = myY + (int) handler.getGameCamera().getYOffset();
-        if (myX > 0 && myY > 0 && myX < Map.MAP_WIDTH * Tile.TILE_WIDTH && myY < Map.MAP_HEIGHT * Tile.TILE_HEIGHT) {
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
-                    currentMap.setTile(x + Tile.TILE_WIDTH * i, y + Tile.TILE_HEIGHT * j, myX + Tile.TILE_WIDTH * i, myY + Tile.TILE_HEIGHT * j, layer);
+    public void setTile(int x, int y, int myX, int myY, int width, int height, int layer, int tilesheet) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (myX + i >= 0 && myY + j >= 0 && myX + i < Map.MAP_WIDTH && myY + j < Map.MAP_HEIGHT) {
+                    currentMap.setTile(x + i, y + j, myX + i, myY + j, layer, tilesheet);
                 }
             }
         }
     }
 
     public void removeTile(int myX, int myY, int layer) {
-        myX = myX + (int) handler.getGameCamera().getXOffset();
-        myY = myY + (int) handler.getGameCamera().getYOffset();
-        myX = (myX - myX % Tile.TILE_WIDTH) / Tile.TILE_WIDTH;
-        myY = (myY - myY % Tile.TILE_HEIGHT) / Tile.TILE_HEIGHT;
-        if (myX > 0 && myX < Map.MAP_WIDTH && myY > 0 && myY < Map.MAP_HEIGHT) {
+        if (myX >= 0 && myX < Map.MAP_WIDTH && myY >= 0 && myY < Map.MAP_HEIGHT) {
             currentMap.removeTile(myX, myY, layer);
         }
     }
 
     public void setScript(int myX, int myY, int script) {
-        currentMap.setScript(myX, myY, script);
+        currentMap.setScript(myX, myY, script, 0, 0, 0);
+    }
+
+    public void setWarpScript(int myX, int myY, int script, int map, int mapx, int mapy) {
+        System.out.println("Map Number: " + map);
+        System.out.println("Map X value: " + mapx);
+        System.out.println("Map Y value: " + mapy);
+        currentMap.setScript(myX, myY, 2, map, mapx, mapy);
+    }
+
+    public void setSpawns(SpawnList s1, SpawnList s2, SpawnList s3) {
+        currentMap.setSpawns(s1, s2, s3);
+    }
+
+    public void fill(int x, int y, int layer, int tilesheet) {
+        for (int i = 0; i < Map.MAP_WIDTH; i++) {
+            for (int j = 0; j < Map.MAP_HEIGHT; j++) {
+                currentMap.setTile(x, y, i, j, layer, tilesheet);
+            }
+        }
+    }
+
+    public void clearScripts() {
+        for (int i = 0; i < Map.MAP_WIDTH; i++) {
+            for (int j = 0; j < Map.MAP_HEIGHT; j++) {
+                currentMap.setScript(i, j, 0, 0, 0, 0);
+            }
+        }
+    }
+
+    public void clearLayer(int layer) {
+        for (int i = 0; i < Map.MAP_WIDTH; i++) {
+            for (int j = 0; j < Map.MAP_HEIGHT; j++) {
+                currentMap.removeTile(i, j, layer);
+            }
+        }
+    }
+
+    public void clearAll() {
+        for (int i = 0; i < Map.MAP_WIDTH; i++) {
+            for (int j = 0; j < Map.MAP_HEIGHT; j++) {
+                currentMap.removeTile(i, j, 0);
+                currentMap.removeTile(i, j, 1);
+                currentMap.removeTile(i, j, 2);
+                currentMap.removeTile(i, j, 3);
+                currentMap.removeTile(i, j, 4);
+                currentMap.removeTile(i, j, 5);
+                currentMap.setScript(i, j, 0, 0, 0, 0);
+
+            }
+        }
     }
 
     public void saveWorld() {
         currentMap.saveMap();
+        currentMap.saveSpawnList();
     }
 
     public Map getMap() {
@@ -161,6 +219,7 @@ public class World {
         currentMap.setLeft(l);
         currentMap.setRight(r);
         currentMap.setSafe(s);
+        currentMap.saveMap();
         loadMap(currentMap);
     }
 
@@ -189,8 +248,10 @@ public class World {
         Script s = currentMap.getScript((int) x, (int) y, true);
         if (s.getScriptNumber() == 2) {
             Warp s1 = (Warp) s;
+            gameHandler.getPlayer().setIsMoving(false);
             gameHandler.getPlayer().setX(s1.getxCoord() * Tile.TILE_WIDTH);
             gameHandler.getPlayer().setY(s1.getyCoord() * Tile.TILE_HEIGHT);
+            handler.getKeyManager().reset();
             loadMap(new Map(handler, s1.getMapNumber()));
         }
     }
@@ -202,7 +263,7 @@ public class World {
                 gameHandler.getPlayer().setMoved(false);
                 SpawnList s1 = (SpawnList) s;
                 float spawnRate = s1.getSpawnRate();
-                if (Math.random() < spawnRate && b){
+                if (Math.random() < spawnRate && b) {
                     handler.getKeyManager().reset();
                     gameHandler.getPlayer().setEnabled(false);
                     b = false;
@@ -210,30 +271,70 @@ public class World {
                     battle = new Battle(handler, gameHandler.getPlayer(), s1.getSpawn().getPokemon());
                     battleScreen = new BattleScreen(battle);
                 }
-                //new battle screen etc gotta create that shit
             }
         }
+    }
+
+    public void checkHeal(float x, float y) {
+        Script s = currentMap.getScript((int) x, (int) y, true);
+        if (s.getScriptNumber() == 6) {
+            gameHandler.getPlayer().getParty().heal();
+        }
+    }
+
+    public void openMapEditor() {
+        if (!edit) {
+            me = new MapEditor(handler, this);
+            edit = true;
+        } else {
+
+        }
+    }
+
+    public void closeMapEditor() {
+        edit = false;
+        me = null;
     }
 
     public void reload() {
         loadMap(currentMap);
     }
-    
-    public void setExit(){
+
+    public void setExit() {
         gameHandler.getPlayer().setEnabled(true);
         handler.getKeyManager().reset();
         battle = null;
     }
-    
-    public void setPlayerEnabled(boolean enabled){
+
+    public void setPlayerEnabled(boolean enabled) {
         playerEnabled = enabled;
     }
-    
-    public boolean getPlayerEnabled(){
+
+    public int getMapNumber() {
+        return currentMap.getCurrent();
+    }
+
+    public int getPlayerX() {
+        return (int) playerX;
+    }
+
+    public int getPlayerY() {
+        return (int) playerY;
+    }
+
+    public boolean getPlayerEnabled() {
         return playerEnabled;
     }
-    
-    public Player getPlayer(){
+
+    public Player getPlayer() {
         return gameHandler.getPlayer();
+    }
+
+    public boolean getEdit() {
+        return edit;
+    }
+
+    public MapEditor getMapEditor() {
+        return me;
     }
 }

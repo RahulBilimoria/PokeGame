@@ -16,10 +16,16 @@ import java.awt.Graphics;
 public class SpawnList extends Script {
 
     private Spawn spawn1, spawn2, spawn3;
+    private String code;
     private float spawnRate;
 
-    public SpawnList(float spawnRate, int spawn_number, Spawn spawn1, Spawn spawn2, Spawn spawn3) {
+    public SpawnList(int spawn_number){
+        super (spawn_number);
+    }
+    
+    public SpawnList(String code, float spawnRate, int spawn_number, Spawn spawn1, Spawn spawn2, Spawn spawn3) {
         super(spawn_number);
+        this.code = code;
         this.spawnRate = spawnRate;
         this.spawn1 = spawn1;
         this.spawn2 = spawn2;
@@ -42,10 +48,35 @@ public class SpawnList extends Script {
     public void render(Graphics g, int x, int y) {
         g.setColor(Color.yellow);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g.drawString("S", x + 8, y + 16);
+        g.drawString(code, x + 8, y + 16);
     }
 
     public float getSpawnRate() {
         return spawnRate;
+    }
+    
+    public void setSpawnRate(float spawnRate){
+        this.spawnRate = spawnRate;
+    }
+    
+    public Spawn getSpawn(int i){
+        switch (i){
+            case 0: return spawn1;
+            case 1: return spawn2;
+            case 2: return spawn3;
+            default: return null;
+        }
+    }
+    
+    public void setSpawn(int i, Spawn s){
+        switch (i){
+            case 0: spawn1 = s;
+            break;
+            case 1: spawn2 = s;
+            break;
+            case 2: spawn3 = s;
+            break;
+            default: break;
+        }
     }
 }

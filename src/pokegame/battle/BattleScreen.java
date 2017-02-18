@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import pokegame.entity.player.Bag;
 import pokegame.gfx.ImageLoader;
 import pokegame.handler.BattleHandler;
@@ -60,12 +61,12 @@ public class BattleScreen {
 
         JPanel one = new JPanel();
         JPanel two = new JPanel();
-        move1 = newButton(0);
-        move2 = newButton(1);
-        move3 = newButton(2);
-        move4 = newButton(3);
-        bag = new JButton("Bag");
-        flee = new JButton("Flee");
+        move1 = newMoveButton(0);
+        move2 = newMoveButton(1);
+        move3 = newMoveButton(2);
+        move4 = newMoveButton(3);
+        bag = newOtherButton("Bag");
+        flee = newOtherButton("Flee");
         one.add(move1);
         one.add(move2);
         one.add(move3);
@@ -149,6 +150,8 @@ public class BattleScreen {
         pokemonPanel.setSize(WIDTH - background.getIcon().getIconWidth(), background.getIcon().getIconHeight());
         pokemonPanel.setVisible(true);
         addPokemon(pokemonPanel, bh);
+        
+        System.out.println(pokemonPanel.getWidth());
 
         frame.add(ally).setBounds(100, 200, 100, 100);
         frame.add(allyPokemon).setBounds(180, 170, 100, 80);
@@ -165,9 +168,32 @@ public class BattleScreen {
         frame.setResizable(false);
         frame.setFocusable(true);
     }
+    
+    public JButton newOtherButton(String name){
+        JButton b = new JButton(name);
+        b.setSize(75,30);
+        b.setForeground(Color.white);
+        b.setIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/other-button.png")));
+        b.setRolloverIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/other-hover.png")));
+        b.setPressedIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/other-click.png")));
+        b.setContentAreaFilled(false);
+        b.setBorderPainted(false);
+        b.setBorder(null);
+        b.setHorizontalTextPosition(SwingConstants.CENTER);
+        return b;
+    }
 
-    public JButton newButton(int id) {
+    public JButton newMoveButton(int id) {
         JButton b = new JButton();
+        b.setSize(150,30);
+        b.setForeground(Color.white);
+        b.setIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/move-button.png")));
+        b.setRolloverIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/move-hover.png")));
+        b.setPressedIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/move-click.png")));
+        b.setContentAreaFilled(false);
+        b.setBorderPainted(false);
+        b.setBorder(null);
+        b.setHorizontalTextPosition(SwingConstants.CENTER);
         Move m = battle.getPokemon().getMoveset().getMove(id);
         String s = battle.getMoveName(id);
         if (s.equals("")) {
@@ -213,6 +239,9 @@ public class BattleScreen {
         enemyPokemonLevel.setText("Level: " + battle.getEnemy().getLevel() + "");
         enemyPokemonHp.setText("Hp: " + battle.getEnemy().getHp() + " / "
                 + battle.getEnemy().getMaxHp());
+        expRemaining.setText("Exp to Level: " + battle.getPokemon().getExp() + " / " + battle.getPokemon().getMaxExp());
+        expBar.setMaximum(battle.getPokemon().getMaxExp());
+        expBar.setValue(battle.getPokemon().getExp());
     }
 
     public void updateMoves() {

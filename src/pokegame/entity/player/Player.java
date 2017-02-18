@@ -21,6 +21,9 @@ import pokegame.tiles.Tile;
  */
 public class Player extends Person {
 
+    private int id;
+    private String name;
+    
     private Animation up, down, left, right;
     private int direction;
     private int activePokemon;
@@ -29,7 +32,8 @@ public class Player extends Person {
 
     private Bag bag;
     private Party party;
-
+    //private Storage storage;
+    
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Person.DEFAULT_CREATURE_WIDTH, Person.DEFAULT_CREATURE_HEIGHT);
         up = new Animation(400, Asset.player_up);
@@ -40,6 +44,7 @@ public class Player extends Person {
         moved = false;
         bag = new Bag();
         party = new Party();
+        //storage = new Storage(this);
         activePokemon = 0;
         enabled = true;
     }
@@ -66,13 +71,15 @@ public class Player extends Person {
             }
             handler.getGameCamera().centerOnEntity(this);
         }
-    }
-
-    private void getInput() {
-        if (!isMoving) {
+        else { 
             xMove = 0;
             yMove = 0;
         }
+    }
+
+    private void getInput() {
+        xMove = 0;
+        yMove = 0;
         if (handler.getKeyManager().up) {
             isMoving = true;
             yMove = -speed;
@@ -123,18 +130,41 @@ public class Player extends Person {
         }
     }
 
-    public void setActiveNumber(int num){
+    @Override
+    protected boolean collisionWithTile(int x, int y, int direction) {
+        if (handler.getWorld().getEdit()) {
+            return false;
+        }
+        switch (direction) {
+            case 0:
+                return handler.getWorld().getMap().getScript(x, y - 1, true).isSolid(); //up
+            case 1:
+                return handler.getWorld().getMap().getScript(x + 1, y, true).isSolid(); //right
+            case 2:
+                return handler.getWorld().getMap().getScript(x, y + 1, true).isSolid(); //down
+            case 3:
+                return handler.getWorld().getMap().getScript(x - 1, y, true).isSolid(); //left
+            default:
+                return false;
+        }
+    }
+
+    public void setActiveNumber(int num) {
         activePokemon = num;
     }
-    
-    public int getActiveNumber(){
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public int getActiveNumber() {
         return activePokemon;
     }
-    
-    public Pokemon getPokemon(int partyID){
+
+    public Pokemon getPokemon(int partyID) {
         return party.getPokemon(partyID);
     }
-    
+
     public Pokemon getActivePokemon() {
         return party.getPokemon(activePokemon);
     }
@@ -146,8 +176,8 @@ public class Player extends Person {
     public String getPokemonName() {
         return party.getPokemonName(activePokemon);
     }
-    
-    public Bag getBag(){
+
+    public Bag getBag() {
         return bag;
     }
 
@@ -166,8 +196,8 @@ public class Player extends Person {
     public Party getParty() {
         return party;
     }
-    
-    public void setEnabled(boolean enabled){
+
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 }

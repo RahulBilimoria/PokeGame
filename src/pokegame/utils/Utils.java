@@ -36,7 +36,7 @@ public class Utils {
 
     public static void saveStringAsFile(String worldName, String file) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("res/" + worldName), "utf-8"))) {
+                new FileOutputStream(worldName), "utf-8"))) {
             writer.write(file);
             writer.close();
         } catch (IOException e){
