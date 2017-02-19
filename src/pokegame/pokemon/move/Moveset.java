@@ -20,39 +20,32 @@ public class Moveset {
         move4 = null; 
     }
 
-    public Moveset(Move move1) {
-        this.move1 = getNewMove(move1);
+    public Moveset(int id1) {
+        this.move1 = new Move(id1);
         move2 = null;
         move3 = null;
         move4 = null;
     }
 
-    public Moveset(Move move1, Move move2) {
-        this.move1 = getNewMove(move1);
-        this.move2 = getNewMove(move2);
+    public Moveset(int id1, int id2) {
+        this.move1 = new Move(id1);
+        this.move2 = new Move(id2);
         move3 = null;
         move4 = null;
     }
 
-    public Moveset(Move move1, Move move2, Move move3) {
-        this.move1 = getNewMove(move1);
-        this.move2 = getNewMove(move2);
-        this.move3 = getNewMove(move3);
+    public Moveset(int id1, int id2, int id3) {
+        this.move1 = new Move(id1);
+        this.move2 = new Move(id2);
+        this.move3 = new Move(id3);
         move4 = null;
     }
 
-    public Moveset(Move move1, Move move2, Move move3, Move move4) {
-        this.move1 = getNewMove(move1);
-        this.move2 = getNewMove(move2);
-        this.move3 = getNewMove(move3);
-        this.move4 = getNewMove(move4);
-    }
-    
-    public Move getNewMove(Move m){
-        if (m == null){
-            return null;
-        }
-        return new Move(m);
+    public Moveset(int id1, int id2, int id3, int id4) {
+        this.move1 = new Move(id1);
+        this.move2 = new Move(id2);
+        this.move3 = new Move(id3);
+        this.move4 = new Move(id4);
     }
 
     public void heal() {
@@ -112,16 +105,16 @@ public class Moveset {
     public void setMove(int moveID, Move move) {
         switch (moveID) {
             case 0:
-                move1 = new Move(move);
+                move1 = new Move(move.getId());
                 break;
             case 1:
-                move2 = new Move(move);
+                move2 = new Move(move.getId());
                 break;
             case 2:
-                move3 = new Move(move);
+                move3 = new Move(move.getId());
                 break;
             case 3:
-                move4 = new Move(move);
+                move4 = new Move(move.getId());
                 break;
             default:
                 break;

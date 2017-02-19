@@ -169,7 +169,6 @@ public class Pokemon {
     private String nickname;
     //male = true, female = false
     private boolean gender, shiny;
-    private BufferedImage front, back, icon;
     private Moveset moveset;
     private Nature nature;
     private Status status;
@@ -424,15 +423,15 @@ public class Pokemon {
     }
 
     public BufferedImage getFront() {
-        return front;
+        return POKEMON_LIST[id].getFront(shiny);
     }
 
     public BufferedImage getBack() {
-        return back;
+        return POKEMON_LIST[id].getBack(shiny);
     }
 
     public BufferedImage getIcon() {
-        return icon;
+        return POKEMON_LIST[id].getIcon();
     }
 
     public Moveset getMoveset() {

@@ -18,37 +18,87 @@ public class Move {
 
     private static final int MOVE_COUNT = 621;
     private static final int MOVE_COL = 7; //columns
-    public static final Move MOVE_LIST[] = new Move[MOVE_COUNT];
+    public static final BaseMove MOVE_LIST[] = new BaseMove[MOVE_COUNT];
 
-    private int id, maxPP, pp, power, category;
-    private float acc;
-    private String name;
-    private BufferedImage cat;
+    static class BaseMove {
 
-    private Type type;
+        private final int id, maxPP, power, category;
+        private final float acc;
+        private final String name;
+        private final Type type;
+        private BufferedImage cat; // category (physical, special, status)
 
-    public Move(int id, String name, Type type, int category, int maxPP, int power, float acc) {
-        this.id = id;
-        this.name = name;
-        this.maxPP = maxPP;
-        pp = maxPP;
-        this.type = type;
-        this.power = power;
-        this.acc = acc;
-        this.category = category;
-        setImage();
+        public BaseMove(int id, String name, Type type, int category, int maxPP,
+                int power, float acc) {
+            this.id = id;
+            this.name = name;
+            this.type = type;
+            this.category = category;
+            this.maxPP = maxPP;
+            this.power = power;
+            this.acc = acc;
+            setImage();
+        }
+
+        public void setImage() {
+            switch (category) {
+                case 0:
+                    cat = ImageLoader.loadImage("/type/physical.png");
+                    break;
+                case 1:
+                    cat = ImageLoader.loadImage("/type/special.png");
+                    break;
+                case 2:
+                    cat = ImageLoader.loadImage("/type/neutral.png");
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        public int getId(){
+            return id;
+        }
+        
+        public String getName(){
+            return name;
+        }
+        
+        public float getAcc(){
+            return acc;
+        }
+        
+        public int getMaxPP(){
+            return maxPP;
+        }
+        
+        public int getPower(){
+            return power;
+        }
+        
+        public int getCategory(){
+            return category;
+        }
+        
+        public Type getType(){
+            return type;
+        }
+        
+        public BufferedImage getImage(){
+            return cat;
+        }
     }
 
-    public Move(Move move) {
-        this.id = move.getId();
-        this.name = move.getName();
-        this.maxPP = move.getMaxPP();
-        pp = maxPP;
-        this.type = move.getType();
-        this.power = move.getPower();
-        this.acc = move.getAccuracy();
-        this.category = move.getCategory();
-        this.cat = move.cat;
+    private int id;
+    private int pp;
+
+    public Move(int id) {
+        this.id = id;
+        pp = MOVE_LIST[id].getMaxPP();
+    }
+
+    public Move(BaseMove move) {
+        pp = move.getMaxPP();
     }
 
     public static void init() {
@@ -56,7 +106,7 @@ public class Move {
         String[] move = file.split("\\s+");
         for (int x = 0; x < MOVE_COUNT; x++) {
             int y = x * MOVE_COL;
-            MOVE_LIST[x] = new Move(Utils.parseInt(move[y]),
+            MOVE_LIST[x] = new BaseMove(Utils.parseInt(move[y]),
                     move[y + 1].replaceAll("_", " "),
                     Type.TYPE_LIST[Utils.parseInt(move[y + 2])],
                     Utils.parseInt(move[y + 3]),
@@ -69,33 +119,17 @@ public class Move {
     public static Move getMoveByName(String name) {
         for (int x = 0; x < MOVE_COUNT; x++) {
             if (MOVE_LIST[x].getName().equalsIgnoreCase(name.replaceAll("_", " "))) {
-                return MOVE_LIST[x];
+                return new Move(MOVE_LIST[x]);
             }
         }
         return null;
     }
-    
-    public static Move getMoveById(int id){
-        if (id < 0 || id > MOVE_COUNT){
+
+    public static Move getMoveById(int id) {
+        if (id < 0 || id > MOVE_COUNT) {
             return null;
         }
-        return MOVE_LIST[id];
-    }
-    
-    public void setImage(){
-        switch(category){
-            case 0:
-                cat = ImageLoader.loadImage("/type/physical.png");
-                break;
-            case 1:
-                cat = ImageLoader.loadImage("/type/special.png");
-                break;
-            case 2:
-                cat = ImageLoader.loadImage("/type/neutral.png");
-                break;
-            default:
-                break;
-        }
+        return new Move(MOVE_LIST[id]);
     }
 
     public void usePP() {
@@ -105,7 +139,7 @@ public class Move {
     }
 
     public void heal() {
-        pp = maxPP;
+        pp = getMaxPP();
     }
 
     public int getId() {
@@ -113,7 +147,7 @@ public class Move {
     }
 
     public String getName() {
-        return name;
+        return MOVE_LIST[id].getName();
     }
 
     public int getPP() {
@@ -121,31 +155,30 @@ public class Move {
     }
 
     public int getMaxPP() {
-        return maxPP;
+        return MOVE_LIST[id].getMaxPP();
     }
 
     public Type getType() {
-        return type;
+        return MOVE_LIST[id].getType();
     }
 
     public int getPower() {
-        return power;
+        return MOVE_LIST[id].getPower();
     }
 
     public int getCategory() {
-        return category;
+        return MOVE_LIST[id].getCategory();
     }
-    
-    public BufferedImage getCategoryImage(){
-        return cat;
+
+    public BufferedImage getCategoryImage() {
+        return MOVE_LIST[id].getImage();
     }
 
     public float getAccuracy() {
-        return acc;
+        return MOVE_LIST[id].getAcc();
     }
 
     public void setPP(int num) {
         pp = num;
     }
-
 }

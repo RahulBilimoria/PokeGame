@@ -530,7 +530,7 @@ public class PokemonMenu {
         yes.setVisible(false);
         cancel.setVisible(false);
         selectedMove.setVisible(false);
-        player.getPokemon(selectedPokemon).getMoveset().setMove(replaceMove, new Move(replace));
+        player.getPokemon(selectedPokemon).getMoveset().setMove(replaceMove, replace); // if PP is universal with moves then this is why
     }
 
     public void cancelReplace() {

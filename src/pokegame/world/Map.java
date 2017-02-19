@@ -546,18 +546,18 @@ public class Map {
     }
 
     public SpawnList createSpawnList(String[] spawn, int x, float y, String code, int spawnNumber) {
-        Moveset moveSet1 = new Moveset(Move.getMoveById(Utils.parseInt(spawn[x + 10])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 11])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 12])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 13])));
-        Moveset moveSet2 = new Moveset(Move.getMoveById(Utils.parseInt(spawn[x + 26])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 27])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 28])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 29])));
-        Moveset moveSet3 = new Moveset(Move.getMoveById(Utils.parseInt(spawn[x + 42])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 43])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 44])),
-                Move.getMoveById(Utils.parseInt(spawn[x + 45])));
+        Moveset moveSet1 = new Moveset(Utils.parseInt(spawn[x + 10]),
+                Utils.parseInt(spawn[x + 11]),
+                Utils.parseInt(spawn[x + 12]),
+                Utils.parseInt(spawn[x + 13]));
+        Moveset moveSet2 = new Moveset(Utils.parseInt(spawn[x + 26]),
+                Utils.parseInt(spawn[x + 27]),
+                Utils.parseInt(spawn[x + 28]),
+                Utils.parseInt(spawn[x + 29]));
+        Moveset moveSet3 = new Moveset(Utils.parseInt(spawn[x + 42]),
+                Utils.parseInt(spawn[x + 43]),
+                Utils.parseInt(spawn[x + 44]),
+                Utils.parseInt(spawn[x + 45]));
         return new SpawnList(code, y, spawnNumber, new Spawn(Utils.parseInt(spawn[x + 0]),
                 Utils.parseInt(spawn[x + 1]),
                 Utils.parseInt(spawn[x + 2]),
