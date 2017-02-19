@@ -447,10 +447,10 @@ public class PropertiesEditor extends Editor {
             s.setPokemon_spawn_rate(getFloat(pokemonSpawnRateField[i].getText()));
             s.setItem_id(getInt(itemNameField[i].getText())); // this is ID right now need to change input to name
             s.setItem_spawn_rate(getFloat(itemDropRateField[i].getText()));
-            Moveset m = new Moveset(new Move(Move.getMoveByName(pokemonMoveField[i][0].getText())), 
-                    new Move(Move.getMoveByName(pokemonMoveField[i][1].getText())), 
-                    new Move(Move.getMoveByName(pokemonMoveField[i][2].getText())), 
-                    new Move(Move.getMoveByName(pokemonMoveField[i][3].getText())));
+            Moveset m = new Moveset(Move.getMoveByName(pokemonMoveField[i][0].getText()).getId(), //breaks if id is -1
+                    Move.getMoveByName(pokemonMoveField[i][1].getText()).getId(), 
+                    Move.getMoveByName(pokemonMoveField[i][2].getText()).getId(), 
+                    Move.getMoveByName(pokemonMoveField[i][3].getText()).getId());
             s.setMoveset(m);
         } else {
             s.setPokemon_id(-1);
@@ -465,7 +465,7 @@ public class PropertiesEditor extends Editor {
             s.setPokemon_spawn_rate(-1);
             s.setItem_id(-1); // this is ID right now need to change input to name
             s.setItem_spawn_rate(-1);
-            s.setMoveset(new Moveset(null));
+            s.setMoveset(new Moveset());
         }
     }
 
