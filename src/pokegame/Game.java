@@ -11,6 +11,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -156,14 +157,38 @@ public class Game implements Runnable {
         //frame.addMouseMotionListener(mouseManager);
         canvas.addKeyListener(keyManager);
         menu.addKeyListener(keyManager);
+        long time = System.nanoTime();
         Asset.init();
+        long a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Asset Load Time: " + a + "ms");
+        time = System.nanoTime();
         Tile.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Tile Load Time: " + a + "ms");
+        time = System.nanoTime();
         Script.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Script Load Time: " + a + "ms");
+        time = System.nanoTime();
         Type.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Type Load Time: " + a + "ms");
+        time = System.nanoTime();
         Move.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Move Load Time: " + a + "ms");
+        time = System.nanoTime();
         Nature.init();
-        Pokemon.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Nature Load Time: " + a + "ms");
+        time = System.nanoTime();
         Learnset.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Learnset Load Time: " + a + "ms");
+        time = System.nanoTime();
+        Pokemon.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Pokemon Load Time: " + a + "ms");
         gameCamera = new GameCamera(handler, 0, 0);
         state = new GameState(handler);
         ih = new InputHandler(handler);
@@ -220,6 +245,7 @@ public class Game implements Runnable {
             }
 
             if (timer >= 1000000000) {
+                //FPS
                 //System.out.println(ticks);
                 ticks = 0;
                 timer = 0;

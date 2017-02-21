@@ -26,10 +26,12 @@ public class Storage {
     class PokemonBox {
 
         int id;
+        String name;
         int box[][] = new int[BOXES_SIZE][25];
 
         public PokemonBox(int id, String[] data) {
             this.id = id;
+            name = "Box " + id;
             parseData(data);
         }
 
@@ -37,25 +39,31 @@ public class Storage {
             return box[y][0];
         }
 
+        String pkmnData[];
         private void parseData(String[] data) {
             for (int x = 0; x < BOXES_SIZE; x++) {
+                pkmnData = data[x].split("\\s+");
                 for (int y = 0; y < DATA_PER_POKEMON; y++) {
-                    box[x][y] = Utils.parseInt(data[y]);
+                    box[x][y] = Utils.parseInt(pkmnData[y]);
                 }
             }
+        }
+        
+        public String getName(){
+            return name;
         }
     }
 
     public Storage(Player player) {
         this.player = player;
+        currentBox = 0;
+        selectedPokemon = 0;
         init();
     }
 
-    public void init() {
+    public void init() { //created when player is created
         for (int x = 0; x < BOXES_COUNT; x++) {
             String p[] = Utils.loadFileAsString("dat/player/storage/box" + (x + 1) + ".box").split("\n");
-            //String p[] = Utils.loadFileAsString("dat/player/storage/box" + (x+1) + ".box").split("\n")[0].split(" ");
-            //pokemonBoxes[x] = 
             for (int y = 0; y < BOXES_SIZE; y++) {
                 pokemonBoxes[x] = new PokemonBox(x, p);
             }
@@ -64,6 +72,10 @@ public class Storage {
 
     public int getId(int x, int y) {
         return pokemonBoxes[x].getPokemonId(y);
+    }
+    
+    public String getBoxName(int x){
+        return pokemonBoxes[x].getName();
     }
 
     public void getPokemon(int x, int y) {//need to return pokemon

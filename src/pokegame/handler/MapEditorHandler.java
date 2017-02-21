@@ -19,14 +19,12 @@ import pokegame.world.mapeditor.MapEditor;
  */
 public class MapEditorHandler implements ActionListener, MouseListener, MouseMotionListener{
     
-    private Handler h;
     private MapEditor me;
     
     private int mouseX, mouseY;
     private int mouseWidth, mouseHeight;
     
-    public MapEditorHandler(Handler h, MapEditor me){
-        this.h = h;
+    public MapEditorHandler (MapEditor me){
         this.me = me;
     }
 

@@ -289,6 +289,9 @@ public class Map {
                 case 7:
                     scripts[myX][myY] = new Shop();
                     break;
+                case 8: 
+                    scripts[myX][myY] = Script.scripts[8];
+                    break;
                 default:
                     break;
             }

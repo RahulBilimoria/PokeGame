@@ -12,6 +12,7 @@ import pokegame.entity.player.Player;
 import pokegame.handler.GameHandler;
 import pokegame.handler.Handler;
 import pokegame.pokemon.Pokemon;
+import pokegame.storage.StorageScreen;
 import pokegame.tiles.Tile;
 import pokegame.world.mapeditor.MapEditor;
 import pokegame.world.scripts.Script;
@@ -28,6 +29,7 @@ public class World {
     private Handler handler;
     private GameHandler gameHandler;
     private BattleScreen battleScreen;
+    private StorageScreen storage;
     private Battle battle;
     private Pokemon p;
     private MapEditor me;
@@ -39,7 +41,7 @@ public class World {
 
     public World(Handler handler) {
         this.handler = handler;
-        gameHandler = new GameHandler(handler, new Player(handler, 100, 100));
+        gameHandler = new GameHandler(new Player(handler, 100, 100));
         loadMap(new Map(handler, 1));
 
         gameHandler.getPlayer().setX(8 * Tile.TILE_WIDTH);
@@ -89,6 +91,7 @@ public class World {
             checkWarp(playerX, playerY);
             checkSpawn(playerX, playerY);
             checkHeal(playerX, playerY);
+            checkStorage(playerX, playerY);
         } else {
             setBoundaries();
         }
@@ -282,6 +285,25 @@ public class World {
         }
     }
 
+    public void checkShop(float x, float y) {
+        Script s = currentMap.getScript((int) x, (int) y, true);
+        if (s.getScriptNumber() == 7) {
+
+        }
+    }
+
+    public void checkStorage(float x, float y) {
+        Script s = currentMap.getScript((int) x, (int) y, true);
+        if (s.getScriptNumber() == 8 && storage == null) {
+            if (gameHandler.getPlayer().getMoved()) {
+                gameHandler.getPlayer().setMoved(false);
+                gameHandler.getPlayer().setEnabled(false);
+                handler.getKeyManager().reset();
+                storage = new StorageScreen(handler);
+            }
+        }
+    }
+
     public void openMapEditor() {
         if (!edit) {
             me = new MapEditor(handler, this);
@@ -336,5 +358,11 @@ public class World {
 
     public MapEditor getMapEditor() {
         return me;
+    }
+
+    public void closeStorage() {
+        handler.getKeyManager().reset();
+        gameHandler.getPlayer().setEnabled(true);
+        storage = null;
     }
 }

@@ -48,7 +48,7 @@ public class SpawnList extends Script {
     public void render(Graphics g, int x, int y) {
         g.setColor(Color.yellow);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g.drawString(code, x + 8, y + 16);
+        g.drawString(code, x + 10, y + 20);
     }
 
     public float getSpawnRate() {

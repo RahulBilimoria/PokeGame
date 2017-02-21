@@ -25,7 +25,7 @@ public class Heal extends Script{
     public void render(Graphics g, int x, int y) {
         g.setColor(Color.green);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g.drawString("H", x + 8, y + 16);
+        g.drawString("H", x + 10, y + 20);
     }
     
     public String getMessage(){

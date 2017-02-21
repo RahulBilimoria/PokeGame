@@ -14,11 +14,9 @@ import pokegame.entity.player.Player;
  */
 public class GameHandler {
     
-    private Handler handler;
     private Player player;
     
-    public GameHandler(Handler handler, Player player){
-        this.handler = handler;
+    public GameHandler(Player player){
         this.player = player;
     }
     

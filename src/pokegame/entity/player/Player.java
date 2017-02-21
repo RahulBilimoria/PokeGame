@@ -23,7 +23,7 @@ public class Player extends Person {
 
     private int id;
     private String name;
-    
+
     private Animation up, down, left, right;
     private int direction;
     private int activePokemon;
@@ -32,8 +32,8 @@ public class Player extends Person {
 
     private Bag bag;
     private Party party;
-    //private Storage storage;
-    
+    private Storage storage;
+
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Person.DEFAULT_CREATURE_WIDTH, Person.DEFAULT_CREATURE_HEIGHT);
         up = new Animation(400, Asset.player_up);
@@ -44,7 +44,7 @@ public class Player extends Person {
         moved = false;
         bag = new Bag();
         party = new Party();
-        //storage = new Storage(this);
+        storage = new Storage(this);
         activePokemon = 0;
         enabled = true;
     }
@@ -55,26 +55,25 @@ public class Player extends Person {
             if (!isMoving) {
                 getInput();
             }
-            if (isMoving) {
-                up.tick();
-                down.tick();
-                left.tick();
-                right.tick();
-                move();
-                updateIntXY();
-            }
-            if (lastX == xi && lastY == yi) {
-            } else {
-                setMoved(true);
-                lastX = xi;
-                lastY = yi;
-            }
-            handler.getGameCamera().centerOnEntity(this);
         }
-        else { 
+        if (isMoving) {
+            up.tick();
+            down.tick();
+            left.tick();
+            right.tick();
+            move();
+            updateIntXY();
+        } else {
             xMove = 0;
             yMove = 0;
         }
+        if (lastX == xi && lastY == yi) {
+        } else {
+            setMoved(true);
+            lastX = xi;
+            lastY = yi;
+        }
+        handler.getGameCamera().centerOnEntity(this);
     }
 
     private void getInput() {
@@ -195,6 +194,10 @@ public class Player extends Person {
 
     public Party getParty() {
         return party;
+    }
+
+    public Storage getStorage() {
+        return storage;
     }
 
     public void setEnabled(boolean enabled) {

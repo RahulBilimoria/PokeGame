@@ -43,6 +43,7 @@ public class Script {
             scripts[x] = new Script(x);
         }
         scripts[6] = new Heal();
+        scripts[8] = new Storage();
     }
 
     public void setScriptNumber(int scriptNumber) {

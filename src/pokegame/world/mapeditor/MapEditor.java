@@ -71,7 +71,7 @@ public class MapEditor {
         this.w = w;
         h.getPlayer().setSpeed(8.0f);
         init();
-        meh = new MapEditorHandler(h, this);
+        meh = new MapEditorHandler(this);
 
         frame = new JFrame("Map Editor");
 
@@ -241,7 +241,7 @@ public class MapEditor {
         script.addActionListener(meh);
 
         String scriptsStrings[] = {"Block", "Warp", "Spawns 1",
-            "Spawns 2", "Spawns 3", "Heal", "Shop"};
+            "Spawns 2", "Spawns 3", "Heal", "Shop", "Storage"};
 
         scripts = new JComboBox(scriptsStrings);
         scripts.addActionListener(meh);
@@ -487,6 +487,7 @@ public class MapEditor {
             wYLabel.setVisible(false);
         }
         scriptNumber = i + 1;
+        System.out.println(scriptNumber);
     }
 
     public void saveWorld() {

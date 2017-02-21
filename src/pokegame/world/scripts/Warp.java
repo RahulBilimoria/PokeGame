@@ -27,7 +27,7 @@ public class Warp extends Script {
     public void render(Graphics g, int x, int y) {
         g.setColor(Color.blue);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g.drawString("W", x + 8, y + 16);
+        g.drawString("W", x + 10, y + 20);
     }
 
     public int getMapNumber() {
