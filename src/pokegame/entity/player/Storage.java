@@ -52,6 +52,14 @@ public class Storage {
         public String getName(){
             return name;
         }
+        
+        public void swapPokemon(int poke1, int poke2){
+            for (int x = 0; x < 25; x++){
+                int temp = box[poke1][x];
+                box[poke1][x] = box[poke2][x];
+                box[poke2][x] = temp;
+            }
+        }
     }
 
     public Storage(Player player) {
@@ -84,6 +92,10 @@ public class Storage {
 
     public void storePokemon(Pokemon p, int x, int y) {//make pokemon.toStorage work
 
+    }
+    
+    public void swapPokemon(int box, int poke1, int poke2){
+        pokemonBoxes[box].swapPokemon(poke1, poke2);
     }
 
     public int getCurrentBox() {
