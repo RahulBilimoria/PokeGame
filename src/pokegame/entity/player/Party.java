@@ -6,7 +6,6 @@
 package pokegame.entity.player;
 
 import pokegame.pokemon.Pokemon;
-import pokegame.pokemon.move.Move;
 import pokegame.pokemon.move.Moveset;
 
 /**
@@ -16,6 +15,7 @@ import pokegame.pokemon.move.Moveset;
 public class Party {
     
     private Pokemon[] pokemon = new Pokemon[6];
+    private int partySize;
     
     public Party(){
         pokemon[0] = new Pokemon(0, false, 1, 1, 1,
@@ -30,18 +30,35 @@ public class Party {
                                     2,2,2,2, new Moveset(6, 7, 8));
         pokemon[5] = new Pokemon(5, false, 6, 4, 1,
                                     2,2,2,2, new Moveset(9, 10, 11, 12));
+        partySize = 6;
     }
     
-    public String getPokemonName(int partyID){
-        return pokemon[partyID].getName();
+    public String getPokemonName(int partyIndex){
+        return pokemon[partyIndex].getName();
     }
     
-    public Pokemon getPokemon(int partyID){
-        return pokemon[partyID];
+    public Pokemon getPokemon(int partyIndex){
+        return pokemon[partyIndex];
     }
     
-    public String toString(int partyID){
-        return pokemon[partyID].toString();
+    public void storePokemon(int partyIndex){
+        pokemon[partyIndex] = null;
+    }
+    
+    public void addPokemon(int partyIndex, Pokemon p){
+        pokemon[partyIndex] = p;
+    }
+    
+    public String toString(int partyIndex){
+        return pokemon[partyIndex].toString();
+    }
+    
+    public int getPartySize(){
+        return partySize;
+    }
+    
+    public void setPartySize(int i){
+        partySize += i;
     }
     
     public void heal(){

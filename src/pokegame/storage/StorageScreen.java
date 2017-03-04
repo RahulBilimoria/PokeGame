@@ -5,7 +5,6 @@
  */
 package pokegame.storage;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -24,55 +23,45 @@ import pokegame.entity.player.Storage;
 import pokegame.gfx.ImageLoader;
 import pokegame.handler.Handler;
 import pokegame.handler.StorageHandler;
+import pokegame.pokemon.Pokemon;
 
 /**
  *
  * @author Rahul
  */
 public class StorageScreen {
-    
+
     private Handler handler;
-    
+
     private StorageHandler storageHandler;
     private Player player;
     private Party party;
     private Storage storage;
     private final int WIDTH = 650,
-                      HEIGHT = 450;
+            HEIGHT = 450;
     private int currentBox;
     private int draggedX, draggedY;
-    
+
     private JFrame frame;
-    private JPanel boxPKMN, partyPKMN, menu, namePanel;
-    private JButton leftArrow, rightArrow;
-    private JLabel selected, hover;
+    private JPanel boxPKMN, partyPKMN, namePanel, pokemonInfoPanel;
+    private JButton leftArrow, rightArrow, deletePokemon;
+    private JLabel selected, hover, partyHover;
     private JLabel boxName;
+    private JLabel pokemonInfo[] = new JLabel[10];
     private JLabel boxPokemon[] = new JLabel[25];
     private JLabel partyPokemon[] = new JLabel[6];
+    private JLabel partyPokemonInfo[] = new JLabel[6];
     private JLabel boxBackground, background;
     private JLabel draggedPokemon;
-    
-    public StorageScreen(Handler handler){
+
+    public StorageScreen(Handler handler) {
         this.handler = handler;
         this.player = handler.getPlayer();
         this.party = player.getParty();
         this.storage = player.getStorage();
-        
+
         currentBox = 0;
-        boxName = new JLabel(storage.getBoxName(currentBox));
-        boxName.setFont(new Font("Calibri", Font.PLAIN, 30));
-        namePanel = new JPanel();
-        namePanel.setSize(335,57);
-        namePanel.add(boxName);
-        namePanel.setBackground(new Color(255,255,255,15));
-        boxName.setForeground(Color.black);
-        
-        draggedPokemon = new JLabel();
-        //draggedPokemon = new JLabel(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/9.png")));
-        draggedPokemon.setSize(92,67);
-        draggedPokemon.setVisible(true);
-        storageHandler = new StorageHandler(this, storage);
-        
+
         frame = new JFrame("Pokemon Storage");
         frame.getContentPane().setPreferredSize(new Dimension(WIDTH, HEIGHT));
         frame.setLayout(null);
@@ -83,50 +72,107 @@ public class StorageScreen {
             }
         }
         );
-        
+
+        draggedPokemon = new JLabel();
+        draggedPokemon.setSize(92, 67);
+        draggedPokemon.setVisible(true);
+
+        storageHandler = new StorageHandler(this, storage, party);
+        frame.addMouseListener(storageHandler);
+        frame.addMouseMotionListener(storageHandler);
+
+        createHeader();
+        createBox();
+        createParty();
+
+        frame.add(draggedPokemon).setBounds(0, 0, 92, 67);
+        frame.add(selected).setBounds(21, (HEIGHT - boxPKMN.getHeight()) - 4, selected.getWidth(), selected.getHeight());
+        frame.add(partyHover).setBounds(0, 0, partyHover.getWidth(), partyHover.getHeight());
+        frame.add(hover).setBounds(21, (HEIGHT - boxPKMN.getHeight()) - 4, hover.getWidth(), hover.getHeight());
+        frame.add(deletePokemon).setBounds(2, 2, deletePokemon.getWidth(), deletePokemon.getHeight());
+        frame.add(boxPKMN).setBounds(21, (HEIGHT - boxPKMN.getHeight()) - 4, boxPKMN.getWidth(), boxPKMN.getHeight());
+        frame.add(partyPKMN).setBounds(boxBackground.getIcon().getIconWidth(), (HEIGHT - boxBackground.getIcon().getIconHeight()) + (boxBackground.getIcon().getIconHeight() / 2) - 10, partyPKMN.getWidth() + 20, partyPKMN.getHeight() - 5);
+        frame.add(pokemonInfoPanel).setBounds(boxBackground.getIcon().getIconWidth() + 10, 25, pokemonInfoPanel.getWidth(), pokemonInfoPanel.getHeight());
+        frame.add(namePanel).setBounds(84, HEIGHT - boxBackground.getIcon().getIconHeight(), namePanel.getWidth(), namePanel.getHeight());
+        frame.add(leftArrow).setBounds(15, HEIGHT - boxBackground.getIcon().getIconHeight() + 15, leftArrow.getWidth(), leftArrow.getHeight());
+        frame.add(rightArrow).setBounds(leftArrow.getWidth() + namePanel.getWidth() + 55, HEIGHT - boxBackground.getIcon().getIconHeight() + 15, rightArrow.getWidth(), rightArrow.getHeight());
+        frame.add(boxBackground).setBounds(0, HEIGHT - boxBackground.getIcon().getIconHeight(), boxBackground.getIcon().getIconWidth(), boxBackground.getIcon().getIconHeight());
+        frame.add(background).setBounds(0, 0, WIDTH, HEIGHT);
+
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setVisible(true);
+        frame.pack();
+    }
+
+    private JButton createButton(String icon, String iconPressed) {
+        JButton b = new JButton();
+        b.setIcon(new ImageIcon(ImageLoader.loadImage(icon))); //"/storage/right-arrow-up.png"
+        b.setRolloverIcon(new ImageIcon(ImageLoader.loadImage(icon)));
+        b.setPressedIcon(new ImageIcon(ImageLoader.loadImage(iconPressed))); //"/storage/right-arrow-down.png"
+        b.setSize(b.getIcon().getIconWidth(), b.getIcon().getIconHeight());
+        b.setContentAreaFilled(false);
+        b.setBorderPainted(false);
+        b.setBorder(null);
+        b.addActionListener(storageHandler);
+        return b;
+    }
+
+    private void createHeader() {
+        boxName = new JLabel(storage.getBoxName(currentBox));
+        boxName.setFont(new Font("Calibri", Font.PLAIN, 30));
+        boxName.setForeground(Color.black);
+        boxName.setOpaque(false);
+        namePanel = new JPanel();
+        namePanel.setSize(335, 57);
+        namePanel.add(boxName);
+        namePanel.setBackground(new Color(255, 255, 255, 15));
+        namePanel.setOpaque(false);
+
+        pokemonInfoPanel = new JPanel(new GridLayout(10, 1));
+        pokemonInfoPanel.setSize(125, 195);
+        pokemonInfoPanel.setOpaque(false);
+
+        pokemonInfo[0] = new JLabel("Name: ");
+        pokemonInfo[1] = new JLabel("Level: ");
+        pokemonInfo[2] = new JLabel("Nature: ");
+        pokemonInfo[3] = new JLabel("Gender: ");
+        pokemonInfo[4] = new JLabel("HP: ");
+        pokemonInfo[5] = new JLabel("ATT: ");
+        pokemonInfo[6] = new JLabel("DEF: ");
+        pokemonInfo[7] = new JLabel("SPATT: ");
+        pokemonInfo[8] = new JLabel("SPDEF: ");
+        pokemonInfo[9] = new JLabel("SPEED: ");
+        for (int x = 0; x < 10; x++) {
+            pokemonInfoPanel.add(pokemonInfo[x]);
+        }
+
+        leftArrow = createButton("/storage/left-arrow-up.png", "/storage/left-arrow-down.png");
+        rightArrow = createButton("/storage/right-arrow-up.png", "/storage/right-arrow-down.png");
+        deletePokemon = new JButton("Release");
+        deletePokemon.setSize(120, 20);
+        deletePokemon.addActionListener(storageHandler);
         boxBackground = new JLabel(new ImageIcon(ImageLoader.loadImage("/storage/box/1.png")));
         background = new JLabel(new ImageIcon(ImageLoader.loadImage("/storage/background.png")));
         selected = new JLabel(new ImageIcon(ImageLoader.loadImage("/storage/selected.png")));
         selected.setSize(selected.getIcon().getIconWidth(), selected.getIcon().getIconHeight());
         hover = new JLabel(new ImageIcon(ImageLoader.loadImage("/storage/hover.png")));
         hover.setSize(hover.getIcon().getIconWidth(), hover.getIcon().getIconHeight());
-        
-        createBox();
-        createParty();
-        createMenu();
-
-        frame.add(draggedPokemon).setBounds(0,0,92,67);
-        frame.add(selected).setBounds(21, (HEIGHT - boxPKMN.getHeight()) + 1, selected.getWidth(), selected.getHeight());
-        frame.add(hover).setBounds(21, (HEIGHT - boxPKMN.getHeight()) + 1, hover.getWidth(), hover.getHeight());
-        frame.add(boxPKMN).setBounds(21,(HEIGHT - boxPKMN.getHeight()) + 1,
-                boxPKMN.getWidth(), boxPKMN.getHeight());
-        frame.add(partyPKMN).setBounds(boxBackground.getIcon().getIconWidth()-20,
-                (HEIGHT - boxBackground.getIcon().getIconHeight()) + (boxBackground.getIcon().getIconHeight()/2),
-                partyPKMN.getWidth()+20, partyPKMN.getHeight());
-        frame.add(namePanel).setBounds(84,HEIGHT - boxBackground.getIcon().getIconHeight(),namePanel.getWidth(),namePanel.getHeight());
-        frame.add(boxBackground).setBounds(0,
-                HEIGHT - boxBackground.getIcon().getIconHeight(),
-                boxBackground.getIcon().getIconWidth(),
-                boxBackground.getIcon().getIconHeight());
-        frame.add(background).setBounds(0,0,WIDTH, HEIGHT);
-        
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.pack();
+        partyHover = new JLabel(new ImageIcon(ImageLoader.loadImage("/storage/partyhover.png")));
+        partyHover.setSize(partyHover.getIcon().getIconWidth(), partyHover.getIcon().getIconHeight());
+        hover.setVisible(false);
+        partyHover.setVisible(false);
     }
-    
-    private void createBox(){
+
+    private void createBox() {
         boxPKMN = new JPanel();
-        boxPKMN.addMouseListener(storageHandler);
-        boxPKMN.addMouseMotionListener(storageHandler);
-        boxPKMN.setSize(460,335);
-        boxPKMN.setLayout(new GridLayout(5,5));
+        boxPKMN.setSize(460, 335);
+        boxPKMN.setLayout(new GridLayout(5, 5));
         boxPKMN.setOpaque(false);
-        for (int x = 0; x < 25; x++){
-            if (storage.getId(currentBox, x) != -1){
-                boxPokemon[x] = new JLabel(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/" + 
-                    (storage.getId(currentBox, x)+1) + ".png")));
+        for (int x = 0; x < Storage.BOXES_SIZE; x++) {
+            if (storage.getId(currentBox, x) != -1) {
+                boxPokemon[x] = new JLabel(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/"
+                        + (storage.getId(currentBox, x) + 1) + ".png")));
             } else {
                 boxPokemon[x] = new JLabel(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/1.png")));
                 boxPokemon[x].setIcon(null);
@@ -134,78 +180,266 @@ public class StorageScreen {
             boxPKMN.add(boxPokemon[x]);
         }
     }
-    
-    private void createParty(){
+
+    private void createParty() {
+        ImageIcon i = new ImageIcon(ImageLoader.loadImage("/pokemon/icons/1.png"));
+        int width = i.getIconWidth() + 5;
+        int height = i.getIconHeight() + 5;
         partyPKMN = new JPanel();
-        partyPKMN.setSize(WIDTH - boxBackground.getIcon().getIconWidth()+20,boxBackground.getIcon().getIconHeight()/2);
-        partyPKMN.setLayout(new GridLayout(6,2)); //USE GRIDBAGLAYOUT TO MAKE SECTIONS UNEVEN
+        partyPKMN.setLayout(null);
+        partyPKMN.setSize(WIDTH - boxBackground.getIcon().getIconWidth() - 30, boxBackground.getIcon().getIconHeight() / 2);
         partyPKMN.setOpaque(false);
-        for (int x = 0; x < 6; x++){
-            if (party.getPokemon(x) != null){
-            partyPokemon[x] = new JLabel(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/" + 
-                    (party.getPokemon(x).getID()+1) + ".png")));
-            partyPKMN.add(partyPokemon[x]);
-            partyPKMN.add(new JLabel("Pokemon Info"));
+        String s;
+        for (int x = 0; x < 6; x++) {
+            if (party.getPokemon(x) != null) {
+                partyPokemon[x] = new JLabel(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/"
+                        + (party.getPokemon(x).getID() + 1) + ".png")));
+                partyPKMN.add(partyPokemon[x]).setBounds(0, x * height, width, height);
+                s = "Lvl: " + party.getPokemon(x).getLevel() + " HP: " + party.getPokemon(x).getHp() + "/" + party.getPokemon(x).getMaxHp();
+                partyPokemonInfo[x] = new JLabel(s);
+                partyPKMN.add(partyPokemonInfo[x]).setBounds(width, x * height, width * 2, height);
+            } else {
+                partyPokemon[x] = new JLabel();
+                partyPKMN.add(partyPokemon[x]).setBounds(0, x * height, width, height);;
+                partyPokemonInfo[x] = new JLabel();
+                partyPKMN.add(partyPokemonInfo[x]).setBounds(width, x * height, width * 2, height);
             }
-            else {
-                partyPKMN.add(new JLabel());
-                partyPKMN.add(new JLabel());
+            //partyPokemon[x].setSize(width, height);
+            //partyPokemonInfo[x].setSize(width*2, height);
+        }
+    }
+
+    public void changeBox(int change) {
+        currentBox += change;
+        if (currentBox < 0) {
+            currentBox = Storage.BOXES_COUNT - 1;
+        } else if (currentBox >= Storage.BOXES_COUNT) {
+            currentBox = 0;
+        }
+        storage.setCurrentBox(currentBox);
+        //use storages current box value so no need to pass parameter
+        //change box backgrounds too
+        changeBoxIcons();
+        boxName.setText(storage.getBoxName(currentBox));
+        boxBackground.setIcon(new ImageIcon(ImageLoader.loadImage("/storage/box/" + (currentBox + 1) + ".png")));
+    }
+
+    public void changeBoxIcons() {
+        for (int x = 0; x < Storage.BOXES_SIZE; x++) {
+            if (storage.getId(currentBox, x) != -1) {
+                boxPokemon[x].setIcon(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/"
+                        + (storage.getId(currentBox, x) + 1) + ".png")));
+            } else {
+                boxPokemon[x].setIcon(null);
             }
         }
     }
-    
-    private void createMenu(){
-        menu = new JPanel();
-    }
-    
-    private void exit(){
-        handler.getWorld().closeStorage();
-    }
-    
-    public JLabel getBoxPokemon(int x){
+
+    public JLabel getBoxPokemon(int x) {
         return boxPokemon[x];
     }
-    
-    public void setBoxPokemonIcon(int x, Icon icon){
+
+    public void setBoxPokemonIcon(int x, Icon icon) {
         boxPokemon[x].setIcon(icon);
     }
-    
-    public JLabel getPartyPokemon(int x){
+
+    public JLabel getPartyPokemon(int x) {
         return partyPokemon[x];
     }
-    
-    public JPanel getBoxPanel(){
+
+    public JPanel getBoxPanel() {
         return boxPKMN;
     }
-    
-    public void setSelectedLocation(int x, int y){
-        selected.setLocation((x*92)+21,(y*67)+(HEIGHT - boxPKMN.getHeight()) + 1);
+
+    public JPanel getPartyPanel() {
+        return partyPKMN;
     }
-    
-    public void setHoverLocation(int x, int y){
-        hover.setLocation((x*92)+21,(y*67)+(HEIGHT - boxPKMN.getHeight()) + 1);
+
+    public void setBoxSelectedLocation(int x, int y) {
+        selected.setLocation((x * 92) + 21, (y * 67) + (HEIGHT - boxPKMN.getHeight()) - 4);
+        storage.setSelectedPokemon(x + y * 5);
+        updateLabels(x + (y * 5));
     }
-    
-    public void enableDraggedPokemon(int x, int y){
+
+    public void setBoxHoverLocation(int x, int y) {
+        hover.setLocation((x * 92) + 21, (y * 67) + (HEIGHT - boxPKMN.getHeight()) - 4);
+    }
+
+    public void enableBoxDraggedPokemon(int x, int y) {
         draggedX = x;
         draggedY = y;
-        getBoxPokemon(x+y).setVisible(false);
-        draggedPokemon.setIcon(getBoxPokemon(x+y).getIcon());
+        getBoxPokemon(x + y).setVisible(false);
+        draggedPokemon.setIcon(getBoxPokemon(x + y).getIcon());
         draggedPokemon.setVisible(true);
     }
-    
-    public void moveDraggedPokemon(int x, int y){
-        x = x - draggedPokemon.getWidth()/3 + 10;
+
+    public void moveBoxDraggedPokemon(int x, int y) {
+        x = x - draggedPokemon.getWidth() / 3 + 10;
         y = y - draggedPokemon.getHeight() + 5;
         draggedPokemon.setLocation(x, y);
     }
-    
-    public void disableDraggedPokemon(int x, int y){
-        storage.swapPokemon(currentBox,draggedX+draggedY,x+y);
+
+    public void disableBoxDraggedPokemon(int x, int y) {
+        storage.swapPokemon(currentBox, draggedX + draggedY, x + y * 5);
         draggedPokemon.setVisible(false);
-        getBoxPokemon(draggedX+draggedY).setVisible(true);
-        Icon temp = getBoxPokemon(draggedX+draggedY).getIcon();
-        setBoxPokemonIcon(draggedX + draggedY, getBoxPokemon(x+y).getIcon());
-        setBoxPokemonIcon(x+y, temp);
+        getBoxPokemon(draggedX + draggedY).setVisible(true);
+        Icon temp = getBoxPokemon(draggedX + draggedY).getIcon();
+        setBoxPokemonIcon(draggedX + draggedY, getBoxPokemon(x + y * 5).getIcon());
+        setBoxPokemonIcon(x + y * 5, temp);
+    }
+
+    public void disableBoxDraggedPokemon(int y) {
+        draggedPokemon.setVisible(false);
+        getBoxPokemon(draggedX + draggedY).setVisible(true);
+        Icon temp = getBoxPokemon(draggedX + draggedY).getIcon();
+        setBoxPokemonIcon(draggedX + draggedY, partyPokemon[y].getIcon());
+        partyPokemon[y].setIcon(temp);
+        if (party.getPokemon(y) != null) { // if party.getpokemon == null
+            int[] data = party.getPokemon(y).toStorage(); //gets data from pokemon to store into box
+            party.addPokemon(y, storage.getPokemon(currentBox, draggedX + draggedY));
+            storage.removePokemon(currentBox, draggedX + draggedY);
+            storage.storePokemon(currentBox, draggedX + draggedY, data); // can shorten this easily
+        } else {
+            party.setPartySize(+1);
+            party.addPokemon(y, storage.getPokemon(currentBox, draggedX + draggedY));
+            storage.removePokemon(currentBox, draggedX + draggedY);
+        }
+        partyPokemonInfo[y].setText("Lvl: " + party.getPokemon(y).getLevel() + " HP: " + party.getPokemon(y).getHp() + "/" + party.getPokemon(y).getMaxHp());
+    }
+
+    public void disableBoxDraggedPokemon() {
+        getBoxPokemon(draggedX + draggedY).setVisible(true);
+        draggedPokemon.setVisible(false);
+    }
+
+    public void setPartyHoverLocation(int y) {
+        partyHover.setLocation(partyPKMN.getX() + 5, (y * 35) + partyPKMN.getY());
+    }
+
+    public void enablePartyDraggedPokemon(int y) {
+        draggedY = y;
+        partyPokemon[y].setVisible(false);
+        partyPokemonInfo[y].setVisible(false);
+        draggedPokemon.setIcon(partyPokemon[y].getIcon());
+        draggedPokemon.setVisible(true);
+    }
+
+    public void movePartyDraggedPokemon(int x, int y) {
+        x = x - draggedPokemon.getWidth() / 3 + 10;
+        y = y - draggedPokemon.getHeight() + 5;
+        draggedPokemon.setLocation(x, y);
+    }
+
+    public void disablePartyDraggedPokemon(int x, int y) {
+        //Fix so storage does all the data exchange and this only changes the visuals
+        draggedPokemon.setVisible(false);
+        partyPokemon[draggedY].setVisible(true);
+        partyPokemonInfo[draggedY].setVisible(true);
+        if (party.getPartySize() == 1) {
+            System.out.println("Cant have zero pokemon in party!");
+            return;
+        }
+        Icon temp = partyPokemon[draggedY].getIcon();
+        partyPokemon[draggedY].setIcon(boxPokemon[x + y * 5].getIcon());
+        setBoxPokemonIcon(x + y * 5, temp);
+        if (storage.getId(currentBox, x + y * 5) != -1) {
+            int[] data = party.getPokemon(draggedY).toStorage(); //gets data from pokemon to store into box
+            party.addPokemon(draggedY, storage.getPokemon(currentBox, x + y * 5));
+            storage.removePokemon(currentBox, x + y * 5);
+            storage.storePokemon(currentBox, x + y * 5, data);
+            partyPokemonInfo[draggedY].setText("Lvl: " + party.getPokemon(draggedY).getLevel() + " HP: " + party.getPokemon(draggedY).getHp() + "/" + party.getPokemon(draggedY).getMaxHp());
+        } else {
+            partyPokemonInfo[draggedY].setText(""); //"removes pokemon text"
+            storage.storePokemon(currentBox, x + y * 5, party.getPokemon(draggedY).toStorage());
+            party.setPartySize(-1);
+            //stores the pokemon in the box
+            party.storePokemon(draggedY); //removes pokemon from party
+        }
+        //set pokemon info text here too
+    }
+
+    public void disablePartyDraggedPokemon(int y) {
+        //storage.swapPokemon(currentBox, draggedX + draggedY, x + y);
+        draggedPokemon.setVisible(false);
+        partyPokemon[draggedY].setVisible(true);
+        partyPokemonInfo[draggedY].setVisible(true);
+        Icon temp = partyPokemon[draggedY].getIcon();
+        partyPokemon[draggedY].setIcon(partyPokemon[y].getIcon());
+        partyPokemon[y].setIcon(temp);
+        String temp2 = partyPokemonInfo[draggedY].getText();
+        partyPokemonInfo[draggedY].setText(partyPokemonInfo[y].getText());
+        partyPokemonInfo[y].setText(temp2);
+        //set pokemon info text here too
+    }
+
+    public void disablePartyDraggedPokemon() {
+        partyPokemon[draggedY].setVisible(true);
+        partyPokemonInfo[draggedY].setVisible(true);
+        draggedPokemon.setVisible(false);
+    }
+
+    public void updateLabels(int index) {
+        if (storage.getId(currentBox, index) >= 0) {
+            Pokemon p = storage.getPokemon(currentBox, index);
+            pokemonInfo[0].setText("Name: " + p.getName());
+            pokemonInfo[1].setText("Level: " + p.getLevel());
+            pokemonInfo[2].setText("Nature: " + p.getNature());
+            pokemonInfo[3].setText("Gender: " + p.getGender());
+            pokemonInfo[4].setText("HP: " + p.getHp());
+            pokemonInfo[5].setText("ATT: " + p.getAttack());
+            pokemonInfo[6].setText("DEF: " + p.getDefense());
+            pokemonInfo[7].setText("SPATT: " + p.getSpatt());
+            pokemonInfo[8].setText("SPDEF: " + p.getSpdef());
+            pokemonInfo[9].setText("SPEED: " + p.getSpeed());
+        } else {
+            pokemonInfo[0].setText("Name: ");
+            pokemonInfo[1].setText("Level: ");
+            pokemonInfo[2].setText("Nature: ");
+            pokemonInfo[3].setText("Gender: ");
+            pokemonInfo[4].setText("HP: ");
+            pokemonInfo[5].setText("ATT: ");
+            pokemonInfo[6].setText("DEF: ");
+            pokemonInfo[7].setText("SPATT: ");
+            pokemonInfo[8].setText("SPDEF: ");
+            pokemonInfo[9].setText("SPEED: ");
+        }
+    }
+
+    public void deletePokemon() {
+        storage.removePokemon(currentBox, storage.getSelectedPokemon());
+        getBoxPokemon(storage.getSelectedPokemon()).setIcon(null);
+    }
+
+    public JButton getLeftArrow() {
+        return leftArrow;
+    }
+
+    public JButton getRightArrow() {
+        return rightArrow;
+    }
+
+    public JButton getDeletePokemon() {
+        return deletePokemon;
+    }
+
+    public void enableHover(boolean party) {
+        if (party) {
+            partyHover.setVisible(true);
+        } else {
+            hover.setVisible(true);
+        }
+    }
+
+    public void disableHover(boolean party) {
+        if (party) {
+            partyHover.setVisible(false);
+        } else {
+            hover.setVisible(false);
+        }
+    }
+
+    private void exit() {
+        handler.getWorld().closeStorage();
+        storage.saveBoxes();
     }
 }

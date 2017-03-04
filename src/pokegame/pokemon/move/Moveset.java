@@ -14,38 +14,23 @@ public class Moveset {
     private Move move1, move2, move3, move4;
     
     public Moveset (){
-        move1 = null;
-        move2 = null;
-        move3 = null;
-        move4 = null; 
+        createMoveset(-1,-1,-1,-1);
     }
 
     public Moveset(int id1) {
-        this.move1 = new Move(id1);
-        move2 = null;
-        move3 = null;
-        move4 = null;
+        createMoveset(id1,-1,-1,-1);
     }
 
     public Moveset(int id1, int id2) {
-        this.move1 = new Move(id1);
-        this.move2 = new Move(id2);
-        move3 = null;
-        move4 = null;
+        createMoveset(id1,id2,-1,-1);
     }
 
     public Moveset(int id1, int id2, int id3) {
-        this.move1 = new Move(id1);
-        this.move2 = new Move(id2);
-        this.move3 = new Move(id3);
-        move4 = null;
+        createMoveset(id1,id2,id3,-1);
     }
 
     public Moveset(int id1, int id2, int id3, int id4) {
-        this.move1 = new Move(id1);
-        this.move2 = new Move(id2);
-        this.move3 = new Move(id3);
-        this.move4 = new Move(id4);
+        createMoveset(id1,id2,id3,id4);
     }
 
     public void heal() {
@@ -152,5 +137,25 @@ public class Moveset {
 
     public void setMove4(Move move4) {
         this.move4 = move4;
+    }
+    
+    public void setMovePP(int moveID, int pp){
+        if (getMove(moveID) != null){
+            getMove(moveID).setPP(pp);
+        }
+    }
+    
+    public void createMoveset(int id1, int id2, int id3, int id4){
+        move1 = createMove(id1);
+        move2 = createMove(id2);
+        move3 = createMove(id3);
+        move4 = createMove(id4);
+    }
+    
+    public Move createMove(int id){
+        if (id >= 0){
+            return new Move(id);
+        }
+        return null;
     }
 }

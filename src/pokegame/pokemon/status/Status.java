@@ -18,6 +18,10 @@ public class Status {
         this.id = 0;
     }
     
+    public static void init(){
+        
+    }
+    
     public int getId(){
         return id;
     }
