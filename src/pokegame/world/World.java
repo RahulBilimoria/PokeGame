@@ -11,11 +11,13 @@ import pokegame.battle.BattleScreen;
 import pokegame.entity.player.Player;
 import pokegame.handler.GameHandler;
 import pokegame.handler.Handler;
+import pokegame.pokemart.ShopScreen;
 import pokegame.pokemon.Pokemon;
 import pokegame.storage.StorageScreen;
 import pokegame.tiles.Tile;
 import pokegame.world.mapeditor.MapEditor;
 import pokegame.world.scripts.Script;
+import pokegame.world.scripts.Shop;
 import pokegame.world.scripts.SpawnList;
 import pokegame.world.scripts.Warp;
 
@@ -30,6 +32,7 @@ public class World {
     private GameHandler gameHandler;
     private BattleScreen battleScreen;
     private StorageScreen storage;
+    private ShopScreen shop;
     private Battle battle;
     private Pokemon p;
     private MapEditor me;
@@ -38,6 +41,7 @@ public class World {
     private boolean b;
     private boolean edit;
     private boolean playerEnabled;
+    private boolean scriptsVisible;
 
     public World(Handler handler) {
         this.handler = handler;
@@ -92,6 +96,7 @@ public class World {
             checkSpawn(playerX, playerY);
             checkHeal(playerX, playerY);
             checkStorage(playerX, playerY);
+            checkShop(playerX, playerY);
         } else {
             setBoundaries();
         }
@@ -129,10 +134,9 @@ public class World {
 
         if (edit) {
             me.render(g);
-        }
-
-        if (edit) {
-            currentMap.renderScript(g, xStart, xEnd, yStart, yEnd);
+            if (scriptsVisible) {
+                currentMap.renderScript(g, xStart, xEnd, yStart, yEnd);
+            }
         }
     }
 
@@ -287,8 +291,14 @@ public class World {
 
     public void checkShop(float x, float y) {
         Script s = currentMap.getScript((int) x, (int) y, true);
-        if (s.getScriptNumber() == 7) {
-
+        if (s.getScriptNumber() == 7 && shop == null) {
+            if (gameHandler.getPlayer().getMoved()) {
+                gameHandler.getPlayer().setMoved(false);
+                gameHandler.getPlayer().setEnabled(false);
+                handler.getKeyManager().reset();
+                Shop s1 = (Shop) s;
+                shop = new ShopScreen(handler, gameHandler.getPlayer().getBag(), s1.getFileName());
+            }
         }
     }
 
@@ -332,6 +342,10 @@ public class World {
         playerEnabled = enabled;
     }
 
+    public void setScriptsVisible(boolean scriptsVisible) {
+        this.scriptsVisible = scriptsVisible;
+    }
+
     public int getMapNumber() {
         return currentMap.getCurrent();
     }
@@ -364,5 +378,11 @@ public class World {
         handler.getKeyManager().reset();
         gameHandler.getPlayer().setEnabled(true);
         storage = null;
+    }
+
+    public void closeShop() {
+        handler.getKeyManager().reset();
+        gameHandler.getPlayer().setEnabled(true);
+        shop = null;
     }
 }

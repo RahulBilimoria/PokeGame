@@ -13,17 +13,27 @@ import pokegame.item.Item;
  */
 public class Potion extends Item{
     
-    private int healAmount = 20;
+    /* Healing ID = 0
+    *  PPRestore ID = 1
+    *  StatBoost ID = 2
+    *  StatusRemove ID = 3
+    */
+    public static final int TOTAL_ITEM_COUNT = Healing.ITEM_COUNT +
+                                               PPRestore.ITEM_COUNT +
+                                               StatBoost.ITEM_COUNT +
+                                               StatusRemove.ITEM_COUNT;
+
+    private int typeOfPotion;
     
-    public Potion(int id, int itemCount) {
-        super(id, itemCount, "Potion");
+    public Potion(String name, int typeOfPotion, boolean battleUse) {
+        super(name, 0, battleUse);
+        this.typeOfPotion = typeOfPotion;
     }
     
-    public int getHealAmount(){
-        return healAmount;
-    }
-    
-    public String toString(){
-        return "Potion\nCount: " + itemCount + "\n";
+    public static void init(){
+        Healing.init();
+        PPRestore.init();
+        StatBoost.init();
+        StatusRemove.init();
     }
 }

@@ -8,10 +8,14 @@ package pokegame.battle;
 import java.awt.Graphics;
 import pokegame.entity.player.Bag;
 import pokegame.entity.player.Player;
+import pokegame.entity.player.Storage;
 import pokegame.handler.BattleHandler;
 import pokegame.handler.Handler;
 import pokegame.item.pokeball.Pokeball;
+import pokegame.item.potion.Healing;
+import pokegame.item.potion.PPRestore;
 import pokegame.item.potion.Potion;
+import pokegame.item.potion.StatusRemove;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
 
@@ -151,14 +155,17 @@ public class Battle {
         if (getPokemon().getHp() <= 0) {
             fainted = true;
             addText(getPokemon().getName() + " has fainted!");
-            if (bag)
+            if (bag) {
                 openBag();
+            }
             battleHandler.disableButtons();
             for (int x = 0; x < 6; x++) {
-                if (player.getPokemon(x).getHp() > 0) {
-                    f = false;
-                    addText("Pick your next pokemon.");
-                    break;
+                if (player.getPokemon(x) != null) {
+                    if (player.getPokemon(x).getHp() > 0) {
+                        f = false;
+                        addText("Pick your next pokemon.");
+                        break;
+                    }
                 }
             }
             if (f) {
@@ -183,26 +190,26 @@ public class Battle {
     public void useItem(String name) {
         String item[] = name.split(" | ");
         if (item.length >= 2) {
-            if (getBag().getItem(item[2]).getItemCount() > 0) {
+            if (getBag().getItemCount(item[2]) > 0) {
                 itemUsed = true;
                 if (item[2].contains("ball") || item[2].contains("Ball")) {
                     usePokeball((Pokeball) getBag().getItem(item[2]));
                 } else if (item[2].contains("Potion")) {
                     usePotion((Potion) getBag().getItem(item[2]));
                 }
-                getBag().getItem(item[2]).removeItem(1);
+                getBag().removeItem(item[2], 1);
                 damage(-1);
+            } else {
+                addText("You have no more " + item[2] + "s!");
             }
-            else
-                addText("You have no more " + item[2] +"s!");
         }
     }
 
     public void usePokeball(Pokeball pokeball) {
-        int a = (((3 * enemy.getMaxHp() - 2 * enemy.getHp()) * enemy.getCatchRate() * pokeball.getCatchRate()) / (3 * enemy.getMaxHp())) * enemy.getStatusInt();
+        int a = (int) (((3 * enemy.getMaxHp() - 2 * enemy.getHp()) * enemy.getCatchRate() * pokeball.getCatchRate()) / (3 * enemy.getMaxHp())) * enemy.getStatusInt();
         int b = 1048560 / (int) Math.sqrt(Math.sqrt(16711680 / a));
         for (int x = 0; x < 3; x++) {
-            int y = (int) (Math.random() * 65535);
+            int y = (int) (Math.random() * 65535 * 1000);
             System.out.println("Try " + x + ": b is (" + b + ") | y is(" + y + ").");
             if (y < b) {
                 break;
@@ -213,12 +220,49 @@ public class Battle {
     }
 
     public void usePotion(Potion potion) {
-        getPokemon().addHp(potion.getHealAmount());
+        switch (potion.getItemType()) {
+            case 0:
+                Healing h = (Healing) potion;
+                getPokemon().addHp(h.getHealAmount());
+                break;
+            case 1:
+                PPRestore p = (PPRestore) potion;
+                System.out.println("Not done yet");
+                break;
+            case 2:
+                System.out.println("Cant use this item in battle!");
+                break;
+            case 3:
+                StatusRemove r = (StatusRemove) potion;
+                System.out.println("Not done yet");
+                break;
+        }
     }
 
     public void catchPokemon() {
-        System.out.println("Pokemon Caught!");
-        battleHandler.caughtPokemon();
+        if (player.getParty().getPartySize() != 6) {
+            for (int x = 0; x < 6; x++) {
+                if (player.getParty().getPokemon(x) == null) {
+                    player.getParty().addPokemon(x, enemy);
+                    player.getParty().addPartySize(1);
+                    battleHandler.caughtPokemon();
+                    System.out.println("Pokemon Caught!");
+                    return;
+                }
+            }
+        } else {
+            for (int x = 0; x < Storage.BOXES_COUNT; x++) {
+                for (int y = 0; y < Storage.BOXES_SIZE; y++) {
+                    if (player.getStorage().getPokemon(x, y).getID() == -1) {
+                        player.getStorage().storePokemon(x, y, enemy.toStorage());
+                        battleHandler.caughtPokemon();
+                        System.out.println("Pokemon Caught!");
+                        return;
+                    }
+                }
+            }
+        }
+        System.out.println("No space in box!");
     } // NEED TO DO SOMETHING WITH POKES AFTER CATCHING
 
     public void addExp() {
@@ -272,20 +316,20 @@ public class Battle {
     public void addText(String text) {
         battleHandler.addText("\n" + text);
     }
-    
-    public void setFainted(boolean f){
+
+    public void setFainted(boolean f) {
         this.fainted = f;
     }
 
     public void changePokemon(int ap) {
         activePokemon = ap;
     }
-    
-    public boolean getItemUsed(){
+
+    public boolean getItemUsed() {
         return itemUsed;
     }
-    
-    public void setItemUsed(boolean i){
+
+    public void setItemUsed(boolean i) {
         itemUsed = i;
     }
 

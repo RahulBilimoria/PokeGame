@@ -24,10 +24,9 @@ public class Warp extends Script {
         this.yCoord = yCoord;
     }
 
+    @Override
     public void render(Graphics g, int x, int y) {
-        g.setColor(Color.blue);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g.drawString("W", x + 10, y + 20);
+        super.render(g, x + 9, y + 20, Color.blue, "W");
     }
 
     public int getMapNumber() {

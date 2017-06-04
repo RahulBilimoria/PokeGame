@@ -6,6 +6,8 @@
 package pokegame.item;
 
 import java.awt.image.BufferedImage;
+import pokegame.item.pokeball.Pokeball;
+import pokegame.item.potion.Potion;
 
 /**
  *
@@ -13,38 +15,40 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Item {
     
-    protected int id;
+    /* POTION = 0
+    /* POKEBALL = 1
+    */
+    public static Item items[];
+    public static int itemCount = 0;
+    
+    protected int itemId;
+    protected int typeOfItem;
     protected String name;
     protected int sellPrice;
-    protected int itemCount;
     protected boolean battleUse;
+    protected boolean heldItem;
     protected BufferedImage icon;
     
-    public Item(int id, int itemCount, String name){
-        this.id = id;
-        this.itemCount = itemCount;
+    public Item(String name, int typeOfItem, boolean battleUse){
         this.name = name;
-        battleUse = true;
+        this.typeOfItem = typeOfItem;
+        this.battleUse = battleUse;
+        this.itemId = itemCount;
+        itemCount++;
     }
     
     public static void init(){
-        
+        Potion.init();
+        Pokeball.init();
+        //Berry.init();
     }
     
-    public void addItem(int i){
-        itemCount += i;
+    public int getItemID(){
+        return itemId;
     }
     
-    public void removeItem(int i){
-        itemCount -= i;
-    }
-    
-    public int getID(){
-        return id;
-    }
-    
-    public int getItemCount(){
-        return itemCount;
+    public int getItemType(){
+        return typeOfItem;
     }
     
     public int getSellPrice(){

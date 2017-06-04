@@ -300,7 +300,7 @@ public class StorageScreen {
             storage.removePokemon(currentBox, draggedX + draggedY);
             storage.storePokemon(currentBox, draggedX + draggedY, data); // can shorten this easily
         } else {
-            party.setPartySize(+1);
+            party.addPartySize(1);
             party.addPokemon(y, storage.getPokemon(currentBox, draggedX + draggedY));
             storage.removePokemon(currentBox, draggedX + draggedY);
         }
@@ -351,7 +351,7 @@ public class StorageScreen {
         } else {
             partyPokemonInfo[draggedY].setText(""); //"removes pokemon text"
             storage.storePokemon(currentBox, x + y * 5, party.getPokemon(draggedY).toStorage());
-            party.setPartySize(-1);
+            party.addPartySize(-1);
             //stores the pokemon in the box
             party.storePokemon(draggedY); //removes pokemon from party
         }

@@ -57,7 +57,7 @@ public class Party {
         return partySize;
     }
     
-    public void setPartySize(int i){
+    public void addPartySize(int i){
         partySize += i;
     }
     

@@ -5,6 +5,8 @@
  */
 package pokegame.world.scripts;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 /**
@@ -19,8 +21,11 @@ public class Script {
     // HEAL = 6
     // SHOP = 7
     // STORAGE = 8
+    // FISHING = 9
 
     public static Script[] scripts = new Script[32];
+    
+    private static Font f = new Font("TimesRoman", Font.PLAIN, 18);
     
     protected int scriptNumber;
     
@@ -32,6 +37,13 @@ public class Script {
 
     }
 
+    public void render(Graphics g, int x, int y, Color color, String letter) {
+        g.setColor(color);
+        g.setFont(f);
+        g.drawString(letter, x, y);
+    }
+    
+    
     public void render(Graphics g, int x, int y) {
         
     }

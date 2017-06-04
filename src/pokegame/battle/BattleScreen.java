@@ -95,11 +95,11 @@ public class BattleScreen {
         battle.addBattleHandler(bh);
 
         secondsLeft = new JLabel("0");
-        
+
         expRemaining = new JLabel("Exp to Level: " + battle.getPokemon().getExp() + " / " + battle.getPokemon().getMaxExp());
         expBar = new JProgressBar(0, battle.getPokemon().getMaxExp());
         expBar.setValue(battle.getPokemon().getExp());
-        expPanel = new JPanel(new GridLayout(2,1));
+        expPanel = new JPanel(new GridLayout(2, 1));
         expPanel.setSize(WIDTH, 30);
         expRemaining.setForeground(Color.white);
         expPanel.setBackground(Color.black);
@@ -150,7 +150,7 @@ public class BattleScreen {
         pokemonPanel.setSize(WIDTH - background.getIcon().getIconWidth(), background.getIcon().getIconHeight());
         pokemonPanel.setVisible(true);
         addPokemon(pokemonPanel, bh);
-        
+
         System.out.println(pokemonPanel.getWidth());
 
         frame.add(ally).setBounds(100, 200, 100, 100);
@@ -162,16 +162,16 @@ public class BattleScreen {
         frame.add(bar).setBounds(0, background.getIcon().getIconHeight(), movePanel.getWidth(), movePanel.getHeight());
         frame.add(pokemonPanel).setBounds(background.getIcon().getIconWidth(), 0, pokemonPanel.getWidth(), pokemonPanel.getHeight());
         frame.add(bagPanel).setBounds(background.getIcon().getIconWidth(), 0, bagPanel.getWidth(), bagPanel.getHeight());
-        frame.add(expPanel).setBounds(0,movePanel.getHeight()+background.getHeight(), expPanel.getWidth(), expPanel.getHeight());
+        frame.add(expPanel).setBounds(0, movePanel.getHeight() + background.getHeight(), expPanel.getWidth(), expPanel.getHeight());
         frame.add(p).setBounds(0, movePanel.getHeight() + background.getHeight() + expPanel.getHeight(), battleHistory.getWidth() - 5, battleHistory.getHeight());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setFocusable(true);
     }
-    
-    public JButton newOtherButton(String name){
+
+    public JButton newOtherButton(String name) {
         JButton b = new JButton(name);
-        b.setSize(75,30);
+        b.setSize(75, 30);
         b.setForeground(Color.white);
         b.setIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/other-button.png")));
         b.setRolloverIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/other-hover.png")));
@@ -185,7 +185,7 @@ public class BattleScreen {
 
     public JButton newMoveButton(int id) {
         JButton b = new JButton();
-        b.setSize(150,30);
+        b.setSize(150, 30);
         b.setForeground(Color.white);
         b.setIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/move-button.png")));
         b.setRolloverIcon(new ImageIcon(ImageLoader.loadImage("/battle/move/move-hover.png")));
@@ -201,8 +201,9 @@ public class BattleScreen {
             b.setEnabled(false);
         } else {
             b.setText(s + " " + m.getPP() + "/" + m.getMaxPP());
-            if (m.getPP() <= 0)
+            if (m.getPP() <= 0) {
                 b.setEnabled(false);
+            }
         }
         return b;
     }
@@ -260,15 +261,16 @@ public class BattleScreen {
             button.setText("------------");
         } else {
             button.setText(s + " " + m.getPP() + "/" + m.getMaxPP());
-            if (m.getPP() <= 0)
+            if (m.getPP() <= 0) {
                 button.setEnabled(false);
+            }
         }
     }
 
     public void updateItemLabels(JLabel label) {
         String name[] = label.getText().split(" | ");
         if (name.length >= 2) {
-            label.setText(battle.getBag().getItem(name[2]).getItemCount() + " | " + name[2]);
+            label.setText(battle.getBag().getItemCount(name[2]) + " | " + name[2]);
         }
     }
 
@@ -303,10 +305,12 @@ public class BattleScreen {
 
     public void updatePokemon() {
         for (int x = 0; x < 6; x++) {
-            if (battle.getActiveNumber() == x || battle.getPlayer().getParty().getPokemon(x).getHp() <= 0) {
-                pkmn[x].setVisible(false);
-            } else {
-                pkmn[x].setVisible(true);
+            if (battle.getPlayer().getPokemon(x) != null) {
+                if (battle.getActiveNumber() == x || battle.getPlayer().getPokemon(x).getHp() <= 0) {
+                    pkmn[x].setVisible(false);
+                } else {
+                    pkmn[x].setVisible(true);
+                }
             }
         }
         ally.setIcon(new ImageIcon(battle.getPokemon().getBack()));
@@ -315,9 +319,9 @@ public class BattleScreen {
     public void addItems(JPanel panel, BattleHandler bh) {
         Bag b = battle.getBag();
         int i = 0;
-        for (int x = 0; x < b.getItemCount(); x++) {
+        for (int x = 0; x < b.getBagCount(); x++) {
             if (b.getItem(x).getBattleUseable()) {
-                items[i] = new JLabel(b.getItem(x).getItemCount() + " | " + b.getItem(x).getName());
+                items[i] = new JLabel(b.getItemCount(x) + " | " + b.getItem(x).getName());
                 items[i].setForeground(Color.white);
                 items[i].addMouseListener(bh);
                 panel.add(items[i]);

@@ -466,6 +466,7 @@ public class MapEditor {
 
     public void setScriptsVisible(boolean visible) {
         scripts.setVisible(visible);
+        w.setScriptsVisible(visible);
     }
 
     public void checkScript() {
@@ -487,7 +488,6 @@ public class MapEditor {
             wYLabel.setVisible(false);
         }
         scriptNumber = i + 1;
-        System.out.println(scriptNumber);
     }
 
     public void saveWorld() {

@@ -303,7 +303,7 @@ public class PokemonMenu {
                 pkmn[x] = new JLabel();
                 p.add(pkmn[x]);
             }
-                
+
         }
         return p;
     }
@@ -405,18 +405,16 @@ public class PokemonMenu {
             }
         }
     }
-    
-    public void updatePokemon(){
-        for (int x = 0; x < 6; x++){
+
+    public void updatePokemon() {
+        for (int x = 0; x < 6; x++) {
             pkmn[x].removeMouseListener(pmh);
-            if (player.getPokemon(x) == null){
+            if (player.getPokemon(x) == null) {
                 pkmn[x].setIcon(null);
-                System.out.println("Pokemon " + (x+1));
-            }
-            else {
+            } else {
                 pkmn[x].setIcon(new ImageIcon(player.getPokemon(x).getIcon()));
                 pkmn[x].addMouseListener(pmh);
-            }       
+            }
         }
     }
 
@@ -650,6 +648,20 @@ public class PokemonMenu {
 
     public void update() {
         loadSelectedInfo();
+    }
+
+    public void updateSelected() {
+        if (player.getPokemon(selectedPokemon) == null) {
+            for (int x = 0; x < 6; x++) {
+                if (player.getPokemon(x) != null) {
+                    selectedPokemon = x;
+                    selected.setLocation((133 * x) + 46, 7);
+                    player.setActiveNumber(selectedPokemon);
+                    active.setLocation((133 * selectedPokemon) + 46, 7);
+                    break;
+                }
+            }
+        }
     }
 
     public JPanel getMove(int i) {

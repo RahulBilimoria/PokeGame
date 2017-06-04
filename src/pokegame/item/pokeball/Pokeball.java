@@ -6,6 +6,7 @@
 package pokegame.item.pokeball;
 
 import pokegame.item.Item;
+import pokegame.utils.Utils;
 
 /**
  *
@@ -13,22 +14,36 @@ import pokegame.item.Item;
  */
 public class Pokeball extends Item{
     
-    private int catchRate = 1;
-    private boolean masterBall = false;
+    /* Normal Pokeball ID = 0
+     * Special Pokeball ID = 1
+     */
     
-    public Pokeball(int id, int itemCount){
-        super (id, itemCount, "Pokeball");
+    public static final int ITEM_COUNT = 11;
+    public static Pokeball pokeballs[] = new Pokeball[ITEM_COUNT];
+    
+    public static final int TOTAL_ITEM_COUNT = ITEM_COUNT + 
+                            SpecialPokeball.SPECIAL_ITEM_COUNT;
+    
+    private float catchRate;
+    
+    public Pokeball(int id, String name, float catchRate){
+        super (name, 1, true);
+        this.catchRate = catchRate;
     }
     
-    public int getCatchRate(){
+    public static void init(){
+        String file = Utils.loadFileAsString("dat/item/pokeball/Pokeball.dat");
+        String data[] = file.split("\\s+");
+        for (int x = 0; x < ITEM_COUNT; x++){
+            int i = x * 3;
+            pokeballs[x] = new Pokeball(Utils.parseInt(data[i]),
+                    data[i+1].replaceAll("_", " "),
+                    Utils.parseFloat(data[i+2]));
+        }
+        SpecialPokeball.init();
+    }
+    
+    public float getCatchRate(){
         return catchRate;
-    }
-    
-    public boolean getMasterBall(){
-        return masterBall;
-    }
-    
-    public String toString(){
-        return "Pokeball\nCount: " + itemCount + "\n";
     }
 }

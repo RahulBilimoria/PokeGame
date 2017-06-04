@@ -6,7 +6,6 @@
 package pokegame.world.scripts;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 /**
@@ -15,14 +14,19 @@ import java.awt.Graphics;
  */
 public class Shop extends Script{
     
+    private String fileName;
+    
     public Shop() {
         super(7);
+        fileName = "";
     }
     
     @Override
     public void render(Graphics g, int x, int y) {
-        g.setColor(Color.cyan);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g.drawString("M", x + 10, y + 20);
+        super.render(g, x + 10, y + 20, Color.cyan, "M");
+    }
+    
+    public String getFileName(){
+        return fileName;
     }
 }

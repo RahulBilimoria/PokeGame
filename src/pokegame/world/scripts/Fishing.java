@@ -6,21 +6,21 @@
 package pokegame.world.scripts;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 /**
  *
  * @author Rahul
  */
-public class Storage extends Script{
+public class Fishing extends Script{
     
-    public Storage() {
-        super(8);
+    public Fishing() {
+        super(9);
     }
     
     @Override
     public void render(Graphics g, int x, int y) {
-        super.render(g, x + 10, y + 20, Color.orange, "S");
+        super.render(g, x+10, y+20, Color.MAGENTA, "F");
     }
+    
 }

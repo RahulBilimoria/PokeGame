@@ -25,6 +25,7 @@ import pokegame.handler.Handler;
 import pokegame.handler.InputHandler;
 import pokegame.input.KeyManager;
 import pokegame.input.MouseManager;
+import pokegame.item.Item;
 import pokegame.menu.GameMenu;
 import pokegame.pokemon.Pokemon;
 import pokegame.type.Type;
@@ -189,6 +190,10 @@ public class Game implements Runnable {
         Pokemon.init();
         a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
         System.out.println("Pokemon Load Time: " + a + "ms");
+        time = System.nanoTime();
+        Item.init();
+        a = TimeUnit.MILLISECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS);
+        System.out.println("Item Load Time: " + a + "ms");
         gameCamera = new GameCamera(handler, 0, 0);
         state = new GameState(handler);
         ih = new InputHandler(handler);
@@ -255,7 +260,7 @@ public class Game implements Runnable {
     }
 
     public void add(Component c) {
-        frame.getLayeredPane().add(c).setBounds(menu.getWidth(), 0, canvas.getWidth(), canvas.getHeight());
+        frame.getLayeredPane().add(c).setBounds(menu.getWidth(), 0, c.getWidth(), c.getHeight());
     }
 
     public void remove(Component c) {

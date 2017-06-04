@@ -7,7 +7,6 @@ package pokegame.world;
 
 import java.awt.Graphics;
 import pokegame.handler.Handler;
-import pokegame.pokemon.move.Move;
 import pokegame.pokemon.move.Moveset;
 import pokegame.tiles.Tile;
 import pokegame.utils.Utils;
@@ -414,8 +413,10 @@ public class Map {
                         break;
                     case 6:
                         scripts[x][y] = Script.scripts[6];
+                        break;
                     case 7:
                         scripts[x][y] = new Shop();
+                        break;
                     default:
                         scripts[x][y] = Script.scripts[i];
                         break;
