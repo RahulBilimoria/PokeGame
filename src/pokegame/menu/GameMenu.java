@@ -94,6 +94,8 @@ public class GameMenu {
             m.update();
             handler.setMovable(false);
             handler.getGame().add(m.getPanel());
+            if (bgMenu)
+                openBag();
         }
         pMenu = !pMenu;
     }
@@ -102,7 +104,10 @@ public class GameMenu {
         if (bgMenu) {
             handler.getGame().remove(bg.getPanel());
         } else {
+            bg.refresh();
             handler.getGame().add(bg.getPanel());
+            if (pMenu)
+                openPokemon();
         }
         bgMenu = !bgMenu;
     }

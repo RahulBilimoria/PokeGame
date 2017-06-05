@@ -7,7 +7,9 @@ package pokegame.entity.player;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import pokegame.entity.Person;
+import pokegame.entity.player.Bag.MyItem;
 import pokegame.gfx.Animation;
 import pokegame.gfx.Asset;
 import pokegame.handler.Handler;
@@ -178,6 +180,14 @@ public class Player extends Person {
 
     public Bag getBag() {
         return bag;
+    }
+    
+    public ArrayList<MyItem> getBag(int bagID){
+        return bag.getBag(bagID);
+    }
+    
+    public String getBagName(int bagID){
+        return bag.getBagName(bagID);
     }
 
     public Move getMove(int moveID) {

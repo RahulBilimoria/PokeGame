@@ -7,6 +7,8 @@ package pokegame.entity.player;
 
 import java.util.ArrayList;
 import pokegame.item.Item;
+import pokegame.item.pokeball.Pokeball;
+import pokegame.item.potion.Healing;
 
 /**
  *
@@ -16,7 +18,7 @@ public class Bag {
 
     public static final int MAX_ITEMS = 64;
 
-    class MyItem {
+    public class MyItem {
 
         Item item;
         int itemCount;
@@ -49,6 +51,33 @@ public class Bag {
         pokeballs = new ArrayList<>();
         berries = new ArrayList<>();
         keyItems = new ArrayList<>();
+        addItem(Healing.healingItems[0], 1);
+        addItem(Healing.healingItems[1], 1);
+        addItem(Pokeball.pokeballs[0], 1);
+        addItem(Pokeball.pokeballs[0], 1);
+        addItem(Pokeball.pokeballs[1], 1);
+        addItem(Pokeball.pokeballs[2], 1);
+        addItem(Pokeball.pokeballs[3], 1);
+    }
+    
+    public ArrayList<MyItem> getBag(int bagID){
+        switch(bagID){
+            case 0: return medicine;
+            case 1: return pokeballs;
+            case 2: return berries;
+            case 3: return keyItems;
+            default: return bag;
+        }
+    }
+    
+    public String getBagName(int bagID){
+        switch(bagID){
+            case 0: return "Medicine";
+            case 1: return "Pokeballs";
+            case 2: return "Berries";
+            case 3: return "Key Items";
+            default: return "Bag";
+        }
     }
 
 //    public void addItem(Item i, int count){
@@ -72,11 +101,11 @@ public class Bag {
 //        }
 //    }
     public void addItem(Item i, int count) {
-        changeItemCount(i, count, 0);
+        changeItemCount(i, count);
     }
 
     public void removeItem(Item i, int count) {
-        changeItemCount(i, count, 1);
+        changeItemCount(i, count);
     }
     
     public void getBagSlotSize(int index){
@@ -127,8 +156,8 @@ public class Bag {
         return itemsCount;
     }
 
-    public void changeItemCount(Item i, int count, int add) {
-        ArrayList<MyItem> bg = new ArrayList<>();
+    public void changeItemCount(Item i, int count) {
+        ArrayList<MyItem> bg;
         switch (i.getItemType()) {
             case 0:
                 bg = medicine;
@@ -140,8 +169,10 @@ public class Bag {
                 bg = berries;
                 break;
             case 3:
+                bg = keyItems;
                 break;
             default:
+                bg = bag;
                 break;
         }
         for (int x = 0; x < bg.size(); x++) {
@@ -150,7 +181,7 @@ public class Bag {
                 return;
             }
         }
-        if (add == 0){
+        if (count > 0){
             bg.add(new MyItem(i, count));
         }
     }
