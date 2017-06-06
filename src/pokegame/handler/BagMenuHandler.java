@@ -30,11 +30,11 @@ public class BagMenuHandler implements MouseListener, ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bm.getNext()){
             bm.changeBag(true);
-            bm.setSelectedItem(0);
+            bm.setSelectedItem(-1);
             bm.refresh();
         } else if (e.getSource() == bm.getPrevious()){
             bm.changeBag(false);
-            bm.setSelectedItem(0);
+            bm.setSelectedItem(-1);
             bm.refresh();
         } else if (e.getSource() == bm.getUse()){
             bm.useItem();

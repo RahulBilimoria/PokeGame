@@ -6,6 +6,7 @@
 package pokegame.item.pokeball;
 
 import pokegame.item.Item;
+import pokegame.pokemon.Pokemon;
 import pokegame.utils.Utils;
 
 /**
@@ -45,5 +46,10 @@ public class Pokeball extends Item{
     
     public float getCatchRate(){
         return catchRate;
+    }
+    
+    @Override
+    public void use(Pokemon p){
+        
     }
 }

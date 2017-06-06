@@ -105,6 +105,7 @@ public class GameMenu {
             handler.getGame().remove(bg.getPanel());
         } else {
             bg.refresh();
+            bg.updatePokemonPanel();
             handler.getGame().add(bg.getPanel());
             if (pMenu)
                 openPokemon();

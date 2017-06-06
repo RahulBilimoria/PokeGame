@@ -174,6 +174,7 @@ public class Pokemon {
     private Moveset moveset;
     private Nature nature;
     private Status status;
+    private int statusCode;
     private Item heldItem;
 
     public Pokemon(int id, boolean shiny, int level, int hp,
@@ -436,6 +437,10 @@ public class Pokemon {
 
     public int getStatusInt() {
         return 1;
+    }
+    
+    public void setStatus(int statusCode){
+        this.statusCode = statusCode;
     }
 
     public String getNature() {

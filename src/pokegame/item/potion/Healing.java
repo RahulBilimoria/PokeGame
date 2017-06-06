@@ -6,6 +6,7 @@
 package pokegame.item.potion;
 
 import pokegame.item.Item;
+import pokegame.pokemon.Pokemon;
 import pokegame.utils.Utils;
 
 /**
@@ -42,5 +43,21 @@ public class Healing extends Potion{
     
     public int getHealAmount(){
         return healAmount;
+    }
+    
+    @Override
+    public void use(Pokemon p){
+        if (p.getHp() > 0){
+            p.heal(healAmount);
+            if (typeOfCondition == 1){
+                p.setStatus(0);
+            }
+        } else {
+            if (typeOfCondition == 2){
+                p.heal((int)Math.ceil(p.getMaxHp()/2));
+            } else if (typeOfCondition == 3){
+                p.heal(p.getMaxHp());
+            }
+        }
     }
 }

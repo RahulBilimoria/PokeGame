@@ -6,6 +6,7 @@
 package pokegame.item.pokeball;
 
 import pokegame.item.Item;
+import pokegame.pokemon.Pokemon;
 import pokegame.utils.Utils;
 
 /**
@@ -49,4 +50,8 @@ public class SpecialPokeball extends Pokeball {
         return catchRates[id];
     }
 
+    @Override
+    public void use(Pokemon p){
+        
+    }
 }

@@ -8,6 +8,7 @@ package pokegame.item;
 import java.awt.image.BufferedImage;
 import pokegame.item.pokeball.Pokeball;
 import pokegame.item.potion.Potion;
+import pokegame.pokemon.Pokemon;
 
 /**
  *
@@ -17,6 +18,8 @@ public abstract class Item {
     
     /* POTION = 0
     /* POKEBALL = 1
+    /* BERRIES = 
+    /* KEY ITEMS = 
     */
     public static Item items[];
     public static int itemCount = 0;
@@ -62,4 +65,6 @@ public abstract class Item {
     public boolean getBattleUseable(){
         return battleUse;
     }
+    
+    public abstract void use(Pokemon p);
 }

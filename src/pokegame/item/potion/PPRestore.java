@@ -6,6 +6,7 @@
 package pokegame.item.potion;
 
 import pokegame.item.Item;
+import pokegame.pokemon.Pokemon;
 import pokegame.utils.Utils;
 
 /**
@@ -49,6 +50,13 @@ public class PPRestore extends Potion{
     
     public boolean getRestoreAllMoves(){
         return restoreAllMoves;
+    }
+    
+    @Override
+    public void use(Pokemon p){
+        if (restoreAllMoves){
+
+        }
     }
     
 }

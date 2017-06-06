@@ -6,6 +6,7 @@
 package pokegame.item.berry;
 
 import pokegame.item.Item;
+import pokegame.pokemon.Pokemon;
 import pokegame.utils.Utils;
 
 /**
@@ -33,5 +34,10 @@ public class Berry extends Item{
                     data[x+1].replaceAll("_", " "),
                     Utils.parseInt(data[x+2]));
         }
+    }
+    
+    @Override
+    public void use(Pokemon p){
+        
     }
 }

@@ -6,6 +6,7 @@
 package pokegame.item.potion;
 
 import pokegame.item.Item;
+import pokegame.pokemon.Pokemon;
 import pokegame.utils.Utils;
 
 /**
@@ -47,4 +48,8 @@ public class StatBoost extends Potion{
         return increaseAmount;
     }
     
+    @Override
+    public void use(Pokemon p){
+        
+    }
 }

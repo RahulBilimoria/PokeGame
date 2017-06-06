@@ -6,12 +6,13 @@
 package pokegame.item.potion;
 
 import pokegame.item.Item;
+import pokegame.pokemon.Pokemon;
 
 /**
  *
  * @author Rahul
  */
-public class Potion extends Item{
+public abstract class Potion extends Item{
     
     /* Healing ID = 0
     *  PPRestore ID = 1
@@ -36,4 +37,10 @@ public class Potion extends Item{
         StatBoost.init();
         StatusRemove.init();
     }
+    
+    public int getType(){
+        return typeOfPotion;
+    }
+    
+    public abstract void use(Pokemon p);
 }

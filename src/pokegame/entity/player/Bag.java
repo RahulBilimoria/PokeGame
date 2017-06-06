@@ -178,6 +178,9 @@ public class Bag {
         for (int x = 0; x < bg.size(); x++) {
             if (bg.get(x).getItem().getItemID() == i.getItemID()) {
                 bg.get(x).setItemCount(count);
+                if (bg.get(x).getItemCount() <= 0){
+                    bg.remove(x);
+                }
                 return;
             }
         }
