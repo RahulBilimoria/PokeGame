@@ -22,8 +22,8 @@ public class Party {
                                     11,1,1,1, new Moveset(0));
         pokemon[1] = new Pokemon(1, false, 2, 8, 7,
                                     2,2,2,2, new Moveset(0, 1));
-        pokemon[2] = new Pokemon(2, false, 3, 6, 1,
-                                    2,2,2,2, new Moveset(2, 3));
+        //pokemon[2] = new Pokemon(2, false, 3, 6, 1,
+        //                            2,2,2,2, new Moveset(2, 3));
         pokemon[3] = new Pokemon(3, false, 4, 1, 5,
                                     2,2,2,2, new Moveset(4, 5));
         pokemon[4] = new Pokemon(4, false, 5, 2, 2,

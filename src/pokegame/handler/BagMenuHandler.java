@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JPanel;
 import pokegame.menu.BagMenu;
 import pokegame.ui.CustomComponent;
 
@@ -50,7 +51,8 @@ public class BagMenuHandler implements MouseListener, ActionListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        bm.comparePanel((CustomComponent)(e.getSource()));
+        bm.comparePanel(e.getSource());
+        bm.comparePokemon(e.getSource());
     }
 
     @Override

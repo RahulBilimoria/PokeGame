@@ -51,10 +51,9 @@ public class Bag {
         pokeballs = new ArrayList<>();
         berries = new ArrayList<>();
         keyItems = new ArrayList<>();
-        addItem(Healing.healingItems[0], 1);
+        addItem(Healing.healingItems[0], 5);
         addItem(Healing.healingItems[1], 1);
-        addItem(Pokeball.pokeballs[0], 1);
-        addItem(Pokeball.pokeballs[0], 1);
+        addItem(Pokeball.pokeballs[0], 5);
         addItem(Pokeball.pokeballs[1], 1);
         addItem(Pokeball.pokeballs[2], 1);
         addItem(Pokeball.pokeballs[3], 1);
