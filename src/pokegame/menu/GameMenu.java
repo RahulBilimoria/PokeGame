@@ -102,6 +102,7 @@ public class GameMenu {
 
     public void openBag() {
         if (bgMenu) {
+            bg.close();
             handler.getGame().remove(bg.getPanel());
         } else {
             bg.refresh();
@@ -151,6 +152,20 @@ public class GameMenu {
 
     public JButton getLogout() {
         return logout;
+    }
+    
+    public void savePokemonMenu(){
+        m.saveData();
+    }
+    
+    public void updatePokemonMenu(){
+        m.updatePokemon();
+        m.updateSelected();
+        m.update();
+    }
+    
+    public void updateBagPokemon(){
+        bg.updatePokemonPanel();
     }
 
     public void addHandler(Handler handler) {

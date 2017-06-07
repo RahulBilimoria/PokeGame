@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.Icon;
@@ -276,9 +277,15 @@ public class StorageScreen {
     public void moveBoxDraggedPokemon(int x, int y) {
         x = x - draggedPokemon.getWidth() / 3 + 10;
         y = y - draggedPokemon.getHeight() + 5;
-        draggedPokemon.setLocation(x, y);
+        Point p = frame.getLocationOnScreen();
+        draggedPokemon.setLocation(x-((int)p.getX()), y-((int)p.getY()));
     }
 
+    /**
+     * Swaps two pokemon in the box
+     * @param x row value
+     * @param y column value
+     */
     public void disableBoxDraggedPokemon(int x, int y) {
         storage.swapPokemon(currentBox, draggedX + draggedY, x + y * 5);
         draggedPokemon.setVisible(false);
@@ -288,23 +295,22 @@ public class StorageScreen {
         setBoxPokemonIcon(x + y * 5, temp);
     }
 
+    /**
+     * Swaps a pokemon in the box to one in the players party
+     * Drags from storage to party
+     * @param y party index value
+     */
     public void disableBoxDraggedPokemon(int y) {
         draggedPokemon.setVisible(false);
         getBoxPokemon(draggedX + draggedY).setVisible(true);
         Icon temp = getBoxPokemon(draggedX + draggedY).getIcon();
         setBoxPokemonIcon(draggedX + draggedY, partyPokemon[y].getIcon());
         partyPokemon[y].setIcon(temp);
-        if (party.getPokemon(y) != null) { // if party.getpokemon == null
-            int[] data = party.getPokemon(y).toStorage(); //gets data from pokemon to store into box
-            party.addPokemon(y, storage.getPokemon(currentBox, draggedX + draggedY));
-            storage.removePokemon(currentBox, draggedX + draggedY);
-            storage.storePokemon(currentBox, draggedX + draggedY, data); // can shorten this easily
-        } else {
-            party.addPartySize(1);
-            party.addPokemon(y, storage.getPokemon(currentBox, draggedX + draggedY));
-            storage.removePokemon(currentBox, draggedX + draggedY);
-        }
+        handler.getGame().getGameMenu().updatePokemonMenu();
+        storage.storageToParty(draggedX + draggedY, y);
         partyPokemonInfo[y].setText("Lvl: " + party.getPokemon(y).getLevel() + " HP: " + party.getPokemon(y).getHp() + "/" + party.getPokemon(y).getMaxHp());
+        handler.getGame().getGameMenu().updatePokemonMenu();
+        handler.getGame().getGameMenu().updateBagPokemon();
     }
 
     public void disableBoxDraggedPokemon() {
@@ -327,11 +333,17 @@ public class StorageScreen {
     public void movePartyDraggedPokemon(int x, int y) {
         x = x - draggedPokemon.getWidth() / 3 + 10;
         y = y - draggedPokemon.getHeight() + 5;
-        draggedPokemon.setLocation(x, y);
+        Point p = frame.getLocationOnScreen();
+        draggedPokemon.setLocation(x-((int)p.getX()), y-((int)p.getY()));
     }
 
+    /**
+     * Swaps a party pokemon with one in storage
+     * Drags from party to storage
+     * @param x storage row value
+     * @param y storage column value
+     */
     public void disablePartyDraggedPokemon(int x, int y) {
-        //Fix so storage does all the data exchange and this only changes the visuals
         draggedPokemon.setVisible(false);
         partyPokemon[draggedY].setVisible(true);
         partyPokemonInfo[draggedY].setVisible(true);
@@ -342,24 +354,22 @@ public class StorageScreen {
         Icon temp = partyPokemon[draggedY].getIcon();
         partyPokemon[draggedY].setIcon(boxPokemon[x + y * 5].getIcon());
         setBoxPokemonIcon(x + y * 5, temp);
-        if (storage.getId(currentBox, x + y * 5) != -1) {
-            int[] data = party.getPokemon(draggedY).toStorage(); //gets data from pokemon to store into box
-            party.addPokemon(draggedY, storage.getPokemon(currentBox, x + y * 5));
-            storage.removePokemon(currentBox, x + y * 5);
-            storage.storePokemon(currentBox, x + y * 5, data);
+        handler.getGame().getGameMenu().updatePokemonMenu();
+        if (storage.partyToStorage(x + y * 5, draggedY))
             partyPokemonInfo[draggedY].setText("Lvl: " + party.getPokemon(draggedY).getLevel() + " HP: " + party.getPokemon(draggedY).getHp() + "/" + party.getPokemon(draggedY).getMaxHp());
-        } else {
+        else
             partyPokemonInfo[draggedY].setText(""); //"removes pokemon text"
-            storage.storePokemon(currentBox, x + y * 5, party.getPokemon(draggedY).toStorage());
-            party.addPartySize(-1);
-            //stores the pokemon in the box
-            party.storePokemon(draggedY); //removes pokemon from party
-        }
         //set pokemon info text here too
+        handler.getGame().getGameMenu().updatePokemonMenu();
+        handler.getGame().getGameMenu().updateBagPokemon();
     }
 
+    /**
+     * Swaps a party pokemon with the one it was dropped on
+     * @param y party index of pokemon to swap with 
+     */
+    //WHEN SWAPPED WITH A NULL SPOT, BREAKS THE VISUAL QUEUES
     public void disablePartyDraggedPokemon(int y) {
-        //storage.swapPokemon(currentBox, draggedX + draggedY, x + y);
         draggedPokemon.setVisible(false);
         partyPokemon[draggedY].setVisible(true);
         partyPokemonInfo[draggedY].setVisible(true);
@@ -369,6 +379,10 @@ public class StorageScreen {
         String temp2 = partyPokemonInfo[draggedY].getText();
         partyPokemonInfo[draggedY].setText(partyPokemonInfo[y].getText());
         partyPokemonInfo[y].setText(temp2);
+        handler.getGame().getGameMenu().savePokemonMenu();
+        player.getParty().swapPokemon(draggedY, y);
+        handler.getGame().getGameMenu().updatePokemonMenu();
+        handler.getGame().getGameMenu().updateBagPokemon();
         //set pokemon info text here too
     }
 

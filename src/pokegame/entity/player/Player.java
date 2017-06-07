@@ -44,8 +44,8 @@ public class Player extends Person {
         right = new Animation(400, Asset.player_right);
         direction = 0;
         moved = false;
-        bag = new Bag();
-        party = new Party();
+        bag = new Bag(this);
+        party = new Party(this);
         storage = new Storage(this);
         activePokemon = 0;
         enabled = true;

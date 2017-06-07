@@ -41,11 +41,13 @@ public class Bag {
         }
     }
 
+    private Player player;
     private int itemsCount = 0;
     private ArrayList<MyItem> bag;
     private ArrayList<MyItem> medicine, pokeballs, berries, keyItems;
     private ArrayList<MyItem> list[] = new ArrayList[5];
-    public Bag() {
+    public Bag(Player player) {
+        this.player = player;
         bag = new ArrayList<>();
         medicine = new ArrayList<>();
         pokeballs = new ArrayList<>();

@@ -14,10 +14,13 @@ import pokegame.pokemon.move.Moveset;
  */
 public class Party {
     
+    private Player player;
+    
     private Pokemon[] pokemon = new Pokemon[6];
     private int partySize;
     
-    public Party(){
+    public Party(Player player){
+        this.player = player;
         pokemon[0] = new Pokemon(0, false, 1, 1, 1,
                                     11,1,1,1, new Moveset(0));
         pokemon[1] = new Pokemon(1, false, 2, 8, 7,
@@ -55,6 +58,17 @@ public class Party {
     
     public int getPartySize(){
         return partySize;
+    }
+    
+    public void swapPokemon(int x, int y){
+        Pokemon temp = pokemon[x];
+        pokemon[x] = pokemon[y];
+        pokemon[y] = temp;
+        if (player.getActiveNumber() == x){
+            player.setActiveNumber(y);
+        } else if (player.getActiveNumber() == y){
+            player.setActiveNumber(x);
+        }
     }
     
     public void addPartySize(int i){

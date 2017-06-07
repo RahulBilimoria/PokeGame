@@ -118,6 +118,37 @@ public class Storage {
             Utils.saveStringAsFile("dat/player/storage/box" + (x+1) + ".box", box);
         }
     }
+    
+    public void storageToParty(int storageID, int partyID){
+        Party p = player.getParty();
+        if (p.getPokemon(partyID) != null){
+            int data[] = p.getPokemon(partyID).toStorage();
+            p.addPokemon(partyID, getPokemon(currentBox, storageID));
+            removePokemon(currentBox, storageID);
+            storePokemon(currentBox, storageID, data); // can shorten this easily
+        } else {
+            p.addPartySize(1);
+            p.addPokemon(partyID, getPokemon(currentBox, storageID));
+            removePokemon(currentBox, storageID);
+        }
+    }
+    
+    public boolean partyToStorage(int storageID, int partyID){
+        Party p = player.getParty();
+        if (getId(currentBox, storageID) != -1) {
+            int[] data = p.getPokemon(partyID).toStorage(); //gets data from pokemon to store into box
+            p.addPokemon(partyID, getPokemon(currentBox, storageID));
+            removePokemon(currentBox, storageID);
+            storePokemon(currentBox, storageID, data);
+            return true;
+        } else {
+            storePokemon(currentBox, storageID, p.getPokemon(partyID).toStorage());
+            p.addPartySize(-1);
+            //stores the pokemon in the box
+            p.storePokemon(partyID); //removes pokemon from party
+            return false;
+        }
+    }
 
     public int getId(int boxNumber, int pokemonIndex) {
         return pokemonBoxes[currentBox].getPokemonId(pokemonIndex);

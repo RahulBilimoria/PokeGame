@@ -300,7 +300,7 @@ public class PokemonMenu {
                 pkmn[x].addMouseListener(pmh);
                 p.add(pkmn[x]);
             } else {
-                pkmn[x] = new JLabel();
+                pkmn[x] = new JLabel(new ImageIcon());
                 p.add(pkmn[x]);
             }
 
@@ -573,6 +573,7 @@ public class PokemonMenu {
     }
 
     public void saveData() {
+        if (player.getPokemon(selectedPokemon) == null)return;
         Pokemon p = player.getPokemon(selectedPokemon);
         p.addTp(-tpTemp);
         p.addHp(hpTemp);

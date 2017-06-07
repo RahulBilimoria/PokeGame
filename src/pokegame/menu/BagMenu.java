@@ -167,6 +167,9 @@ public class BagMenu {
             )).addMouseListener(bmh);
             itemList.getComponent(x).setForeground(Color.black);
         }
+        if (selectedPokemon >= 0) {
+            pokemon[selectedPokemon].setBackground(Color.black);
+        }
         itemList.revalidate();
         itemList.repaint();
     }
@@ -251,7 +254,9 @@ public class BagMenu {
         }
         discardItem.setText("Cancel");
         if (pokemonPanel.isVisible()) {
-            if (selectedPokemon < 0 || player.getPokemon(selectedPokemon) == null) return;
+            if (selectedPokemon < 0 || player.getPokemon(selectedPokemon) == null) {
+                return;
+            }
             if (currentBag.get(selectedItem).getItemCount() == 1) {
                 currentBag.get(selectedItem).getItem().use(player.getPokemon(selectedPokemon));
                 pokemonPanel.setVisible(false);
@@ -266,6 +271,7 @@ public class BagMenu {
                 currentBag.get(selectedItem).getItem().use(player.getPokemon(selectedPokemon));
                 player.getBag().removeItem(currentBag.get(selectedItem).getItem(), -1);
                 updatePokemonPanel();
+                updateSelectedItem();
                 //plan on adding text at the bottom that shows how much of the item is remaining.
             }
         } else {
@@ -278,10 +284,10 @@ public class BagMenu {
         if (pokemonPanel.isVisible()) {
             pokemonPanel.setVisible(false);
             itemPane.setVisible(true);
-            selectedPokemon = 0;
-            selectedItem = -1;
             discardItem.setText("Discard");
             refresh();
+            selectedItem = -1;
+            selectedPokemon = -1;
         } else {
             if (currentBag.size() <= 0 || selectedItem < 0) {
                 return;
@@ -301,6 +307,21 @@ public class BagMenu {
                         + currentBag.get(selectedItem).getItem().getName());
             }
         }
+    }
+    
+    //NEED TO SYNCHRONIZE DEPOSITING IN THE STORAGE AND BAG MENU SHOWING
+
+    public void close() {
+        if (selectedItem >= 0) {
+            itemList.getComponent(selectedItem).setForeground(Color.black);
+            selectedItem = -1;
+        }
+        if (selectedPokemon >= 0) {
+            pokemon[selectedPokemon].setBackground(Color.black);
+            selectedPokemon = -1;
+        }
+        itemPane.setVisible(true);
+        pokemonPanel.setVisible(false);
     }
 
     public void setSelectedItem(int i) {
