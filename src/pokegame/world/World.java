@@ -47,7 +47,7 @@ public class World {
     public World(Handler handler) {
         this.handler = handler;
         gameHandler = new GameHandler(new Player(handler, 100, 100));
-        loadMap(new Map(handler, 1));
+        loadMap(new Map(handler, 1, 0, 0));
 
         gameHandler.getPlayer().setX(8 * Tile.TILE_WIDTH);
         gameHandler.getPlayer().setY(8 * Tile.TILE_HEIGHT);
@@ -56,11 +56,11 @@ public class World {
     }
 
     public void loadMap(Map map) {
-        currentMap = new Map(handler, map.getCurrent());
-        upMap = new Map(handler, map.getUp());
-        downMap = new Map(handler, map.getDown());
-        leftMap = new Map(handler, map.getLeft());
-        rightMap = new Map(handler, map.getRight());
+        currentMap = new Map(handler, map.getCurrent(), 0, 0);
+        upMap = new Map(handler, map.getUp(), 0, -32 * Tile.TILE_HEIGHT);
+        downMap = new Map(handler, map.getDown(), 0, 32 * Tile.TILE_HEIGHT);
+        leftMap = new Map(handler, map.getLeft(), -32 * Tile.TILE_WIDTH, 0);
+        rightMap = new Map(handler, map.getRight(), 32 * Tile.TILE_WIDTH, 0);
     }
 
     public void tick() {
@@ -269,7 +269,7 @@ public class World {
             gameHandler.getPlayer().setX(s1.getxCoord() * Tile.TILE_WIDTH);
             gameHandler.getPlayer().setY(s1.getyCoord() * Tile.TILE_HEIGHT);
             handler.getKeyManager().reset();
-            loadMap(new Map(handler, s1.getMapNumber()));
+            loadMap(new Map(handler, s1.getMapNumber(), 0, 0));
         }
     }
 

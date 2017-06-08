@@ -63,13 +63,17 @@ public class Map {
     private boolean safeZone; // 0 true
     private int background;
 
-    public Map(Handler handler, int curr) {
+    public Map(Handler handler, int curr, int x, int y) {
         this.handler = handler;
         this.curr = curr;
         scripts = new Script[MAP_WIDTH][MAP_HEIGHT];
         loadMap();
         background = 0;
-        npcs[0] = new NPC(handler, 10 * Tile.TILE_WIDTH, 10 * Tile.TILE_HEIGHT, Person.DEFAULT_CREATURE_WIDTH,
+        spawnNPCs(x, y);
+    }
+    
+    public void spawnNPCs(int xOffset, int yOffset){
+        npcs[0] = new NPC(handler, 12 * Tile.TILE_WIDTH + xOffset, 13 * Tile.TILE_HEIGHT + yOffset, Person.DEFAULT_CREATURE_WIDTH,
                 Person.DEFAULT_CREATURE_HEIGHT, 1, true, true);
     }
     
