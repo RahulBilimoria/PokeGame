@@ -45,8 +45,8 @@ public class Player extends Person {
         direction = 0;
         moved = false;
         bag = new Bag(this);
-        party = new Party(this);
-        storage = new Storage(this);
+        party = new Party(handler, this);
+        storage = new Storage(handler, this);
         activePokemon = 0;
         enabled = true;
     }

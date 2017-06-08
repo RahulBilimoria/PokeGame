@@ -5,6 +5,7 @@
  */
 package pokegame.battle;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import pokegame.entity.player.Bag;
 import pokegame.entity.player.Player;
@@ -223,18 +224,18 @@ public class Battle {
         switch (potion.getItemType()) {
             case 0:
                 Healing h = (Healing) potion;
-                getPokemon().addHp(h.getHealAmount());
+                h.use(getPokemon());
                 break;
             case 1:
                 PPRestore p = (PPRestore) potion;
                 System.out.println("Not done yet");
                 break;
             case 2:
-                System.out.println("Cant use this item in battle!");
+                addText("Cant use this item in battle!");
                 break;
             case 3:
                 StatusRemove r = (StatusRemove) potion;
-                System.out.println("Not done yet");
+                r.use(getPokemon());
                 break;
         }
     }
@@ -243,10 +244,11 @@ public class Battle {
         if (player.getParty().getPartySize() != 6) {
             for (int x = 0; x < 6; x++) {
                 if (player.getParty().getPokemon(x) == null) {
+                    enemy.setHandler(handler);
                     player.getParty().addPokemon(x, enemy);
                     player.getParty().addPartySize(1);
                     battleHandler.caughtPokemon();
-                    System.out.println("Pokemon Caught!");
+                    handler.getGame().addText(enemy.getName() + " has been added to your party.", Color.red);
                     return;
                 }
             }
@@ -254,15 +256,16 @@ public class Battle {
             for (int x = 0; x < Storage.BOXES_COUNT; x++) {
                 for (int y = 0; y < Storage.BOXES_SIZE; y++) {
                     if (player.getStorage().getPokemon(x, y).getID() == -1) {
+                        enemy.setHandler(handler);
+                        handler.getGame().addText(enemy.getName() + " has been sent to storage.", Color.red);
                         player.getStorage().storePokemon(x, y, enemy.toStorage());
                         battleHandler.caughtPokemon();
-                        System.out.println("Pokemon Caught!");
                         return;
                     }
                 }
             }
         }
-        System.out.println("No space in box!");
+        handler.getGame().addText("No space in box, " + enemy.getName() + " has been released!", Color.red);
     } // NEED TO DO SOMETHING WITH POKES AFTER CATCHING
 
     public void addExp() {
@@ -283,7 +286,7 @@ public class Battle {
         // s | 1 for pokemon participated in battle, 2 for exp share turned on
         int s = 1;
         int exp = (a * t * enemy.getBaseExp() * e * enemy.getLevel() * p * f * v) / (7 * s);
-        System.out.println("You've gained " + exp + " Exp!");
+        handler.getGame().addText("You've gained " + exp + " Exp!", Color.gray);
         getPokemon().addExp(exp);
     }
 

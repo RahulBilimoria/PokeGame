@@ -148,6 +148,10 @@ public abstract class Person {
     }
     
     public boolean getMoved(){
-        return moved;
+        if (moved){
+            moved = false;
+            return true;
+        }
+        return false;
     }
 }

@@ -81,38 +81,12 @@ public class Bag {
         }
     }
 
-//    public void addItem(Item i, int count){
-//        for (int x = 0; x < bag.size(); x++){
-//            if (bag.get(x).getItem().getName().equals(i.getName())){
-//                bag.get(x).setItemCount(count);
-//                return;
-//            }
-//        }
-//        bag.add(new MyItem(i,count));
-//    }
-//    public void removeItem(Item i, int count){
-//        for (int x = 0; x < bag.size(); x++){
-//            if (bag.get(x).getItem().getName().equals(i.getName())){
-//                bag.get(x).setItemCount(count);
-//                if (bag.get(x).getItemCount() <= 0){
-//                    bag.remove(x);
-//                }
-//                return;
-//            }
-//        }
-//    }
     public void addItem(Item i, int count) {
         changeItemCount(i, count);
     }
 
     public void removeItem(Item i, int count) {
         changeItemCount(i, count);
-    }
-    
-    public void getBagSlotSize(int index){
-        switch (index){
-            
-        }
     }
 
     public void removeItem(String name, int count) {

@@ -5,7 +5,9 @@
  */
 package pokegame.entity.player;
 
+import java.awt.Color;
 import java.util.Arrays;
+import pokegame.handler.Handler;
 import pokegame.pokemon.Pokemon;
 import pokegame.utils.Utils;
 
@@ -19,7 +21,8 @@ public class Storage {
     public static int BOXES_SIZE = 25;
     private static int DATA_PER_POKEMON = 25;
 
-    Player player;
+    private Handler handler;
+    private Player player;
     private int currentBox;
     private int selectedPokemon;
     private PokemonBox[] pokemonBoxes = new PokemonBox[BOXES_COUNT];
@@ -96,7 +99,8 @@ public class Storage {
         }
     }
 
-    public Storage(Player player) {
+    public Storage(Handler handler, Player player) {
+        this.handler = handler;
         this.player = player;
         currentBox = 0;
         selectedPokemon = 0;
@@ -164,6 +168,8 @@ public class Storage {
     }
     
     public void removePokemon(int boxNumber, int pokemonIndex){
+        if (pokemonBoxes[boxNumber].getPokemonId(pokemonIndex) == -1) return;
+        handler.getGame().addText(Pokemon.getPokemonName(pokemonBoxes[boxNumber].getPokemonId(pokemonIndex)) + " has been released!", Color.red);
         pokemonBoxes[boxNumber].removePokemon(pokemonIndex);
     }
 

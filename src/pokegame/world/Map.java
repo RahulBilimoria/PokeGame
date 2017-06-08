@@ -6,7 +6,9 @@
 package pokegame.world;
 
 import java.awt.Graphics;
+import pokegame.entity.Person;
 import pokegame.handler.Handler;
+import pokegame.npc.NPC;
 import pokegame.pokemon.move.Moveset;
 import pokegame.tiles.Tile;
 import pokegame.utils.Utils;
@@ -57,6 +59,7 @@ public class Map {
     private Tiles[][] ground1, ground2, mask1, mask2, fringe1, fringe2;
     private SpawnList spawnList1, spawnList2, spawnList3;
     private Script[][] scripts;
+    private NPC[] npcs = new NPC[1];
     private boolean safeZone; // 0 true
     private int background;
 
@@ -66,6 +69,12 @@ public class Map {
         scripts = new Script[MAP_WIDTH][MAP_HEIGHT];
         loadMap();
         background = 0;
+        npcs[0] = new NPC(handler, 10 * Tile.TILE_WIDTH, 10 * Tile.TILE_HEIGHT, Person.DEFAULT_CREATURE_WIDTH,
+                Person.DEFAULT_CREATURE_HEIGHT, 1, true, true);
+    }
+    
+    public void tick(){
+        npcs[0].tick();
     }
 
     public void renderGround(Graphics g, int xStart, int xEnd, int yStart, int yEnd) {
@@ -117,6 +126,7 @@ public class Map {
                 }
             }
         }
+        npcs[0].render(g);
     }
 
     public void renderFringe(Graphics g, int xStart, int xEnd, int yStart, int yEnd) {

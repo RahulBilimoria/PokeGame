@@ -145,6 +145,7 @@ public class StorageScreen {
         pokemonInfo[8] = new JLabel("SPDEF: ");
         pokemonInfo[9] = new JLabel("SPEED: ");
         for (int x = 0; x < 10; x++) {
+            pokemonInfo[x].setForeground(Color.white);
             pokemonInfoPanel.add(pokemonInfo[x]);
         }
 
@@ -193,16 +194,19 @@ public class StorageScreen {
         String s;
         for (int x = 0; x < 6; x++) {
             if (party.getPokemon(x) != null) {
+                //can change this since pokemon have a bufferedImage associated with them
                 partyPokemon[x] = new JLabel(new ImageIcon(ImageLoader.loadImage("/pokemon/icons/"
                         + (party.getPokemon(x).getID() + 1) + ".png")));
                 partyPKMN.add(partyPokemon[x]).setBounds(0, x * height, width, height);
                 s = "Lvl: " + party.getPokemon(x).getLevel() + " HP: " + party.getPokemon(x).getHp() + "/" + party.getPokemon(x).getMaxHp();
                 partyPokemonInfo[x] = new JLabel(s);
+                partyPokemonInfo[x].setForeground(Color.white);
                 partyPKMN.add(partyPokemonInfo[x]).setBounds(width, x * height, width * 2, height);
             } else {
                 partyPokemon[x] = new JLabel();
                 partyPKMN.add(partyPokemon[x]).setBounds(0, x * height, width, height);;
                 partyPokemonInfo[x] = new JLabel();
+                partyPokemonInfo[x].setForeground(Color.white);
                 partyPKMN.add(partyPokemonInfo[x]).setBounds(width, x * height, width * 2, height);
             }
             //partyPokemon[x].setSize(width, height);

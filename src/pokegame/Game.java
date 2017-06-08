@@ -267,6 +267,7 @@ public class Game implements Runnable {
         frame.getLayeredPane().remove(c);
     }
     
+    
     public void addText(){
         text.setForeground(Color.white);
         if (input.getText().equals("/mapeditor")){
@@ -282,6 +283,21 @@ public class Game implements Runnable {
         }
         text.setCaretPosition(text.getDocument().getLength());    
         input.setText("");
+    }
+    
+    /**
+     * 
+     * @param s String to add to the textbox
+     * @param c Color of the String
+     *
+     * green: Pokemon Level Up, Pokecenter Healing
+     * red: Release Pokemon, Caught Pokemon / Sent To Storage
+     * gray: Exp Gains
+     */
+    public void addText(String s, Color c){
+        text.setForeground(c);
+        text.append(s);
+        text.setCaretPosition(text.getDocument().getLength());
     }
 
     public int getWidth() {

@@ -5,8 +5,11 @@
  */
 package pokegame.pokemon;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import pokegame.gfx.ImageLoader;
+import pokegame.handler.Handler;
 import pokegame.item.Item;
 import pokegame.pokemon.move.Move;
 import pokegame.pokemon.move.Moveset;
@@ -164,6 +167,8 @@ public class Pokemon {
             return learnableMoves;
         }
     }
+    
+    private Handler h;
 
     private int id, level, currentHP, hp, att, def, spatt, spdef, speed;
     private int myExp, expToLevel;
@@ -176,9 +181,11 @@ public class Pokemon {
     private Status status;
     private int statusCode;
     private Item heldItem;
+    private ArrayList<Move> learnableMoves; //make it so you can learn moves if you accidently skip a level in a battle
 
-    public Pokemon(int id, boolean shiny, int level, int hp,
+    public Pokemon(Handler h, int id, boolean shiny, int level, int hp,
             int att, int def, int spatt, int spdef, int speed, Moveset moveset) {
+        this.h = h;
         BasePokemon p = POKEMON_LIST[id];
         this.id = id;
         this.nickname = "";
@@ -294,7 +301,7 @@ public class Pokemon {
             level++;
             addTp(3);
             expToLevel = EXP[POKEMON_LIST[id].getExpType()][level];
-            System.out.println("LEVEL UP");
+            h.getGame().addText(POKEMON_LIST[id].getName() + " has leveled up!\n", Color.green);
             checkLevelUp();
             //check moves when level up
             //check evolution when leveling up
@@ -453,6 +460,10 @@ public class Pokemon {
             currentHP = hp;
         }
     }
+    
+    public void setHandler(Handler handler){
+        this.h = handler;
+    }
 
     public void setNick(String nickname) {
         this.nickname = nickname;
@@ -526,6 +537,9 @@ public class Pokemon {
             if (moveset.getMove(x) != null) {
                 data[(17 + (2 * x))] = moveset.getMove(x).getId();
                 data[(18 + (2 * x))] = moveset.getMove(x).getPP();
+            } else {
+                data[(17 + (2 * x))] = -1;
+                data[(18 + (2 * x))] = -1;
             }
         }
         return data;

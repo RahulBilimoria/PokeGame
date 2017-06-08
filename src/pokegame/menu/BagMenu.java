@@ -8,7 +8,6 @@ package pokegame.menu;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -203,7 +202,7 @@ public class BagMenu {
             return;
         }
         CustomComponent c = (CustomComponent) o;
-        if (selectedItem > 0) {
+        if (selectedItem != -1) {
             itemList.getComponent(selectedItem).setForeground(Color.black);
         }
         for (int x = 0; x < itemList.getComponentCount(); x++) {
@@ -227,6 +226,7 @@ public class BagMenu {
         for (int x = 0; x < 6; x++) {
             if (pokemon[x] == p) {
                 if (player.getPokemon(x) == null) {
+                    selectedPokemon = -1;
                     return;
                 }
                 pokemon[x].setOpaque(true);

@@ -5,6 +5,7 @@
  */
 package pokegame.entity.player;
 
+import pokegame.handler.Handler;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Moveset;
 
@@ -15,23 +16,25 @@ import pokegame.pokemon.move.Moveset;
 public class Party {
     
     private Player player;
+    private Handler h;
     
     private Pokemon[] pokemon = new Pokemon[6];
     private int partySize;
     
-    public Party(Player player){
+    public Party(Handler h, Player player){
+        this.h = h;
         this.player = player;
-        pokemon[0] = new Pokemon(0, false, 1, 1, 1,
+        pokemon[0] = new Pokemon(h, 0, false, 1, 1, 1,
                                     11,1,1,1, new Moveset(0));
-        pokemon[1] = new Pokemon(1, false, 2, 8, 7,
+        pokemon[1] = new Pokemon(h, 1, false, 2, 8, 7,
                                     2,2,2,2, new Moveset(0, 1));
-        //pokemon[2] = new Pokemon(2, false, 3, 6, 1,
-        //                            2,2,2,2, new Moveset(2, 3));
-        pokemon[3] = new Pokemon(3, false, 4, 1, 5,
+        pokemon[2] = new Pokemon(h, 2, false, 3, 6, 1,
+                                    2,2,2,2, new Moveset(2, 3));
+        pokemon[3] = new Pokemon(h, 3, false, 4, 1, 5,
                                     2,2,2,2, new Moveset(4, 5));
-        pokemon[4] = new Pokemon(4, false, 5, 2, 2,
+        pokemon[4] = new Pokemon(h, 4, false, 5, 2, 2,
                                     2,2,2,2, new Moveset(6, 7, 8));
-        pokemon[5] = new Pokemon(5, false, 6, 4, 1,
+        pokemon[5] = new Pokemon(h, 5, false, 6, 4, 1,
                                     2,2,2,2, new Moveset(9, 10, 11, 12));
         partySize = 6;
     }

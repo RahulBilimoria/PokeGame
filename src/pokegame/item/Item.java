@@ -18,8 +18,8 @@ public abstract class Item {
     
     /* POTION = 0
     /* POKEBALL = 1
-    /* BERRIES = 
-    /* KEY ITEMS = 
+    /* BERRIES = 2
+    /* KEY ITEMS = 3
     */
     public static Item items[];
     public static int itemCount = 0;

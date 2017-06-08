@@ -5,6 +5,7 @@
  */
 package pokegame.world;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import pokegame.battle.Battle;
 import pokegame.battle.BattleScreen;
@@ -64,6 +65,7 @@ public class World {
 
     public void tick() {
         gameHandler.tick();
+        tickMaps();
         if (edit) {
             gameHandler.getPlayer().setSpeed(8.0f);
             me.tick();
@@ -138,6 +140,14 @@ public class World {
                 currentMap.renderScript(g, xStart, xEnd, yStart, yEnd);
             }
         }
+    }
+    
+    public void tickMaps(){
+        currentMap.tick();
+        upMap.tick();
+        downMap.tick();
+        leftMap.tick();
+        rightMap.tick();
     }
 
     public void setTile(int x, int y, int myX, int myY, int width, int height, int layer, int tilesheet) {
@@ -286,6 +296,8 @@ public class World {
         Script s = currentMap.getScript((int) x, (int) y, true);
         if (s.getScriptNumber() == 6) {
             gameHandler.getPlayer().getParty().heal();
+            if (gameHandler.getPlayer().getMoved())
+                handler.getGame().addText("Your pokemon have been restored to full health.\n", Color.green);
         }
     }
 
