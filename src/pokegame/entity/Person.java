@@ -19,8 +19,8 @@ public abstract class Person {
     public static final int DEFAULT_CREATURE_WIDTH = 32,
             DEFAULT_CREATURE_HEIGHT = 32;
 
-    protected float x, y;
-    protected int xi, yi;
+    protected float xPixel, yPixel;
+    protected int xTile, yTile;
     protected float speed;
     protected float xMove, yMove;
     protected boolean isMoving;
@@ -33,10 +33,10 @@ public abstract class Person {
         this.handler = handler;
         this.width = width;
         this.height = height;
-        this.x = x;
-        this.y = y;
-        xi = (int)(x / Tile.TILE_WIDTH);
-        yi = (int)(y / Tile.TILE_WIDTH);
+        this.xPixel = x;
+        this.yPixel = y;
+        xTile = (int)(x / Tile.TILE_WIDTH);
+        yTile = (int)(y / Tile.TILE_WIDTH);
         speed = DEFAULT_SPEED;
         xMove = 0;
         yMove = 0;
@@ -50,76 +50,59 @@ public abstract class Person {
     }
     
     protected void stopMoving() {
-        if (x % Tile.TILE_WIDTH == 0 && y % Tile.TILE_HEIGHT == 0) {
+        if (xPixel % Tile.TILE_WIDTH == 0 && yPixel % Tile.TILE_HEIGHT == 0) {
             isMoving = false;
         }
     }
 
     public void moveX() {
-        float x1 = x / Tile.TILE_WIDTH;
-        int y1 = (int) y / Tile.TILE_HEIGHT;
+        int x1 = (int)Math.ceil(xPixel / Tile.TILE_WIDTH);
         if (xMove > 0) { //right
-            if (!collisionWithTile((int) x1, (int) y1, 1)) {
-                x += xMove;
+            if (!handler.getWorld().getMap().getScript(xTile + 1, yTile, true).isSolid()){
+                xPixel += xMove;
             }
         } else if (xMove < 0) { //left
-            if (!collisionWithTile((int) Math.ceil(x1), (int) y1, 3)) {
-                x += xMove;
+            if (!handler.getWorld().getMap().getScript(x1 - 1, yTile, true).isSolid()){
+                xPixel += xMove;
             }
         }
     }
 
     public void moveY() {
-        int x1 = (int) x / Tile.TILE_WIDTH;
-        float y1 = y / Tile.TILE_HEIGHT;
+        int y1 = (int)Math.ceil(yPixel / Tile.TILE_HEIGHT);
         if (yMove < 0) { // up
-            if (!collisionWithTile((int) x1, (int) Math.ceil(y1), 0)) {
-                y += yMove;
+            if (!handler.getWorld().getMap().getScript(xTile, y1 - 1, true).isSolid()) {
+                yPixel += yMove;
             }
         } else if (yMove > 0) { // down 
-            if (!collisionWithTile((int) x1, (int) y1, 2)) {
-                y += yMove;
+            if (!handler.getWorld().getMap().getScript(xTile, yTile + 1, true).isSolid()) {
+                yPixel += yMove;
             }
         }
     }
     
     protected void updateIntXY(){
-        xi = (int)(x / Tile.TILE_WIDTH);
-        yi = (int)(y / Tile.TILE_WIDTH);
-    }
-
-    protected boolean collisionWithTile(int x, int y, int direction) {
-        switch (direction) {
-            case 0:
-                return handler.getWorld().getMap().getScript(x, y - 1, true).isSolid(); //up
-            case 1:
-                return handler.getWorld().getMap().getScript(x + 1, y, true).isSolid(); //right
-            case 2:
-                return handler.getWorld().getMap().getScript(x, y + 1, true).isSolid(); //down
-            case 3:
-                return handler.getWorld().getMap().getScript(x - 1, y, true).isSolid(); //left
-            default:
-                return false;
-        }
+        xTile = (int)(xPixel / Tile.TILE_WIDTH);
+        yTile = (int)(yPixel / Tile.TILE_WIDTH);
     }
     
     public abstract void tick();
     public abstract void render(Graphics g);
     
     public float getX(){
-        return x;
+        return xPixel;
     }
     
     public void setX(float x){
-        this.x = x;
+        this.xPixel = x;
     }
     
     public float getY(){
-        return y;
+        return yPixel;
     }
     
     public void setY(float y){
-        this.y = y;
+        this.yPixel = y;
     }
     
     public boolean getIsMoving(){

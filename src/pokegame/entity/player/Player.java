@@ -63,17 +63,17 @@ public class Player extends Person {
             down.tick();
             left.tick();
             right.tick();
-            move();
             updateIntXY();
+            move();
         } else {
             xMove = 0;
             yMove = 0;
         }
-        if (lastX == xi && lastY == yi) {
+        if (lastX == xTile && lastY == yTile) {
         } else {
             setMoved(true);
-            lastX = xi;
-            lastY = yi;
+            lastX = xTile;
+            lastY = yTile;
         }
         handler.getGameCamera().centerOnEntity(this);
     }
@@ -98,8 +98,8 @@ public class Player extends Person {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getXOffset()),
-                (int) (y - handler.getGameCamera().getYOffset() - Tile.TILE_HEIGHT), width, 2 * height, null);
+        g.drawImage(getCurrentAnimationFrame(), (int) (xPixel - handler.getGameCamera().getXOffset()),
+                (int) (yPixel - handler.getGameCamera().getYOffset() - Tile.TILE_HEIGHT), width, 2 * height, null);
     }
 
     private BufferedImage getCurrentAnimationFrame() {
@@ -131,24 +131,23 @@ public class Player extends Person {
         }
     }
 
-    @Override
-    protected boolean collisionWithTile(int x, int y, int direction) {
+    /*protected boolean collisionWithTile(int xPixel, int yPixel, int direction) {
         if (handler.getWorld().getEdit()) {
             return false;
         }
         switch (direction) {
             case 0:
-                return handler.getWorld().getMap().getScript(x, y - 1, true).isSolid(); //up
+                return handler.getWorld().getMap().getScript(xPixel, yPixel - 1, true).isSolid(); //up
             case 1:
-                return handler.getWorld().getMap().getScript(x + 1, y, true).isSolid(); //right
+                return handler.getWorld().getMap().getScript(xPixel + 1, yPixel, true).isSolid(); //right
             case 2:
-                return handler.getWorld().getMap().getScript(x, y + 1, true).isSolid(); //down
+                return handler.getWorld().getMap().getScript(xPixel, yPixel + 1, true).isSolid(); //down
             case 3:
-                return handler.getWorld().getMap().getScript(x - 1, y, true).isSolid(); //left
+                return handler.getWorld().getMap().getScript(xPixel - 1, yPixel, true).isSolid(); //left
             default:
                 return false;
         }
-    }
+    }*/
 
     public void setActiveNumber(int num) {
         activePokemon = num;
