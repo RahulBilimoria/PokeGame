@@ -12,6 +12,7 @@ import pokegame.entity.Person;
 import pokegame.gfx.Animation;
 import pokegame.gfx.Asset;
 import pokegame.handler.Handler;
+import pokegame.tiles.Tile;
 
 /**
  *
@@ -54,11 +55,13 @@ public class NPC extends Person {
     public void tick() {
         if (isMoving) {
             move();
+            updateIntXY();
         } else {
             if (TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS) < timeUntilMove) return;
             timeUntilMove = (int) (Math.random() * 5) + 1;
             time = System.nanoTime();
             changeDirection();
+            updateIntXY();
             isMoving = true;
         }
     }
@@ -66,12 +69,11 @@ public class NPC extends Person {
     @Override
     public void render(Graphics g) {
         g.drawImage(getCurrentAnimationFrame(), (int) (x - handler.getGameCamera().getXOffset()),
-                (int) (y - handler.getGameCamera().getYOffset()), width, 2 * height, null);
+                (int) (y - handler.getGameCamera().getYOffset()- Tile.TILE_HEIGHT), width, 2 * height, null);
     }
 
     public void changeDirection() {
-        //direction = (int) (Math.random() * 4);
-        direction = 1;
+        direction = (int) (Math.random() * 4);
         xMove = 0;
         yMove = 0;
         switch (direction) {
