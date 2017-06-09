@@ -52,17 +52,18 @@ public abstract class Person {
     protected void stopMoving() {
         if (xPixel % Tile.TILE_WIDTH == 0 && yPixel % Tile.TILE_HEIGHT == 0) {
             isMoving = false;
+            updateIntXY();
         }
     }
 
     public void moveX() {
         int x1 = (int)Math.ceil(xPixel / Tile.TILE_WIDTH);
         if (xMove > 0) { //right
-            if (!handler.getWorld().getMap().getScript(xTile + 1, yTile, true).isSolid()){
+            if (!handler.getWorld().getMap().getSolid(xTile + 1, yTile)){
                 xPixel += xMove;
             }
         } else if (xMove < 0) { //left
-            if (!handler.getWorld().getMap().getScript(x1 - 1, yTile, true).isSolid()){
+            if (!handler.getWorld().getMap().getSolid(x1 - 1, yTile)){
                 xPixel += xMove;
             }
         }
@@ -71,11 +72,11 @@ public abstract class Person {
     public void moveY() {
         int y1 = (int)Math.ceil(yPixel / Tile.TILE_HEIGHT);
         if (yMove < 0) { // up
-            if (!handler.getWorld().getMap().getScript(xTile, y1 - 1, true).isSolid()) {
+            if (!handler.getWorld().getMap().getSolid(xTile, y1 - 1)) {
                 yPixel += yMove;
             }
         } else if (yMove > 0) { // down 
-            if (!handler.getWorld().getMap().getScript(xTile, yTile + 1, true).isSolid()) {
+            if (!handler.getWorld().getMap().getSolid(xTile, yTile + 1)) {
                 yPixel += yMove;
             }
         }
@@ -103,6 +104,14 @@ public abstract class Person {
     
     public void setY(float y){
         this.yPixel = y;
+    }
+    
+    public int getXTile(){
+        return xTile;
+    }
+    
+    public int getYTile(){
+        return yTile;
     }
     
     public boolean getIsMoving(){

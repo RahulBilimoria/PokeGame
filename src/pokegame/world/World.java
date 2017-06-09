@@ -21,6 +21,7 @@ import pokegame.world.scripts.Script;
 import pokegame.world.scripts.Shop;
 import pokegame.world.scripts.SpawnList;
 import pokegame.world.scripts.Warp;
+import pokegame.npc.NPC;
 
 /**
  *
@@ -262,7 +263,7 @@ public class World {
     }
 
     public void checkWarp(float x, float y) {
-        Script s = currentMap.getScript((int) x, (int) y, true);
+        Script s = currentMap.getScript((int) x, (int) y);
         if (s.getScriptNumber() == 2) {
             Warp s1 = (Warp) s;
             gameHandler.getPlayer().setIsMoving(false);
@@ -274,7 +275,7 @@ public class World {
     }
 
     public void checkSpawn(float x, float y) {
-        Script s = currentMap.getScript((int) x, (int) y, true);
+        Script s = currentMap.getScript((int) x, (int) y);
         if (s.getScriptNumber() == 3 || s.getScriptNumber() == 4 || s.getScriptNumber() == 5) {
             if (gameHandler.getPlayer().getMoved()) {
                 gameHandler.getPlayer().setMoved(false);
@@ -293,7 +294,7 @@ public class World {
     }
 
     public void checkHeal(float x, float y) {
-        Script s = currentMap.getScript((int) x, (int) y, true);
+        Script s = currentMap.getScript((int) x, (int) y);
         if (s.getScriptNumber() == 6) {
             gameHandler.getPlayer().getParty().heal();
             if (gameHandler.getPlayer().getMoved())
@@ -302,7 +303,7 @@ public class World {
     }
 
     public void checkShop(float x, float y) {
-        Script s = currentMap.getScript((int) x, (int) y, true);
+        Script s = currentMap.getScript((int) x, (int) y);
         if (s.getScriptNumber() == 7 && shop == null) {
             if (gameHandler.getPlayer().getMoved()) {
                 gameHandler.getPlayer().setMoved(false);
@@ -315,7 +316,7 @@ public class World {
     }
 
     public void checkStorage(float x, float y) {
-        Script s = currentMap.getScript((int) x, (int) y, true);
+        Script s = currentMap.getScript((int) x, (int) y);
         if (s.getScriptNumber() == 8 && storage == null) {
             if (gameHandler.getPlayer().getMoved()) {
                 gameHandler.getPlayer().setMoved(false);
@@ -324,6 +325,21 @@ public class World {
                 storage = new StorageScreen(handler);
             }
         }
+    }
+    
+    public void interact(int x, int y){
+        NPC[] npcs = currentMap.getNpcs();
+        for (int z = 0; z < npcs.length; z++){
+            if (npcs[z].getXTile() == x && npcs[z].getYTile() == y){
+                openDialogue(npcs[z]);
+                //return;
+            }
+        }
+        gameHandler.getPlayer().setEnabled(true);
+    }
+    
+    public void openDialogue(NPC npc){
+        
     }
 
     public void openMapEditor() {

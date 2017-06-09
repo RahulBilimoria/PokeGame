@@ -15,7 +15,7 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener {
 
     private boolean keys[];
-    public boolean up, down, left, right;
+    public boolean up, down, left, right, ctrl;
     private boolean moveable;
 
     public KeyManager() {
@@ -29,6 +29,7 @@ public class KeyManager implements KeyListener {
             down = keys[KeyEvent.VK_S];
             left = keys[KeyEvent.VK_A];
             right = keys[KeyEvent.VK_D];
+            ctrl = keys[17];
         } else {
             reset();
         }
@@ -39,6 +40,7 @@ public class KeyManager implements KeyListener {
         keys[KeyEvent.VK_S] = false;
         keys[KeyEvent.VK_A] = false;
         keys[KeyEvent.VK_D] = false;
+        keys[KeyEvent.CTRL_DOWN_MASK] = false;
     }
 
     @Override
@@ -49,15 +51,22 @@ public class KeyManager implements KeyListener {
     public void setMoveable(boolean moveable){
         this.moveable = moveable;
     }
+    
+    public void unpressCTRL(){
+        keys[17] = false;
+    }
 
     @Override
     public void keyPressed(KeyEvent ke) {
+        if (ke.getKeyCode() == 17) return;
         keys[ke.getKeyCode()] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
         keys[ke.getKeyCode()] = false;
+        if (ke.getKeyCode() == 17)
+            keys[ke.getKeyCode()] = true;
     }
 
 }

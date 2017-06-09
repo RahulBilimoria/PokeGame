@@ -5,6 +5,7 @@
  */
 package pokegame.entity.player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -63,7 +64,6 @@ public class Player extends Person {
             down.tick();
             left.tick();
             right.tick();
-            updateIntXY();
             move();
         } else {
             xMove = 0;
@@ -93,6 +93,19 @@ public class Player extends Person {
         } else if (handler.getKeyManager().right) {
             isMoving = true;
             xMove = speed;
+        } else if (handler.getKeyManager().ctrl){
+            handler.getKeyManager().unpressCTRL();
+            enabled = false;
+            switch (direction){
+                case 0: handler.getWorld().interact(xTile, yTile - 1);
+                    break;
+                case 1: handler.getWorld().interact(xTile + 1, yTile);
+                    break;
+                case 2: handler.getWorld().interact(xTile, yTile + 1);
+                    break;
+                case 3: handler.getWorld().interact(xTile - 1, yTile);
+                    break;
+            }
         }
     }
 

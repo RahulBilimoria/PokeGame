@@ -22,11 +22,11 @@ public class NPC extends Person {
 
     protected int centerX, centerY; // center that the NPC will 'revolve' around
     protected int distanceFromCenter; // distance in tiles NPC can walk from center
-    protected int direction;
+    protected int direction; // direction npc is walking in
     protected boolean isSolid; // can other players walk through them
     protected boolean canMove; // can this NPC move from the center
     protected Animation up, down, left, right; // The NPCs sprites
-    private boolean idle;
+    private boolean idle; // is this npc moving
     private int timeUntilMove; // time until npc can move again
     private long time; // time since last move
 
@@ -55,19 +55,24 @@ public class NPC extends Person {
 
     @Override
     public void tick() {
-        if (isMoving) {
-            move();
-        } else {
-            idle = true;
-            if (TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS) < timeUntilMove) {
-                return;
+        if (canMove) {
+            if (isMoving) {
+                up.tick();
+                down.tick();
+                left.tick();
+                right.tick();
+                move();
+            } else {
+                idle = true;
+                if (TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS) < timeUntilMove) {
+                    return;
+                }
+                idle = false;
+                timeUntilMove = (int) (Math.random() * 5) + 1;
+                time = System.nanoTime();
+                changeDirection();
+                isMoving = true;
             }
-            idle = false;
-            timeUntilMove = (int) (Math.random() * 5) + 1;
-            time = System.nanoTime();
-            updateIntXY();
-            changeDirection();
-            isMoving = true;
         }
     }
 
@@ -78,33 +83,33 @@ public class NPC extends Person {
     }
 
     @Override
-    public void moveX(){
-        int x1 = (int)Math.ceil(xPixel / Tile.TILE_WIDTH);
+    public void moveX() {
+        int x1 = (int) Math.ceil(xPixel / Tile.TILE_WIDTH);
         if (xMove > 0) { //right
-            if (!handler.getWorld().getMap().getScript(xTile + 1, yTile, true).isSolid() && xTile - centerX< distanceFromCenter){
+            if (!handler.getWorld().getMap().getScript(xTile + 1, yTile).isSolid() && xTile - centerX < distanceFromCenter) {
                 xPixel += xMove;
             }
         } else if (xMove < 0) { //left
-            if (!handler.getWorld().getMap().getScript(x1 - 1, yTile, true).isSolid() && centerX - xTile< distanceFromCenter){
+            if (!handler.getWorld().getMap().getScript(x1 - 1, yTile).isSolid() && centerX - xTile < distanceFromCenter) {
                 xPixel += xMove;
             }
         }
     }
-    
+
     @Override
-    public void moveY(){
-        int y1 = (int)Math.ceil(yPixel / Tile.TILE_HEIGHT);
+    public void moveY() {
+        int y1 = (int) Math.ceil(yPixel / Tile.TILE_HEIGHT);
         if (yMove < 0) { // up
-            if (!handler.getWorld().getMap().getScript(xTile, y1 - 1, true).isSolid() && centerY - yTile< distanceFromCenter) {
+            if (!handler.getWorld().getMap().getScript(xTile, y1 - 1).isSolid() && centerY - yTile < distanceFromCenter) {
                 yPixel += yMove;
             }
         } else if (yMove > 0) { // down 
-            if (!handler.getWorld().getMap().getScript(xTile, yTile + 1, true).isSolid() && yTile - centerY< distanceFromCenter) {
+            if (!handler.getWorld().getMap().getScript(xTile, yTile + 1).isSolid() && yTile - centerY < distanceFromCenter) {
                 yPixel += yMove;
             }
         }
     }
-    
+
     protected void changeDirection() {
         direction = (int) (Math.random() * 4);
         xMove = 0;
@@ -155,5 +160,9 @@ public class NPC extends Person {
                     return down.idle();
             }
         }
+    }
+    
+    public boolean isSolid(){
+        return isSolid;
     }
 }

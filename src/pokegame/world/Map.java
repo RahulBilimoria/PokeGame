@@ -162,7 +162,7 @@ public class Map {
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {
                 if (scripts[x][y].getScriptNumber() != -1) {
-                    getScript(x, y, false).render(g, (int) (x * Tile.TILE_WIDTH - handler.getGameCamera().getXOffset()),
+                    getScript(x, y).render(g, (int) (x * Tile.TILE_WIDTH - handler.getGameCamera().getXOffset()),
                             (int) (y * Tile.TILE_HEIGHT - handler.getGameCamera().getYOffset()));
                 }
             }
@@ -258,7 +258,7 @@ public class Map {
         }
     }
 
-    public Script getScript(int x, int y, boolean check) {
+    public Script getScript(int x, int y) {
         if (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) { // all this needs to be done in tile class
             return Script.scripts[0];
         }
@@ -309,6 +309,22 @@ public class Map {
                     break;
             }
         }
+    }
+    
+    public boolean getSolid(int x, int y){
+        if (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) { // scripts dont work at boundaries so have to change for the future
+            return false;
+        }
+        for (int z = 0; z < npcs.length; z++){
+            if (npcs[z].getXTile() == x && npcs[z].getYTile() == y && npcs[z].isSolid()){
+                return true;
+            }
+        }
+        Script s = scripts[x][y];
+        if (s != null) {
+            return s.isSolid();
+        }
+        return false;
     }
 
     public void setSpawns(SpawnList s1, SpawnList s2, SpawnList s3) {
@@ -636,6 +652,10 @@ public class Map {
 
     public void setMapName(String mapName) {
         this.mapName = mapName.replaceAll(" ", "_");
+    }
+    
+    public NPC[] getNpcs(){
+        return npcs;
     }
 
     public int getUp() {
