@@ -424,6 +424,8 @@ public class StorageScreen {
     }
 
     public void deletePokemon() {
+        if (storage.getId(currentBox, storage.getSelectedPokemon()) != -1)
+            handler.getGame().addText(Pokemon.getPokemonName(storage.getId(currentBox, storage.getSelectedPokemon())) + " has been released!\n", Color.red);
         storage.removePokemon(currentBox, storage.getSelectedPokemon());
         getBoxPokemon(storage.getSelectedPokemon()).setIcon(null);
     }

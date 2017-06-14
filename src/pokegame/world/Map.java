@@ -73,8 +73,7 @@ public class Map {
     }
     
     public void spawnNPCs(int xOffset, int yOffset){
-        npcs[0] = new NPC(handler, 10 * Tile.TILE_WIDTH + xOffset, 9 * Tile.TILE_HEIGHT + yOffset, Person.DEFAULT_CREATURE_WIDTH,
-                Person.DEFAULT_CREATURE_HEIGHT, 1, true, true);
+        npcs[0] = new NPC(handler, 10 * Tile.TILE_WIDTH + xOffset, 9 * Tile.TILE_HEIGHT + yOffset, 1, true, true);
     }
     
     public void tick(){

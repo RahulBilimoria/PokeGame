@@ -35,12 +35,11 @@ public abstract class Person {
         this.height = height;
         this.xPixel = x;
         this.yPixel = y;
-        xTile = (int)(x / Tile.TILE_WIDTH);
-        yTile = (int)(y / Tile.TILE_WIDTH);
         speed = DEFAULT_SPEED;
         xMove = 0;
         yMove = 0;
         isMoving = false;
+        updateIntXY();
     }
     
     public void move() {
@@ -84,7 +83,7 @@ public abstract class Person {
     
     protected void updateIntXY(){
         xTile = (int)(xPixel / Tile.TILE_WIDTH);
-        yTile = (int)(yPixel / Tile.TILE_WIDTH);
+        yTile = (int)(yPixel / Tile.TILE_HEIGHT);
     }
     
     public abstract void tick();

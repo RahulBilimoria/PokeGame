@@ -248,7 +248,7 @@ public class Battle {
                     player.getParty().addPokemon(x, enemy);
                     player.getParty().addPartySize(1);
                     battleHandler.caughtPokemon();
-                    handler.getGame().addText(enemy.getName() + " has been added to your party.", Color.red);
+                    handler.getGame().addText(enemy.getName() + " has been added to your party.\n", Color.red);
                     return;
                 }
             }
@@ -257,7 +257,7 @@ public class Battle {
                 for (int y = 0; y < Storage.BOXES_SIZE; y++) {
                     if (player.getStorage().getPokemon(x, y).getID() == -1) {
                         enemy.setHandler(handler);
-                        handler.getGame().addText(enemy.getName() + " has been sent to storage.", Color.red);
+                        handler.getGame().addText(enemy.getName() + " has been sent to storage.\n", Color.red);
                         player.getStorage().storePokemon(x, y, enemy.toStorage());
                         battleHandler.caughtPokemon();
                         return;
@@ -265,7 +265,7 @@ public class Battle {
                 }
             }
         }
-        handler.getGame().addText("No space in box, " + enemy.getName() + " has been released!", Color.red);
+        handler.getGame().addText("No space in box, " + enemy.getName() + " has been released!\n", Color.red);
     } // NEED TO DO SOMETHING WITH POKES AFTER CATCHING
 
     public void addExp() {
@@ -286,15 +286,13 @@ public class Battle {
         // s | 1 for pokemon participated in battle, 2 for exp share turned on
         int s = 1;
         int exp = (a * t * enemy.getBaseExp() * e * enemy.getLevel() * p * f * v) / (7 * s);
-        handler.getGame().addText("You've gained " + exp + " Exp!", Color.gray);
         getPokemon().addExp(exp);
     }
 
     public String getMoveName(int moveID) {
         Move m = getPokemon().getMoveset().getMove(moveID);
-        if (m == null) {
+        if (m == null)
             return "";
-        }
         return m.getName();
     }
 

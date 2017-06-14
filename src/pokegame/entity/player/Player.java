@@ -69,11 +69,11 @@ public class Player extends Person {
             xMove = 0;
             yMove = 0;
         }
-        if (lastX == xTile && lastY == yTile) {
-        } else {
+        if (!(lastX == xTile && lastY == yTile)) {
             setMoved(true);
             lastX = xTile;
             lastY = yTile;
+            
         }
         handler.getGameCamera().centerOnEntity(this);
     }

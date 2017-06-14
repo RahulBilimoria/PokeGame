@@ -20,6 +20,8 @@ import pokegame.tiles.Tile;
  */
 public class NPC extends Person {
 
+    protected String name;
+    
     protected int centerX, centerY; // center that the NPC will 'revolve' around
     protected int distanceFromCenter; // distance in tiles NPC can walk from center
     protected int direction; // direction npc is walking in
@@ -35,9 +37,9 @@ public class NPC extends Person {
     //Story NPCs
     //Battle NPCs
     //Will add more as i think of them
-    public NPC(Handler handler, float x, float y, int width, int height,
-            int distanceFromCenter, boolean isSolid, boolean canMove) {
-        super(handler, x, y, width, height);
+    public NPC(Handler handler, float x, float y, int distanceFromCenter,
+            boolean isSolid, boolean canMove) {
+        super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
         centerX = xTile;
         centerY = yTile;
         this.distanceFromCenter = distanceFromCenter;
@@ -51,6 +53,7 @@ public class NPC extends Person {
         time = System.nanoTime();
         direction = 0;
         idle = true;
+        name = "Default Name";
     }
 
     @Override
@@ -164,5 +167,9 @@ public class NPC extends Person {
     
     public boolean isSolid(){
         return isSolid;
+    }
+    
+    public String getName(){
+        return name;
     }
 }

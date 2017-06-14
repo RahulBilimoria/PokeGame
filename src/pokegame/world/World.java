@@ -22,6 +22,7 @@ import pokegame.world.scripts.Shop;
 import pokegame.world.scripts.SpawnList;
 import pokegame.world.scripts.Warp;
 import pokegame.npc.NPC;
+import pokegame.ui.Dialogue;
 
 /**
  *
@@ -100,6 +101,7 @@ public class World {
             checkHeal(playerX, playerY);
             checkStorage(playerX, playerY);
             checkShop(playerX, playerY);
+            gameHandler.getPlayer().setMoved(false);
         } else {
             setBoundaries();
         }
@@ -332,14 +334,14 @@ public class World {
         for (int z = 0; z < npcs.length; z++){
             if (npcs[z].getXTile() == x && npcs[z].getYTile() == y){
                 openDialogue(npcs[z]);
-                //return;
+                return;
             }
         }
         gameHandler.getPlayer().setEnabled(true);
     }
     
     public void openDialogue(NPC npc){
-        
+        Dialogue d = new Dialogue(handler, npc);
     }
 
     public void openMapEditor() {

@@ -169,7 +169,6 @@ public class Storage {
     
     public void removePokemon(int boxNumber, int pokemonIndex){
         if (pokemonBoxes[boxNumber].getPokemonId(pokemonIndex) == -1) return;
-        handler.getGame().addText(Pokemon.getPokemonName(pokemonBoxes[boxNumber].getPokemonId(pokemonIndex)) + " has been released!", Color.red);
         pokemonBoxes[boxNumber].removePokemon(pokemonIndex);
     }
 

@@ -151,8 +151,6 @@ public class BattleScreen {
         pokemonPanel.setVisible(true);
         addPokemon(pokemonPanel, bh);
 
-        System.out.println(pokemonPanel.getWidth());
-
         frame.add(ally).setBounds(100, 200, 100, 100);
         frame.add(allyPokemon).setBounds(180, 170, 100, 80);
         frame.add(enemy).setBounds(440, 80, 100, 100);
