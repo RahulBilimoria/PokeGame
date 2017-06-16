@@ -31,7 +31,7 @@ public class Pokemon {
     public static final int POKEMON_COUNT = 151;
     public static final BasePokemon POKEMON_LIST[] = new BasePokemon[POKEMON_COUNT];
 
-    static class BasePokemon {
+    public static class BasePokemon {
 
         private final int hp, att, def, spatt, spdef, speed; //Pokemons base stats
         private final int id; //Pokemon ID
@@ -173,6 +173,8 @@ public class Pokemon {
     private int id, level, currentHP, hp, att, def, spatt, spdef, speed;
     private int myExp, expToLevel;
     private int tpPoints;
+    private int friendship;
+    private int friendshipRate;
     private String nickname;
     //male = true, female = false
     private boolean gender, shiny;
@@ -202,6 +204,8 @@ public class Pokemon {
         this.expToLevel = EXP[p.getExpType()][level];
         this.status = new Status();
         tpPoints = 0;
+        friendship = 0;
+        friendshipRate = 1;
         currentHP = this.hp;
         nature = Nature.getRandomNature();
         chooseGender();
@@ -339,6 +343,10 @@ public class Pokemon {
         }
         return m;
     }
+    
+    public void addFriendship(int amount){
+        this.friendship = amount * friendshipRate;
+    }
 
     public void addTp(int tp) {
         this.tpPoints += tp;
@@ -368,11 +376,8 @@ public class Pokemon {
         return POKEMON_LIST[id].getType2();
     }
 
-    public String getGender() {
-        if (gender) {
-            return "Male";
-        }
-        return "Female";
+    public boolean getGender() {
+       return gender;
     }
 
     public String getNick() {
@@ -414,6 +419,14 @@ public class Pokemon {
     public int getSpeed() {
         return speed;
     }
+    
+    public int getFriendship(){
+        return friendship;
+    }
+    
+    public int getFriendshipRate(){
+        return friendshipRate;
+    }
 
     public void addHp(int hp) {
         this.hp += hp;
@@ -437,6 +450,14 @@ public class Pokemon {
 
     public void addSpeed(int speed) {
         this.speed += speed;
+    }
+    
+    public void setFriendship(int amount){
+        this.friendship = amount;
+    }
+    
+    public void setFriendshipRate(int value){
+        this.friendshipRate = value;
     }
 
     public String getStatus() {

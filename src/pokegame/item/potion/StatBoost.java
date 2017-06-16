@@ -50,6 +50,11 @@ public class StatBoost extends Potion{
     
     @Override
     public void use(Pokemon p){
-        
+
+    }
+    
+    @Override
+    public float battleUse(Pokemon player, Pokemon enemy){
+        return 0;
     }
 }

@@ -13,8 +13,8 @@ import pokegame.handler.Handler;
  */
 public class QuestCharacter extends NPC{
     
-    public QuestCharacter(Handler handler, float x, float y, int width, int height, int distanceToCenter) {
-        super(handler, x, y, width, height, distanceToCenter, false, true);
+    public QuestCharacter(Handler handler, float x, float y, int distanceToCenter) {
+        super(handler, x, y, distanceToCenter, false, true);
     }
     
 }

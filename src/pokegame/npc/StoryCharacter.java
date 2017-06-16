@@ -14,7 +14,7 @@ import pokegame.handler.Handler;
 public class StoryCharacter extends NPC{
     
     public StoryCharacter(Handler handler, float x, float y, int width, int height) {
-        super(handler, x, y, width, height, 0, true, false);
+        super(handler, x, y, 0, true, false);
     }
     
 }

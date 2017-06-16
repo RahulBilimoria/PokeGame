@@ -58,4 +58,9 @@ public class StatusRemove extends Potion{
         if (p.getStatusInt() == typeOfRemoval || typeOfRemoval == 7 || typeOfRemoval == 8)
             p.setStatus(0);
     }
+    
+    @Override
+    public float battleUse(Pokemon player, Pokemon enemy){
+        return 0;
+    }
 }

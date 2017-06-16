@@ -13,8 +13,8 @@ import pokegame.handler.Handler;
  */
 public class GymLeader extends NPC{
     
-    public GymLeader(Handler handler, float x, float y, int width, int height) {
-        super(handler, x, y, width, height, 0, true, false);
+    public GymLeader(Handler handler, float x, float y) {
+        super(handler, x, y, 0, true, false);
     }
     
 }

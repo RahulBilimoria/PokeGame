@@ -18,6 +18,24 @@ public class Type {
     private final static int TYPE_COUNT = 18;
     public final static Type TYPE_LIST[] = new Type[18];
     public final static float MODIFIER[][] = new float[18][18];
+    public static final int NORMAL = 0;
+    public static final int FIGHT = 1;
+    public static final int FLYING = 2;
+    public static final int POISON = 3;
+    public static final int GROUND = 4;
+    public static final int ROCK = 5;
+    public static final int BUG = 6;
+    public static final int GHOST = 7;
+    public static final int STEEL = 8;
+    public static final int FIRE = 9;
+    public static final int WATER = 10;
+    public static final int GRASS = 11;
+    public static final int ELECTRIC = 12;
+    public static final int PSYCHIC = 13;
+    public static final int ICE = 14;
+    public static final int DRAGON = 15;
+    public static final int DARK = 16;
+    public static final int FAIRY = 17;
     
     private int id;
     private String name;

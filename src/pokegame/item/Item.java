@@ -6,6 +6,7 @@
 package pokegame.item;
 
 import java.awt.image.BufferedImage;
+import pokegame.gfx.Asset;
 import pokegame.item.pokeball.Pokeball;
 import pokegame.item.potion.Potion;
 import pokegame.pokemon.Pokemon;
@@ -31,12 +32,17 @@ public abstract class Item {
     protected boolean battleUse;
     protected boolean heldItem;
     protected BufferedImage icon;
+    protected String effect;
+    protected String description;
     
-    public Item(String name, int typeOfItem, boolean battleUse){
+    public Item(String name, int typeOfItem, boolean battleUse, String effect, String description, int x, int y){
         this.name = name;
         this.typeOfItem = typeOfItem;
         this.battleUse = battleUse;
         this.itemId = itemCount;
+        this.effect = effect;
+        this.description = description;
+        icon = Asset.itemSheet.spriteSheet[x][y];
         itemCount++;
     }
     
@@ -67,4 +73,6 @@ public abstract class Item {
     }
     
     public abstract void use(Pokemon p);
+    
+    public abstract float battleUse(Pokemon player, Pokemon enemy);
 }

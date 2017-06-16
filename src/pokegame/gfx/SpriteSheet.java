@@ -29,6 +29,18 @@ public class SpriteSheet {
             }
         }
     }
+    
+    public SpriteSheet(BufferedImage spritesheet, int width, int height){
+        this.spritesheet = spritesheet;
+        tileWidth = width;
+        tileHeight = height;
+        spriteSheet = new BufferedImage[(spritesheet.getWidth() / width)][(spritesheet.getHeight()/height)];
+        for (int x = 0; x < spritesheet.getWidth() / 32; x++) {
+            for (int y = 0; y < spritesheet.getHeight() / 32; y++) {
+                spriteSheet[x][y] = crop(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+            }
+        }
+    }
 
     public BufferedImage crop(int x, int y, int width, int height) {
         return spritesheet.getSubimage(x, y, width, height);

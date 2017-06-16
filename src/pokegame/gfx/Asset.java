@@ -22,11 +22,13 @@ public class Asset {
     public static BufferedImage[] player_right;
     public static SpriteSheet[] tileSheets = new SpriteSheet[TILESHEET_COUNT];
     public static SpriteSheet playerSheet;
+    public static SpriteSheet itemSheet;
 
     public static void init() {
         for (int x = 0; x < TILESHEET_COUNT; x++) {
             tileSheets[x] = new SpriteSheet(ImageLoader.loadImage("/sprite/spritesheet" + (x + 1) + ".png"));
         }
+        itemSheet = new SpriteSheet(ImageLoader.loadImage("/sprite/items.png"), 32, 32);
         playerSheet = new SpriteSheet(ImageLoader.loadImage("/sprite/playersprite.png"));
         player_up = new BufferedImage[4];
         player_down = new BufferedImage[4];

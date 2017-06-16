@@ -22,7 +22,7 @@ public class Berry extends Item{
     private int type;
     
     public Berry(int id, String name, int type) {
-        super(name, 2, true);
+        super(name, 2, true, "", "", 0, 0);
         this.type = type;
     }
     
@@ -39,5 +39,10 @@ public class Berry extends Item{
     @Override
     public void use(Pokemon p){
         
+    }
+    
+    @Override
+    public float battleUse(Pokemon player, Pokemon enemy){
+        return 0;
     }
 }

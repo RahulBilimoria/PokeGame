@@ -6,7 +6,6 @@
 package pokegame.item.potion;
 
 import pokegame.item.Item;
-import pokegame.pokemon.Pokemon;
 
 /**
  *
@@ -27,7 +26,7 @@ public abstract class Potion extends Item{
     private int typeOfPotion;
     
     public Potion(String name, int typeOfPotion, boolean battleUse) {
-        super(name, 0, battleUse);
+        super(name, 0, battleUse, "", "", 0, 0);
         this.typeOfPotion = typeOfPotion;
     }
     
@@ -41,6 +40,5 @@ public abstract class Potion extends Item{
     public int getType(){
         return typeOfPotion;
     }
-    
-    public abstract void use(Pokemon p);
+        
 }

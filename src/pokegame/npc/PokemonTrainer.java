@@ -13,8 +13,8 @@ import pokegame.handler.Handler;
  */
 public class PokemonTrainer extends NPC{
     
-    public PokemonTrainer(Handler handler, float x, float y, int width, int height, int distanceToCenter) {
-        super(handler, x, y, width, height, distanceToCenter, false, true);
+    public PokemonTrainer(Handler handler, float x, float y, int distanceToCenter) {
+        super(handler, x, y, distanceToCenter, false, true);
     }
     
 }

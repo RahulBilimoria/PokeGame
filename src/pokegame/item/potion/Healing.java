@@ -60,4 +60,9 @@ public class Healing extends Potion{
             }
         }
     }
+    
+    @Override
+    public float battleUse(Pokemon player, Pokemon enemy){
+        return 0;
+    }
 }
