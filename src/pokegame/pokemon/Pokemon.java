@@ -181,7 +181,6 @@ public class Pokemon {
     private Moveset moveset;
     private Nature nature;
     private Status status;
-    private int statusCode;
     private Item heldItem;
     private ArrayList<Move> learnableMoves; //make it so you can learn moves if you accidently skip a level in a battle
 
@@ -202,7 +201,7 @@ public class Pokemon {
         this.moveset = moveset;
         this.myExp = 0;
         this.expToLevel = EXP[p.getExpType()][level];
-        this.status = new Status();
+        this.status = Status.NORMAL;
         tpPoints = 0;
         friendship = 0;
         friendshipRate = 1;
@@ -233,7 +232,7 @@ public class Pokemon {
         this.tpPoints = data[12];
         this.nickname = data[13] + "";
         this.nature = Nature.NATURE_LIST[0];//Nature.NATURE_LIST[data[14]];
-        this.status = new Status();
+        this.status = Status.NORMAL;
         this.moveset = new Moveset(data[17], data[19], data[21], data[23]);
         for (int x = 0; x < 4; x++) {
             moveset.setMovePP(x, data[18 + 2 * x]);
@@ -452,6 +451,14 @@ public class Pokemon {
         this.speed += speed;
     }
     
+    public void addLevel(int levels){
+        level+=levels; // might have to change for learning moves to work properly
+        addTp(3 * levels);
+        expToLevel = EXP[POKEMON_LIST[id].getExpType()][level];
+        h.getGame().addText(POKEMON_LIST[id].getName() + " has leveled up!\n", Color.green);
+        checkLevelUp();
+    }
+    
     public void setFriendship(int amount){
         this.friendship = amount;
     }
@@ -460,16 +467,16 @@ public class Pokemon {
         this.friendshipRate = value;
     }
 
-    public String getStatus() {
-        return "Status";
-    }
-
-    public int getStatusInt() {
-        return 1;
+    public Status getStatus() {
+        return status;
     }
     
-    public void setStatus(int statusCode){
-        this.statusCode = statusCode;
+    public void setStatus(Status status){
+        this.status = status;
+    }
+    
+    public void restoreMovePP(int amount){
+        moveset.restoreDepleted(amount);
     }
 
     public String getNature() {

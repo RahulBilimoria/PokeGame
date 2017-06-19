@@ -106,6 +106,17 @@ public class Moveset {
 
         }
     }
+    
+    public void restoreDepleted(int amount){
+        if (move1.getPP() == 0)
+            move1.setPP(amount);
+        else if (move2.getPP() == 0)
+            move2.setPP(amount);
+        else if (move3.getPP() == 0)
+            move3.setPP(amount);
+        else if (move4.getPP() == 0)
+            move4.setPP(amount);
+    }
 
     public Move getMove1() {
         return move1;

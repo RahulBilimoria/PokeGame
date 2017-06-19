@@ -1,5 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Berries>
     <Berry>
-        
+        <ID>0</ID>
+        <Name>Cheri Berry</Name>
+        <Icon>
+            <x>2</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Cures paralysis.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can recover from paralysis on its own in battle.</Description>
+        <Condition>0</Condition>
+    </Berry>
+    <Berry>
+        <ID>1</ID>
+        <Name>Chesto Berry</Name>
+        <Icon>
+            <x>3</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Cures sleep.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can recover from sleep on its own in battle.</Description>
+        <Condition>1</Condition>
+    </Berry>
+    <Berry>
+        <ID>2</ID>
+        <Name>Pecha Berry</Name>
+        <Icon>
+            <x>4</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Cures poison.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can recover from poisoning on its own in battle.</Description>
+        <Condition>2</Condition>
+    </Berry>
+    <Berry>
+        <ID>3</ID>
+        <Name>Rawst Berry</Name>
+        <Icon>
+            <x>5</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Cures burn.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can recover from a burn on its own in battle.</Description>
+        <Condition>3</Condition>
+    </Berry>
+    <Berry>
+        <ID>4</ID>
+        <Name>Aspear Berry</Name>
+        <Icon>
+            <x>6</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Cures freeze.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can recover from being frozen on its own in battle.</Description>
+        <Condition>4</Condition>
+    </Berry>
+    <Berry>
+        <ID>5</ID>
+        <Name>Leppa Berry</Name>
+        <Icon>
+            <x>7</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Restores 10 PP.</Effect>
+        <Description>A Berry to be consumed by a Pokémon. If a Pokémon holds one, it can restore 10 PP to a depleted move during battle.</Description>
+        <Condition>5</Condition>
+    </Berry>
+    <Berry>
+        <ID>6</ID>
+        <Name>Oran Berry</Name>
+        <Icon>
+            <x>8</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Restores 10 HP.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can restore its own HP by 10 points during battle.</Description>
+        <Condition>6</Condition>
+    </Berry>
+    <Berry>
+        <ID>7</ID>
+        <Name>Persim Berry</Name>
+        <Icon>
+            <x>9</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Cures confusion.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can recover from confusion on its own in battle.</Description>
+        <Condition>7</Condition>
+    </Berry>
+    <Berry>
+        <ID>8</ID>
+        <Name>Lum Berry</Name>
+        <Icon>
+            <x>10</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Cures any status condition and confusion.</Effect>
+        <Description>A berry to be consumed by a Pokémon. If a Pokémon holds one, it can recover from any status condition during battle.</Description>
+        <Condition>8</Condition>
+    </Berry>
+    <Berry>
+        <ID>9</ID>
+        <Name>Sitrus Berry</Name>
+        <Icon>
+            <x>11</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Restores 25% HP.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it can restore its own HP by a small amount during battle.</Description>
+        <Condition>9</Condition>
+    </Berry>
+    <Berry>
+        <ID>10</ID>
+        <Name>Figy Berry</Name>
+        <Icon>
+            <x>12</x>
+            <y>3</y>
+        </Icon>
+        <Effect>When HP falls below 25%, restores 50% HP, but confuses Pokémon that dislike spicy food.</Effect>
+        <Description>If held by a Pokémon, it restores the user's HP in a pinch, but it will cause confusion if the user hates the taste.</Description>
+        <Condition>10</Condition>
+    </Berry>
+    <Berry>
+        <ID>11</ID>
+        <Name>Wiki Berry</Name>
+        <Icon>
+            <x>13</x>
+            <y>3</y>
+        </Icon>
+        <Effect>When HP falls below 25%, restores 50% HP, but confuses Pokémon that dislike dry food.</Effect>
+        <Description>If held by a Pokémon, it restores the user's HP in a pinch, but it will cause confusion if the user hates the taste.</Description>
+        <Condition>11</Condition>
+    </Berry>
+    <Berry>
+        <ID>12</ID>
+        <Name>Mago Berry</Name>
+        <Icon>
+            <x>14</x>
+            <y>3</y>
+        </Icon>
+        <Effect>When HP falls below 25%, restores 50% HP, but confuses Pokémon that dislike sweet food.</Effect>
+        <Description>If held by a Pokémon, it restores the user's HP in a pinch, but it will cause confusion if the user hates the taste.</Description>
+        <Condition>12</Condition>
+    </Berry>
+    <Berry>
+        <ID>13</ID>
+        <Name>Aguav Berry</Name>
+        <Icon>
+            <x>15</x>
+            <y>3</y>
+        </Icon>
+        <Effect>When HP falls below 25%, restores 50% HP, but confuses Pokémon that dislike bitter food.</Effect>
+        <Description>If held by a Pokémon, it restores the user's HP in a pinch, but it will cause confusion if the user hates the taste.</Description>
+        <Condition>13</Condition>
+    </Berry>
+    <Berry>
+        <ID>14</ID>
+        <Name>Iapapa Berry</Name>
+        <Icon>
+            <x>16</x>
+            <y>3</y>
+        </Icon>
+        <Effect>When HP falls below 25%, restores 50% HP, but confuses Pokémon that dislike sour food.</Effect>
+        <Description>If held by a Pokémon, it restores the user's HP in a pinch, but it will cause confusion if the user hates the taste.</Description>
+        <Condition>14</Condition>
+    </Berry>
+    <Berry>
+        <ID>15</ID>
+        <Name>Razz Berry</Name>
+        <Icon>
+            <x>17</x>
+            <y>3</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>16</ID>
+        <Name>Bluk Berry</Name>
+        <Icon>
+            <x>18</x>
+            <y>3</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>17</ID>
+        <Name>Nanab Berry</Name>
+        <Icon>
+            <x>19</x>
+            <y>3</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>18</ID>
+        <Name>Wepear Berry</Name>
+        <Icon>
+            <x>20</x>
+            <y>3</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>19</ID>
+        <Name>Pinap Berry</Name>
+        <Icon>
+            <x>21</x>
+            <y>3</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>20</ID>
+        <Name>Pomeg Berry</Name>
+        <Icon>
+            <x>22</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Lowers HP EVs, raises friendship.</Effect>
+        <Description>A Berry to be consumed by Pokémon. Using it on a Pokémon makes it more friendly but lowers its base HP.</Description>
+        <Condition>16</Condition>
+    </Berry>
+    <Berry>
+        <ID>21</ID>
+        <Name>Kelpsy Berry</Name>
+        <Icon>
+            <x>23</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Lowers Attack EVs, raises friendship.</Effect>
+        <Description>A Berry to be consumed by Pokémon. Using it on a Pokémon makes it more friendly but lowers its base Attack.</Description>
+        <Condition>17</Condition>
+    </Berry>
+    <Berry>
+        <ID>22</ID>
+        <Name>Qualot Berry</Name>
+        <Icon>
+            <x>24</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Lowers Defense EVs, raises friendship.</Effect>
+        <Description>A Berry to be consumed by Pokémon. Using it on a Pokémon makes it more friendly but lowers its base Defense.</Description>
+        <Condition>18</Condition>
+    </Berry>
+    <Berry>
+        <ID>23</ID>
+        <Name>Hondew Berry</Name>
+        <Icon>
+            <x>25</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Lowers Special Attack EVs, raises friendship.</Effect>
+        <Description>A Berry to be consumed by Pokémon. Using it on a Pokémon makes it more friendly but lowers its base Sp. Atk.</Description>
+        <Condition>19</Condition>
+    </Berry>
+    <Berry>
+        <ID>24</ID>
+        <Name>Grepa Berry</Name>
+        <Icon>
+            <x>26</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Lowers Special Defense EVs, raises friendship.</Effect>
+        <Description>A Berry to be consumed by Pokémon. Using it on a Pokémon makes it more friendly but lowers its base Sp. Def.</Description>
+        <Condition>20</Condition>
+    </Berry>
+    <Berry>
+        <ID>25</ID>
+        <Name>Tamato Berry</Name>
+        <Icon>
+            <x>27</x>
+            <y>3</y>
+        </Icon>
+        <Effect>Lowers Speed EVs, raises friendship.</Effect>
+        <Description>A Berry to be consumed by Pokémon. Using it on a Pokémon makes it more friendly but lowers its base Speed.</Description>
+        <Condition>21</Condition>
+    </Berry>
+    <Berry>
+        <ID>26</ID>
+        <Name>Cornn Berry</Name>
+        <Icon>
+            <x>0</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>27</ID>
+        <Name>Magost Berry</Name>
+        <Icon>
+            <x>1</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>28</ID>
+        <Name>Rabuta Berry</Name>
+        <Icon>
+            <x>2</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>29</ID>
+        <Name>Nomel Berry</Name>
+        <Icon>
+            <x>3</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>30</ID>
+        <Name>Spelon Berry</Name>
+        <Icon>
+            <x>4</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>31</ID>
+        <Name>Pamtre Berry</Name>
+        <Icon>
+            <x>5</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>32</ID>
+        <Name>Watmel Berry</Name>
+        <Icon>
+            <x>6</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>33</ID>
+        <Name>Durin Berry</Name>
+        <Icon>
+            <x>7</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>34</ID>
+        <Name>Belue Berry</Name>
+        <Icon>
+            <x>8</x>
+            <y>4</y>
+        </Icon>
+        <Effect>No effect.</Effect>
+        <Description>A Berry to be used in cooking. This Berry is very rare and hard to obtain in the Unova region.</Description>
+        <Condition>15</Condition>
+    </Berry>
+    <Berry>
+        <ID>35</ID>
+        <Name>Occa Berry</Name>
+        <Icon>
+            <x>9</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Fire-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Fire-type attack.</Description>
+        <Condition>22</Condition>
+    </Berry>
+    <Berry>
+        <ID>36</ID>
+        <Name>Passho Berry</Name>
+        <Icon>
+            <x>10</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Water-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Water-type attack.</Description>
+        <Condition>23</Condition>
+    </Berry>
+    <Berry>
+        <ID>37</ID>
+        <Name>Wacan Berry</Name>
+        <Icon>
+            <x>11</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Electric-type move.</Effect>
+        <Description>If held by a Pokémon, this berry will lessen the damage taken from one supereffective Electric-type attack.</Description>
+        <Condition>24</Condition>
+    </Berry>
+    <Berry>
+        <ID>38</ID>
+        <Name>Rindo Berry</Name>
+        <Icon>
+            <x>12</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Grass-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Grass-type attack.</Description>
+        <Condition>25</Condition>
+    </Berry>
+    <Berry>
+        <ID>39</ID>
+        <Name>Yache Berry</Name>
+        <Icon>
+            <x>13</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Ice-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Ice-type attack.</Description>
+        <Condition>26</Condition>
+    </Berry>
+    <Berry>
+        <ID>40</ID>
+        <Name>Chople Berry</Name>
+        <Icon>
+            <x>14</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Fighting-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Fighting-type attack.</Description>
+        <Condition>27</Condition>
+    </Berry>
+    <Berry>
+        <ID>41</ID>
+        <Name>Kebia Berry</Name>
+        <Icon>
+            <x>15</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Poison-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Poison-type attack.</Description>
+        <Condition>28</Condition>
+    </Berry>
+    <Berry>
+        <ID>42</ID>
+        <Name>Shuca Berry</Name>
+        <Icon>
+            <x>16</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Ground-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Ground-type attack.</Description>
+        <Condition>29</Condition>
+    </Berry>
+    <Berry>
+        <ID>43</ID>
+        <Name>Coba Berry</Name>
+        <Icon>
+            <x>17</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Flying-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Flying-type attack.</Description>
+        <Condition>30</Condition>
+    </Berry>
+    <Berry>
+        <ID>44</ID>
+        <Name>Payapa Berry</Name>
+        <Icon>
+            <x>18</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Psychic-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Psychic-type attack.</Description>
+        <Condition>31</Condition>
+    </Berry>
+    <Berry>
+        <ID>45</ID>
+        <Name>Tanga Berry</Name>
+        <Icon>
+            <x>19</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Bug-type move.</Effect>
+        <Description>If held by a Pokémon, this berry will lessen the damage taken from one supereffective Bug-type attack.</Description>
+        <Condition>32</Condition>
+    </Berry>
+    <Berry>
+        <ID>46</ID>
+        <Name>Charti Berry</Name>
+        <Icon>
+            <x>20</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Rock-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Rock-type attack.</Description>
+        <Condition>33</Condition>
+    </Berry>
+    <Berry>
+        <ID>47</ID>
+        <Name>Kasib Berry</Name>
+        <Icon>
+            <x>21</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Ghost-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Ghost-type attack.</Description>
+        <Condition>34</Condition>
+    </Berry>
+    <Berry>
+        <ID>48</ID>
+        <Name>Haban Berry</Name>
+        <Icon>
+            <x>22</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Dragon-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Dragon-type attack.</Description>
+        <Condition>35</Condition>
+    </Berry>
+    <Berry>
+        <ID>49</ID>
+        <Name>Colbur Berry</Name>
+        <Icon>
+            <x>23</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Dark-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Dark-type attack.</Description>
+        <Condition>36</Condition>
+    </Berry>
+    <Berry>
+        <ID>50</ID>
+        <Name>Babiri Berry</Name>
+        <Icon>
+            <x>24</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Steel-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Steel-type attack.</Description>
+        <Condition>37</Condition>
+    </Berry>
+    <Berry>
+        <ID>51</ID>
+        <Name>Chilan Berry</Name>
+        <Icon>
+            <x>25</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a Normal-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one Normal-type attack.</Description>
+        <Condition>38</Condition>
+    </Berry>
+    <Berry>
+        <ID>52</ID>
+        <Name>Liechi Berry</Name>
+        <Icon>
+            <x>26</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Raises Attack when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, its Attack stat will increase when it's in a pinch.</Description>
+        <Condition>39</Condition>
+    </Berry>
+    <Berry>
+        <ID>53</ID>
+        <Name>Ganlol Berry</Name>
+        <Icon>
+            <x>27</x>
+            <y>4</y>
+        </Icon>
+        <Effect>Raises Defense when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, its Defense stat will increase when it's in a pinch.</Description>
+        <Condition>40</Condition>
+    </Berry>
+    <Berry>
+        <ID>54</ID>
+        <Name>Salac Berry</Name>
+        <Icon>
+            <x>0</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Raises Speed when HP falls below 25%.</Effect>
+        <Description>A Berry to be held by Pokémon. If a Pokémon holds one, its Speed stat will increase when it's in a pinch.</Description>
+        <Condition>41</Condition>
+    </Berry>
+    <Berry>
+        <ID>55</ID>
+        <Name>Petaya Berry</Name>
+        <Icon>
+            <x>1</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Raises Special Attack when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, its Sp. Atk stat will increase when it's in a pinch.</Description>
+        <Condition>42</Condition>
+    </Berry>
+    <Berry>
+        <ID>56</ID>
+        <Name>Apicot Berry</Name>
+        <Icon>
+            <x>2</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Raises Special Defense when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, its Sp. Def stat will increase when it's in a pinch.</Description>
+        <Condition>43</Condition>
+    </Berry>
+    <Berry>
+        <ID>57</ID>
+        <Name>Lansat Berry</Name>
+        <Icon>
+            <x>3</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Raises critical hit ratio when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, its critical-hit ratio will increase when it's in a pinch.</Description>
+        <Condition>44</Condition>
+    </Berry>
+    <Berry>
+        <ID>58</ID>
+        <Name>Starf Berry</Name>
+        <Icon>
+            <x>4</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Sharply raises a random stat when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, one of its stats will sharply increase when it's in a pinch.</Description>
+        <Condition>45</Condition>
+    </Berry>
+    <Berry>
+        <ID>59</ID>
+        <Name>Enigma Berry</Name>
+        <Icon>
+            <x>5</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Restores holder's HP if hit by a supereffective move.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, being hit by a supereffective attack will restore its HP.</Description>
+        <Condition>46</Condition>
+    </Berry>
+    <Berry>
+        <ID>60</ID>
+        <Name>Micle Berry</Name>
+        <Icon>
+            <x>6</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Raises the accuracy of one move when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, its accuracy will increase just once when it’s in a pinch.</Description>
+        <Condition>47</Condition>
+    </Berry>
+    <Berry>
+        <ID>61</ID>
+        <Name>Custap Berry</Name>
+        <Icon>
+            <x>7</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Causes the holder to go first once when HP falls below 25%.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a Pokémon holds one, it will be able to move first just once when it's in a pinch.</Description>
+        <Condition>48</Condition>
+    </Berry>
+    <Berry>
+        <ID>62</ID>
+        <Name>Jaboca Berry</Name>
+        <Icon>
+            <x>8</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Damages a Pokémon that hits the holder with a physical move.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a physical attack hits the Pokémon holding it, the attacker will also be hurt.</Description>
+        <Condition>49</Condition>
+    </Berry>
+    <Berry>
+        <ID>63</ID>
+        <Name>Rowap Berry</Name>
+        <Icon>
+            <x>9</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Damages a Pokémon that hits the holder with a special move.</Effect>
+        <Description>A Berry to be consumed by Pokémon. If a special attack hits the Pokémon holding it, the attacker will also be hurt.</Description>
+        <Condition>50</Condition>
+    </Berry>
+    <Berry>
+        <ID>64</ID>
+        <Name>Roseli Berry</Name>
+        <Icon>
+            <x>10</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Decreases damage taken by the holder from a supereffective Fairy-type move.</Effect>
+        <Description>If held by a Pokémon, this Berry will lessen the damage taken from one supereffective Fairy-type attack.</Description>
+        <Condition>51</Condition>
+    </Berry>
+    <Berry>
+        <ID>65</ID>
+        <Name>Kee Berry</Name>
+        <Icon>
+            <x>11</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Raises Defense if holder is hit by a physical move.</Effect>
+        <Description>If held by a Pokémon, this Berry will increase the holder’s Defense if it’s hit with a physical move.</Description>
+        <Condition>52</Condition>
+    </Berry>
+    <Berry>
+        <ID>66</ID>
+        <Name>Maranga Berry</Name>
+        <Icon>
+            <x>12</x>
+            <y>5</y>
+        </Icon>
+        <Effect>Raises Special Defense if holder is hit by a special move.</Effect>
+        <Description>If held by a Pokémon, this Berry will increase the holder’s Sp. Def if it’s hit with a special move.</Description>
+        <Condition>53</Condition>
     </Berry>
 </Berries>

@@ -25,8 +25,8 @@ public abstract class Potion extends Item{
 
     private int typeOfPotion;
     
-    public Potion(String name, int typeOfPotion, boolean battleUse) {
-        super(name, 0, battleUse, "", "", 0, 0);
+    public Potion(String name, int typeOfPotion, boolean battleUse, String effect, String description, int x, int y) {
+        super(name, 0, battleUse, effect, description, x, y);
         this.typeOfPotion = typeOfPotion;
     }
     

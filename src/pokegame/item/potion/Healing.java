@@ -5,8 +5,13 @@
  */
 package pokegame.item.potion;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import pokegame.item.Item;
 import pokegame.pokemon.Pokemon;
+import pokegame.pokemon.status.Status;
+import pokegame.utils.DocumentParser;
 import pokegame.utils.Utils;
 
 /**
@@ -22,15 +27,15 @@ public class Healing extends Potion{
     private int healAmount;
     private int typeOfCondition;
     
-    public Healing(int id, String name, int healAmount, int typeOfCondition) {
-        super(name, 0, true);
+    public Healing(int id, String name, int healAmount, int typeOfCondition, String effect, String description, int x, int y) {
+        super(name, 0, true, effect, description, x, y);
         this.id = id;
         this.healAmount = healAmount;
         this.typeOfCondition = typeOfCondition;
     }
     
     public static void init(){
-        String file = Utils.loadFileAsString("dat/item/medicine/Healing.dat");
+        /*String file = Utils.loadFileAsString("dat/item/medicine/Healing.dat");
         String data[] = file.split("\\s+");
         for (int x = 0; x < ITEM_COUNT; x++){
             int i = x*4;
@@ -38,6 +43,21 @@ public class Healing extends Potion{
                     data[i+1].replaceAll("_", " "),
                     Utils.parseInt(data[i+2]),
                     Utils.parseInt(data[i+3]));
+        }*/
+        Document d = DocumentParser.loadDataFile("dat/item/medicine/Healing.xml");
+        NodeList list = d.getElementsByTagName("Item");
+        for (int temp = 0; temp < list.getLength(); temp++) {
+            Element element = (Element) (list.item(temp));
+            Element icon = (Element) (element.getElementsByTagName("Icon").item(0));
+            healingItems[temp] = new Healing(
+            Utils.parseInt(element.getElementsByTagName("ID").item(0).getTextContent()),
+            element.getElementsByTagName("Name").item(0).getTextContent(),
+            Utils.parseInt(element.getElementsByTagName("HealAmount").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("Condition").item(0).getTextContent()),
+            element.getElementsByTagName("Effect").item(0).getTextContent(),
+            element.getElementsByTagName("Description").item(0).getTextContent(),
+            Utils.parseInt(icon.getElementsByTagName("x").item(0).getTextContent()),
+            Utils.parseInt(icon.getElementsByTagName("y").item(0).getTextContent()));
         }
     }
     
@@ -50,7 +70,7 @@ public class Healing extends Potion{
         if (p.getHp() > 0){
             p.heal(healAmount);
             if (typeOfCondition == 1){
-                p.setStatus(0);
+                p.setStatus(Status.NORMAL);
             }
         } else {
             if (typeOfCondition == 2){

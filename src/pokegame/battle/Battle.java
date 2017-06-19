@@ -207,7 +207,7 @@ public class Battle {
     }
 
     public void usePokeball(Pokeball pokeball) {
-        int a = (int) (((3 * enemy.getMaxHp() - 2 * enemy.getHp()) * enemy.getCatchRate() * pokeball.getCatchRate()) / (3 * enemy.getMaxHp())) * enemy.getStatusInt();
+        int a = (int) (((3 * enemy.getMaxHp() - 2 * enemy.getHp()) * enemy.getCatchRate() * pokeball.getCatchRate()) / (3 * enemy.getMaxHp())) * enemy.getStatus().getId();
         int b = 1048560 / (int) Math.sqrt(Math.sqrt(16711680 / a));
         for (int x = 0; x < 3; x++) {
             int y = (int) (Math.random() * 65535 * 1000);

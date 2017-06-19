@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StatusCondition>
+    <Item>
+        <ID>0</ID>
+        <Name>Antidote</Name>
+        <Icon>
+            <x>20</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to heal poisoning.</Effect>
+        <Description>A spray-type medicine for poisoning. It can be used once to lift the effects of being poisoned from a Pokémon.</Description>
+        <Condition>0</Condition>
+    </Item>
+    <Item>
+        <ID>1</ID>
+        <Name>Paralyze Heal</Name>
+        <Icon>
+            <x>21</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to heal paralysis.</Effect>
+        <Description>A spray-type medicine for paralysis. It can be used once to free a Pokémon that has been paralyzed.</Description>
+        <Condition>1</Condition>
+    </Item>
+    <Item>
+        <ID>2</ID>
+        <Name>Awakening</Name>
+        <Icon>
+            <x>22</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to wake a sleeping Pokémon up.</Effect>
+        <Description>A spray-type medicine used against sleep. It can be used once to rouse a Pokémon from the clutches of sleep.</Description>
+        <Condition>2</Condition>
+    </Item>
+    <Item>
+        <ID>3</ID>
+        <Name>Burn Heal</Name>
+        <Icon>
+            <x>23</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to heal a burn.</Effect>
+        <Description>A spray-type medicine for treating burns. It can be used once to heal a Pokemon suffering from a burn.</Description>
+        <Condition>3</Condition>
+    </Item>
+    <Item>
+        <ID>4</ID>
+        <Name>Ice Heal</Name>
+        <Icon>
+            <x>24</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to defrost a frozen Pokémon.</Effect>
+        <Description>A spray-type medicine for freezing. It can be used once to defrost a Pokémon that has been frozen solid.</Description>
+        <Condition>4</Condition>
+    </Item>
+    <Item>
+        <ID>5</ID>
+        <Name>Full Heal</Name>
+        <Icon>
+            <x>25</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>A spray-type medicine that is broadly effective. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>6</ID>
+        <Name>Rage Candy Bar</Name>
+        <Icon>
+            <x>26</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>Mahogany Town's famous candy. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>7</ID>
+        <Name>Lava Cookie</Name>
+        <Icon>
+            <x>27</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>Lavaridge Town's local specialty. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>8</ID>
+        <Name>Old Gateau</Name>
+        <Icon>
+            <x>0</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>The Old Chateau's hidden specialty. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>9</ID>
+        <Name>Casteliacone</Name>
+        <Icon>
+            <x>1</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>Castelia City's specialty, soft-serve ice cream. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>10</ID>
+        <Name>Lumiose Galette</Name>
+        <Icon>
+            <x>2</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>A popular treat in Lumiose City. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>11</ID>
+        <Name>Shalour Sable</Name>
+        <Icon>
+            <x>3</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>Shalour City's famous shortbread. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>12</ID>
+        <Name>Big Malasada</Name>
+        <Icon>
+            <x>4</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Used to heal poison, paralysis, sleep, burn, freeze, and confusion.</Effect>
+        <Description>The Alola region's local specialty—fried bread. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>5</Condition>
+    </Item>
+    <Item>
+        <ID>13</ID>
+        <Name>Heal Powder</Name>
+        <Icon>
+            <x>5</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Heals all status problems on a Pokémon but lowers friendship.</Effect>
+        <Description>A very bitter medicinal powder. It can be used once to heal all the status conditions of a Pokémon.</Description>
+        <Condition>6</Condition>
+    </Item>
+</StatusCondition>

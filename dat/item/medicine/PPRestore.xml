@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PPRestore>
+    <Item>
+        <ID>0</ID>
+        <Name>Ether</Name>
+        <Icon>
+            <x>16</x>
+            <y>1</y>
+        </Icon>
+        <Effect>When used from the Bag on a Pokémon, it fully restores 10 PP for one of its moves.</Effect>
+        <Description>This medicine can restore 10 PP to a single selected move that has been learned by a Pokémon.</Description>
+        <Condition>0</Condition>
+        <RestoreAmount>10</RestoreAmount>
+    </Item>
+    <Item>
+        <ID>1</ID>
+        <Name>Max Ether</Name>
+        <Icon>
+            <x>17</x>
+            <y>1</y>
+        </Icon>
+        <Effect>When used from the Bag on a Pokémon, it fully restores the PP of one of its moves.</Effect>
+        <Description>This medicine can fully restore the PP of a single selected move that has been learned by a Pokémon.</Description>
+        <Condition>0</Condition>
+        <RestoreAmount>999</RestoreAmount>
+    </Item>
+    <Item>
+        <ID>2</ID>
+        <Name>Elixir</Name>
+        <Icon>
+            <x>18</x>
+            <y>1</y>
+        </Icon>
+        <Effect>When used from the Bag on a Pokémon, it restores 10 PP to all of its moves.</Effect>
+        <Description>This medicine can restore 10 PP to each of the moves that have been learned by a Pokémon.</Description>
+        <Condition>1</Condition>
+        <RestoreAmount>10</RestoreAmount>
+    </Item>
+    <Item>
+        <ID>3</ID>
+        <Name>Max Elixir</Name>
+        <Icon>
+            <x>19</x>
+            <y>1</y>
+        </Icon>
+        <Effect>When used from the Bag on a Pokémon, it fully restores the PP of all of its moves.</Effect>
+        <Description>This medicine can fully restore the PP of all of the moves that have been learned by a Pokémon.</Description>
+        <Condition>1</Condition>
+        <RestoreAmount>999</RestoreAmount>
+    </Item>
+</PPRestore>

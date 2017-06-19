@@ -7,6 +7,7 @@ package pokegame.item;
 
 import java.awt.image.BufferedImage;
 import pokegame.gfx.Asset;
+import pokegame.item.berry.Berry;
 import pokegame.item.pokeball.Pokeball;
 import pokegame.item.potion.Potion;
 import pokegame.pokemon.Pokemon;
@@ -49,7 +50,7 @@ public abstract class Item {
     public static void init(){
         Potion.init();
         Pokeball.init();
-        //Berry.init();
+        Berry.init();
     }
     
     public int getItemID(){

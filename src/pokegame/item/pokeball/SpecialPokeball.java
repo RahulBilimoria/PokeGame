@@ -9,7 +9,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import pokegame.item.Item;
-import static pokegame.item.pokeball.Pokeball.pokeballs;
 import pokegame.pokemon.Pokemon;
 import pokegame.type.Type;
 import pokegame.utils.DocumentParser;

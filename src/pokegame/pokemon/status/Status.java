@@ -11,18 +11,27 @@ package pokegame.pokemon.status;
  */
 public class Status {
     
+    public static final Status NORMAL = new Status(0, "Normal");
+    public static final Status POISONED = new Status(1, "Poisoned");
+    public static final Status PARALYZED = new Status(2, "Paralyzed");
+    public static final Status SLEEP = new Status(3, "Sleep");
+    public static final Status BURN = new Status(4, "Burn");
+    public static final Status FROZEN = new Status(5, "Frozen");
+    public static final Status CONFUSION = new Status(6, "Confusion");
+    
     private int id;
     private String name;
     
-    public Status(){
+    public Status(int id, String name){
         this.id = 0;
-    }
-    
-    public static void init(){
-        
+        this.name = name;
     }
     
     public int getId(){
         return id;
+    }
+    
+    public String getName(){
+        return name;
     }
 }

@@ -31,12 +31,8 @@ public class DocumentParser {
            return document;
         } catch (FileNotFoundException e){
             e.printStackTrace();
-            System.out.println("File Not Found");
-        } catch (ParserConfigurationException e){
-            
-        } catch (SAXException e){
-            
-        } catch (IOException e){
+            //System.out.println("File Not Found");
+        } catch (ParserConfigurationException | SAXException | IOException e){
             
         }
         
