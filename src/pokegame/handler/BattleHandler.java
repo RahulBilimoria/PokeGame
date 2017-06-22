@@ -63,19 +63,19 @@ public class BattleHandler implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bs.getMove1()) {
-            battle.damage(0);
+            battle.roundStart(0);
             battle.useMove(0);
             bs.updateMoveLabels(bs.getMove1(), 0);
         } else if (e.getSource() == bs.getMove2()) {
-            battle.damage(1);
+            battle.roundStart(1);
             battle.useMove(1);
             bs.updateMoveLabels(bs.getMove2(), 1);
         } else if (e.getSource() == bs.getMove3()) {
-            battle.damage(2);
+            battle.roundStart(2);
             battle.useMove(2);
             bs.updateMoveLabels(bs.getMove3(), 2);
         } else if (e.getSource() == bs.getMove4()) {
-            battle.damage(3);
+            battle.roundStart(3);
             battle.useMove(3);
             bs.updateMoveLabels(bs.getMove4(), 3);
         } else if (e.getSource() == bs.getBag()) {
@@ -92,37 +92,37 @@ public class BattleHandler implements ActionListener, MouseListener {
             battle.changePokemon(0);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.damage(-1);
+                battle.roundStart(-1);
             }
         } else if (e.getSource() == bs.getLabel(1)) {
             battle.changePokemon(1);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.damage(-1);
+                battle.roundStart(-1);
             }
         } else if (e.getSource() == bs.getLabel(2)) {
             battle.changePokemon(2);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.damage(-1);
+                battle.roundStart(-1);
             }
         } else if (e.getSource() == bs.getLabel(3)) {
             battle.changePokemon(3);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.damage(-1);
+                battle.roundStart(-1);
             }
         } else if (e.getSource() == bs.getLabel(4)) {
             battle.changePokemon(4);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.damage(-1);
+                battle.roundStart(-1);
             }
         } else if (e.getSource() == bs.getLabel(5)) {
             battle.changePokemon(5);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.damage(-1);
+                battle.roundStart(-1);
             }
         } else {
             JLabel label = (JLabel)e.getSource();

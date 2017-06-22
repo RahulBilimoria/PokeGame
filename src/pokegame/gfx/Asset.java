@@ -21,6 +21,9 @@ public class Asset {
     public static BufferedImage[] player_left;
     public static BufferedImage[] player_right;
     public static SpriteSheet[] tileSheets = new SpriteSheet[TILESHEET_COUNT];
+    public static Sprites sprites;
+    public static SpriteSheet portraits;
+    public static SpriteSheet portraitBackgrounds;
     public static SpriteSheet playerSheet;
     public static SpriteSheet itemSheet;
 
@@ -29,6 +32,9 @@ public class Asset {
             tileSheets[x] = new SpriteSheet(ImageLoader.loadImage("/sprite/spritesheet" + (x + 1) + ".png"));
         }
         itemSheet = new SpriteSheet(ImageLoader.loadImage("/sprite/items.png"), 32, 32);
+        sprites = new Sprites(ImageLoader.loadImage("/sprite/sprites.png"), 32, 64);
+        portraits = new SpriteSheet(ImageLoader.loadImage("/sprite/portraits.png"), 128, 192);
+        portraitBackgrounds = new SpriteSheet(ImageLoader.loadImage("/sprite/portraitbackgrounds.png"), 146, 192);
         playerSheet = new SpriteSheet(ImageLoader.loadImage("/sprite/playersprite.png"));
         player_up = new BufferedImage[4];
         player_down = new BufferedImage[4];

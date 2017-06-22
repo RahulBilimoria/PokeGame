@@ -50,6 +50,13 @@ public class Nature {
         return NATURE_LIST[(int)(Math.random()*25)];
     }
     
+    public static Nature getNatureById(int id){
+        if (id >= 0 && id < 25){
+            return NATURE_LIST[id];
+        }
+        return NATURE_LIST[0];
+    }
+    
     public int getId() {
         return id;
     }

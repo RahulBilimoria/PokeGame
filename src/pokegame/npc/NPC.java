@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 import pokegame.entity.Person;
+import pokegame.entity.player.Player;
 import pokegame.gfx.Animation;
 import pokegame.gfx.Asset;
 import pokegame.handler.Handler;
@@ -20,12 +21,16 @@ import pokegame.tiles.Tile;
  */
 public class NPC extends Person {
 
-    protected String name;
-    
+    protected int id; // The id of the npc
+    protected String name; // The name of the npc
+    protected int type; // Type of npc
+
+    protected int portraitID;
     protected int centerX, centerY; // center that the NPC will 'revolve' around
     protected int distanceFromCenter; // distance in tiles NPC can walk from center
     protected int direction; // direction npc is walking in
     protected boolean isSolid; // can other players walk through them
+    protected boolean canTurn; // can this NPC turn to look around
     protected boolean canMove; // can this NPC move from the center
     protected Animation up, down, left, right; // The NPCs sprites
     private boolean idle; // is this npc moving
@@ -37,23 +42,27 @@ public class NPC extends Person {
     //Story NPCs
     //Battle NPCs
     //Will add more as i think of them
-    public NPC(Handler handler, float x, float y, int distanceFromCenter,
-            boolean isSolid, boolean canMove) {
+    public NPC(Handler handler, int type, int id, String name, int spriteId, int portraitID, int direction, float x, float y, int distanceFromCenter,
+            boolean canTurn, boolean canMove, boolean isSolid) {
         super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
+        this.type = type;
+        this.id = id;
+        this.name = name;
         centerX = xTile;
         centerY = yTile;
         this.distanceFromCenter = distanceFromCenter;
         this.isSolid = isSolid;
+        this.canTurn = canTurn;
         this.canMove = canMove;
-        up = new Animation(400, Asset.player_up);
-        down = new Animation(400, Asset.player_down);
-        left = new Animation(400, Asset.player_left);
-        right = new Animation(400, Asset.player_right);
+        this.portraitID = portraitID;
+        up = new Animation(400, Asset.sprites.getDirection(0, spriteId));
+        down = new Animation(400, Asset.sprites.getDirection(1, spriteId));
+        left = new Animation(400, Asset.sprites.getDirection(2, spriteId));
+        right = new Animation(400, Asset.sprites.getDirection(3, spriteId));
         timeUntilMove = (int) (Math.random() * 5) + 1;
         time = System.nanoTime();
-        direction = 0;
+        this.direction = direction;
         idle = true;
-        name = "Default Name";
     }
 
     @Override
@@ -65,17 +74,11 @@ public class NPC extends Person {
                 left.tick();
                 right.tick();
                 move();
-            } else {
-                idle = true;
-                if (TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS) < timeUntilMove) {
-                    return;
-                }
-                idle = false;
-                timeUntilMove = (int) (Math.random() * 5) + 1;
-                time = System.nanoTime();
-                changeDirection();
+            } else if (idleActions()) {
                 isMoving = true;
             }
+        } else if (canTurn) {
+            idleActions();
         }
     }
 
@@ -164,12 +167,36 @@ public class NPC extends Person {
             }
         }
     }
-    
-    public boolean isSolid(){
+
+    public boolean idleActions() {
+        idle = true;
+        if (TimeUnit.SECONDS.convert(System.nanoTime() - time, TimeUnit.NANOSECONDS) < timeUntilMove) {
+            return false;
+        }
+        idle = false;
+        timeUntilMove = (int) (Math.random() * 5) + 1;
+        time = System.nanoTime();
+        changeDirection();
+        return true;
+    }
+
+    public boolean isSolid() {
         return isSolid;
     }
-    
-    public String getName(){
+
+    public String getName() {
         return name;
+    }
+    
+    public int getPortraitID(){
+        return portraitID;
+    }
+    
+    public int getType(){
+        return type;
+    }
+
+    public void onInteract(Player player) {
+
     }
 }

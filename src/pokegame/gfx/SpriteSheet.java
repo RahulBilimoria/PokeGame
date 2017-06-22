@@ -14,8 +14,8 @@ import pokegame.tiles.Tile;
  */
 public class SpriteSheet {
 
-    private int tileWidth, tileHeight;
-    private BufferedImage spritesheet;
+    protected int tileWidth, tileHeight;
+    protected BufferedImage spritesheet;
     public BufferedImage[][] spriteSheet;
 
     public SpriteSheet(BufferedImage spritesheet) {
@@ -23,8 +23,8 @@ public class SpriteSheet {
         tileWidth = Tile.TILE_WIDTH;
         tileHeight = Tile.TILE_HEIGHT;
         spriteSheet = new BufferedImage[(spritesheet.getWidth() / Tile.TILE_WIDTH)][(spritesheet.getHeight() / Tile.TILE_HEIGHT)];
-        for (int x = 0; x < spritesheet.getWidth() / 32; x++) {
-            for (int y = 0; y < spritesheet.getHeight() / 32; y++) {
+        for (int x = 0; x < spritesheet.getWidth() / Tile.TILE_WIDTH; x++) {
+            for (int y = 0; y < spritesheet.getHeight() / Tile.TILE_HEIGHT; y++) {
                 spriteSheet[x][y] = crop(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
             }
         }
@@ -35,8 +35,8 @@ public class SpriteSheet {
         tileWidth = width;
         tileHeight = height;
         spriteSheet = new BufferedImage[(spritesheet.getWidth() / width)][(spritesheet.getHeight()/height)];
-        for (int x = 0; x < spritesheet.getWidth() / 32; x++) {
-            for (int y = 0; y < spritesheet.getHeight() / 32; y++) {
+        for (int x = 0; x < spritesheet.getWidth() / width; x++) {
+            for (int y = 0; y < spritesheet.getHeight() / height; y++) {
                 spriteSheet[x][y] = crop(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
             }
         }

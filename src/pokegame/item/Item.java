@@ -48,6 +48,7 @@ public abstract class Item {
     }
     
     public static void init(){
+        items = new Item[500];
         Potion.init();
         Pokeball.init();
         Berry.init();

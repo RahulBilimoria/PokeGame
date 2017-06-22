@@ -209,6 +209,33 @@ public class Pokemon {
         nature = Nature.getRandomNature();
         chooseGender();
     }
+    
+    public Pokemon(Handler h, int id, boolean shiny, int level, int hp,
+            int att, int def, int spatt, int spdef, int speed, String nickname,
+            Status status, int tpPoints, int friendship, int friendshipRate,
+            Nature nature, boolean gender, Moveset moveset) {
+        this.h = h;
+        this.id = id;
+        this.nickname = nickname;
+        this.shiny = shiny;
+        this.level = level;
+        this.hp = hp;
+        this.att = att;
+        this.def = def;
+        this.spatt = spatt;
+        this.spdef = spdef;
+        this.speed = speed;
+        this.moveset = moveset;
+        this.myExp = 0;
+        this.expToLevel = EXP[POKEMON_LIST[id].getExpType()][level];
+        this.status = status;
+        this.tpPoints = tpPoints;
+        this.friendship = friendship;
+        this.friendshipRate = friendshipRate;
+        currentHP = this.hp;
+        this.nature = nature;
+        this.gender = gender;
+    }
 
     public Pokemon(int[] data) {
         this.id = data[0];

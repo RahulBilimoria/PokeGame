@@ -34,4 +34,16 @@ public class Status {
     public String getName(){
         return name;
     }
+    
+    public static Status getStatusById(int id){
+        switch(id){
+            case 1: return POISONED;
+            case 2: return PARALYZED;
+            case 3: return SLEEP;
+            case 4: return BURN;
+            case 5: return FROZEN;
+            case 6: return CONFUSION;
+            default: return NORMAL;
+        }
+    }
 }

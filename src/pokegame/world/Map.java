@@ -6,11 +6,15 @@
 package pokegame.world;
 
 import java.awt.Graphics;
-import pokegame.entity.Person;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import pokegame.handler.Handler;
 import pokegame.npc.NPC;
+import pokegame.npc.QuestCharacter;
 import pokegame.pokemon.move.Moveset;
 import pokegame.tiles.Tile;
+import pokegame.utils.DocumentParser;
 import pokegame.utils.Utils;
 import pokegame.world.scripts.Script;
 import pokegame.world.scripts.Shop;
@@ -59,7 +63,7 @@ public class Map {
     private Tiles[][] ground1, ground2, mask1, mask2, fringe1, fringe2;
     private SpawnList spawnList1, spawnList2, spawnList3;
     private Script[][] scripts;
-    private NPC[] npcs = new NPC[1];
+    private NPC[] npcs = new NPC[10];
     private boolean safeZone; // 0 true
     private int background;
 
@@ -73,7 +77,40 @@ public class Map {
     }
     
     public void spawnNPCs(int xOffset, int yOffset){
-        npcs[0] = new NPC(handler, 10 * Tile.TILE_WIDTH + xOffset, 9 * Tile.TILE_HEIGHT + yOffset, 1, true, true);
+        int x = 0;
+        Document d = DocumentParser.loadDataFile("dat/world/npcs/npc1.xml");
+        NodeList list = d.getElementsByTagName("Quest");
+        for (x = 0; x < list.getLength(); x++) {
+            Element character = (Element) (list.item(x));
+            Element speech = (Element) character.getElementsByTagName("Speech").item(0);
+            boolean canTurn = false;
+            boolean canMove = false;
+            boolean isSolid = false;
+            if (Utils.parseInt(character.getElementsByTagName("LooksAround").item(0).getTextContent()) == 1)
+                canTurn = true;
+            if (Utils.parseInt(character.getElementsByTagName("WalksAround").item(0).getTextContent()) == 1)
+                canMove = true;
+            if (Utils.parseInt(character.getElementsByTagName("Solid").item(0).getTextContent()) == 1)
+                isSolid = true;
+            int length = Utils.parseInt(speech.getAttribute("size"));
+            String[] s = new String[length];
+            for (int y = 0; y < length; y++){
+                s[y] = speech.getElementsByTagName("Text" + (y+1)).item(0).getTextContent();
+            }
+            npcs[x] = new QuestCharacter(handler,
+                    Utils.parseInt(character.getElementsByTagName("ID").item(0).getTextContent()),
+                    character.getElementsByTagName("Name").item(0).getTextContent(),
+                    Utils.parseInt(character.getElementsByTagName("SpriteID").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("PortraitID").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("Direction").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("X").item(0).getTextContent()) * Tile.TILE_WIDTH + xOffset,
+                    Utils.parseInt(character.getElementsByTagName("Y").item(0).getTextContent()) * Tile.TILE_HEIGHT + yOffset,
+                    Utils.parseInt(character.getElementsByTagName("DistanceFromCenter").item(0).getTextContent()),
+                    canTurn, canMove, isSolid,
+                    Utils.parseInt(character.getElementsByTagName("QuestID").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("QuestSequence").item(0).getTextContent()),
+                    s);
+        }
     }
     
     public void tick(){
@@ -315,6 +352,7 @@ public class Map {
             return false;
         }
         for (int z = 0; z < npcs.length; z++){
+            if (npcs[z] == null) break;
             if (npcs[z].getXTile() == x && npcs[z].getYTile() == y && npcs[z].isSolid()){
                 return true;
             }

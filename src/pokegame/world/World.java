@@ -332,18 +332,15 @@ public class World {
     public void interact(int x, int y){
         NPC[] npcs = currentMap.getNpcs();
         for (int z = 0; z < npcs.length; z++){
+            if (npcs[z] == null) continue;
             if (npcs[z].getXTile() == x && npcs[z].getYTile() == y){
-                openDialogue(npcs[z]);
+                npcs[z].onInteract(gameHandler.getPlayer());
                 return;
             }
         }
         gameHandler.getPlayer().setEnabled(true);
     }
     
-    public void openDialogue(NPC npc){
-        Dialogue d = new Dialogue(handler, npc);
-    }
-
     public void openMapEditor() {
         if (!edit) {
             me = new MapEditor(handler, this);

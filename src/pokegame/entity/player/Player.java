@@ -5,7 +5,6 @@
  */
 package pokegame.entity.player;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import pokegame.entity.player.Bag.MyItem;
 import pokegame.gfx.Animation;
 import pokegame.gfx.Asset;
 import pokegame.handler.Handler;
+import pokegame.npc.quest.Quest;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
 import pokegame.tiles.Tile;
@@ -28,14 +28,18 @@ public class Player extends Person {
     private String name;
 
     private Animation up, down, left, right;
+    private int portraitID;
     private int direction;
     private int activePokemon;
     private int lastX, lastY;
+    private int saveX, saveY, saveMap;
     private boolean enabled;
 
     private Bag bag;
     private Party party;
     private Storage storage;
+    private ArrayList<Quest> activeQuests;
+    private ArrayList<Integer> completedQuests;
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Person.DEFAULT_CREATURE_WIDTH, Person.DEFAULT_CREATURE_HEIGHT);
@@ -43,6 +47,7 @@ public class Player extends Person {
         down = new Animation(400, Asset.player_down);
         left = new Animation(400, Asset.player_left);
         right = new Animation(400, Asset.player_right);
+        portraitID = 2;
         direction = 0;
         moved = false;
         bag = new Bag(this);
@@ -50,6 +55,8 @@ public class Player extends Person {
         storage = new Storage(handler, this);
         activePokemon = 0;
         enabled = true;
+        activeQuests = new ArrayList<>();
+        completedQuests = new ArrayList<>();
     }
 
     @Override
@@ -73,7 +80,7 @@ public class Player extends Person {
             setMoved(true);
             lastX = xTile;
             lastY = yTile;
-            
+
         }
         handler.getGameCamera().centerOnEntity(this);
     }
@@ -93,17 +100,21 @@ public class Player extends Person {
         } else if (handler.getKeyManager().right) {
             isMoving = true;
             xMove = speed;
-        } else if (handler.getKeyManager().ctrl){
+        } else if (handler.getKeyManager().ctrl) {
             handler.getKeyManager().unpressCTRL();
             enabled = false;
-            switch (direction){
-                case 0: handler.getWorld().interact(xTile, yTile - 1);
+            switch (direction) {
+                case 0:
+                    handler.getWorld().interact(xTile, yTile - 1);
                     break;
-                case 1: handler.getWorld().interact(xTile + 1, yTile);
+                case 1:
+                    handler.getWorld().interact(xTile + 1, yTile);
                     break;
-                case 2: handler.getWorld().interact(xTile, yTile + 1);
+                case 2:
+                    handler.getWorld().interact(xTile, yTile + 1);
                     break;
-                case 3: handler.getWorld().interact(xTile - 1, yTile);
+                case 3:
+                    handler.getWorld().interact(xTile - 1, yTile);
                     break;
             }
         }
@@ -161,6 +172,56 @@ public class Player extends Person {
                 return false;
         }
     }*/
+    public void addQuest(Quest q) {
+        if (completedQuests != null) {
+            for (Integer x : completedQuests) {
+                if (x == q.getId()) {
+                    return;
+                }
+            }
+        }
+        if (activeQuests != null) {
+            for (Quest activeQuest : activeQuests) {
+                if (activeQuest.getId() == q.getId()) {
+                    return;
+                }
+            }
+        }
+        activeQuests.add(q);
+    }
+
+    public int hasQuest(Quest q) {
+        if (completedQuests != null) {
+            for (Integer x : completedQuests) {
+                if (x == q.getId()) {
+                    return 1;
+                }
+            }
+        }
+        if (activeQuests != null) {
+            for (Quest activeQuest : activeQuests) {
+                if (activeQuest.getId() == q.getId()) {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public boolean checkQuest(Quest q){
+        for (Quest activeQuest : activeQuests){
+            if (activeQuest.getId() == q.getId()){
+                q = activeQuest;
+                break;
+            }
+        }
+        return q.checkQuest();
+    }
+
+    public void completeQuest(Quest q) {
+        activeQuests.remove(q);
+        completedQuests.add(q.getId());
+    }
 
     public void setActiveNumber(int num) {
         activePokemon = num;
@@ -193,17 +254,21 @@ public class Player extends Person {
     public Bag getBag() {
         return bag;
     }
-    
-    public ArrayList<MyItem> getBag(int bagID){
+
+    public ArrayList<MyItem> getBag(int bagID) {
         return bag.getBag(bagID);
     }
-    
-    public String getBagName(int bagID){
+
+    public String getBagName(int bagID) {
         return bag.getBagName(bagID);
     }
 
     public Move getMove(int moveID) {
         return party.getPokemon(activePokemon).getMoveset().getMove(moveID);
+    }
+    
+    public int getPortraitID(){
+        return portraitID;
     }
 
     public void printBag() {

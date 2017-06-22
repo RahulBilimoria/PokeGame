@@ -1,0 +1,13 @@
+<HM>
+    <Item>
+        <ID></ID>
+        <Name></Name>
+        <Icon>
+            <x></x>
+            <y></y>
+        </Icon>
+        <Effect></Effect>
+        <Description>An item used to teach a pokemon a move.</Description>
+        <MoveID></MoveID>
+    </Item>
+</HM>

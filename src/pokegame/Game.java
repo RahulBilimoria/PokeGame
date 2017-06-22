@@ -19,6 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import pokegame.gfx.Asset;
 import pokegame.gfx.GameCamera;
 import pokegame.handler.Handler;
@@ -57,10 +62,12 @@ public class Game implements Runnable {
 
     private GameState state;
     private Thread thread;
-    
-    private JTextArea text;
+
+    private JTextPane text;
     private JTextField input;
     private JScrollPane scroll;
+    private StyledDocument doc;
+    private Style style;
 
     private boolean running = false;
 
@@ -80,33 +87,34 @@ public class Game implements Runnable {
         frame = new JFrame(title);
         frame.setLayout(null);
         createGameMenu();
-        
+
         JPanel p = new JPanel(null);
         p.setOpaque(false);
         p.setSize(width, 125);
         p.setPreferredSize(new Dimension(width, 125));
         p.setMaximumSize(new Dimension(width, 125));
         p.setMinimumSize(new Dimension(width, 125));
-        
-        text = new JTextArea();
+
+        text = new JTextPane();
         text.setBackground(Color.black);
         text.setCaretColor(Color.gray);
         text.setForeground(Color.white);
         text.setSize(width, 100);
-        text.setWrapStyleWord(true);
-        text.setLineWrap(true);
         text.setEditable(false);
-        
+
+        doc = text.getStyledDocument();
+        style = text.addStyle("input", null);
+
         scroll = new JScrollPane(text);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        
+
         input = new JTextField();
         input.setBackground(Color.black);
         input.setCaretColor(Color.gray);
         input.setForeground(Color.white);
         input.setSize(width, 25);
-        p.add(scroll).setBounds(0,0,text.getWidth(), text.getHeight());
-        p.add(input).setBounds(0,text.getHeight()-1, input.getWidth(), input.getHeight());
+        p.add(scroll).setBounds(0, 0, text.getWidth(), text.getHeight());
+        p.add(input).setBounds(0, text.getHeight() - 1, input.getWidth(), input.getHeight());
 
         Dimension d = new Dimension(width, height);
         canvas = new Canvas();
@@ -116,19 +124,19 @@ public class Game implements Runnable {
         canvas.setMinimumSize(d);
         canvas.setBackground(Color.black);
 
-        frame.setSize(width+menu.getWidth()+5, height+153);
+        frame.setSize(width + menu.getWidth() + 5, height + 153);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.getLayeredPane().add(p).setBounds(menu.getWidth(), canvas.getHeight(), p.getWidth(), p.getHeight());
-        frame.add(menu.getMenu()).setBounds(0,0,menu.getWidth(), menu.getHeight());
+        frame.add(menu.getMenu()).setBounds(0, 0, menu.getWidth(), menu.getHeight());
         frame.add(canvas).setBounds(menu.getWidth(), 0, canvas.getWidth(), canvas.getHeight());
     }
 
     private void createGameMenu() {
-        menu = new GameMenu(100, height+153);
+        menu = new GameMenu(100, height + 153);
     }
 
     public synchronized void start() {
@@ -152,7 +160,7 @@ public class Game implements Runnable {
 
     public void init() {
         handler = new Handler(this);
-        
+
         frame.addKeyListener(keyManager);
         //frame.addMouseListener(mouseManager);
         //frame.addMouseMotionListener(mouseManager);
@@ -266,38 +274,39 @@ public class Game implements Runnable {
     public void remove(Component c) {
         frame.getLayeredPane().remove(c);
     }
-    
-    
-    public void addText(){
-        text.setForeground(Color.white);
-        if (input.getText().equals("/mapeditor")){
-            handler.getWorld().openMapEditor();
-            canvas.requestFocus();
+
+    public void addText() {
+        StyleConstants.setForeground(style, Color.white);
+        try {
+            if (input.getText().equals("/mapeditor")) {
+                handler.getWorld().openMapEditor();
+                canvas.requestFocus();
+            } else if (input.getText().equals("/loc")) {
+                doc.insertString(doc.getLength(), "Map: " + handler.getWorld().getMapNumber() + "\n", style);
+                doc.insertString(doc.getLength(), "X: " + handler.getWorld().getPlayerX() + "\n", style);
+                doc.insertString(doc.getLength(), "Y: " + handler.getWorld().getPlayerY() + "\n", style);
+            } else {
+                doc.insertString(doc.getLength(), "Username: " + input.getText() + "\n", style);
+            }
+        } catch (BadLocationException e) {
         }
-        else if (input.getText().equals("/loc")){
-            text.append("Map: " + handler.getWorld().getMapNumber() + "\n");
-            text.append("X: " + handler.getWorld().getPlayerX() + "\n");
-            text.append("Y: " + handler.getWorld().getPlayerY() + "\n");
-        } else {
-            text.append("Username: " + input.getText() + "\n");
-        }
-        text.setCaretPosition(text.getDocument().getLength());    
         input.setText("");
     }
-    
+
     /**
-     * 
+     *
      * @param s String to add to the textbox
      * @param c Color of the String
      *
-     * green: Pokemon Level Up, Pokecenter Healing
-     * red: Release Pokemon, Caught Pokemon / Sent To Storage
-     * gray: Exp Gains
+     * green: Pokemon Level Up, Pokecenter Healing red: Release Pokemon, Caught
+     * Pokemon / Sent To Storage gray: Exp Gains
      */
-    public void addText(String s, Color c){
-        text.setForeground(c);
-        text.append(s);
-        text.setCaretPosition(text.getDocument().getLength());
+    public void addText(String s, Color c) {
+        StyleConstants.setForeground(style, c);
+        try {
+            doc.insertString(doc.getLength(), s, style);
+        } catch (BadLocationException e) {
+        }
     }
 
     public int getWidth() {
@@ -307,8 +316,8 @@ public class Game implements Runnable {
     public int getHeight() {
         return height;
     }
-    
-    public JTextField getInput(){
+
+    public JTextField getInput() {
         return input;
     }
 
@@ -319,20 +328,20 @@ public class Game implements Runnable {
     public KeyManager getKeyManager() {
         return keyManager;
     }
-    
-    public MouseManager getMouseManager(){
+
+    public MouseManager getMouseManager() {
         return mouseManager;
     }
-    
-    public JFrame getFrame(){
+
+    public JFrame getFrame() {
         return frame;
     }
 
     public Canvas getCanvas() {
         return canvas;
     }
-    
-    public GameMenu getGameMenu(){
+
+    public GameMenu getGameMenu() {
         return menu;
     }
 }

@@ -19,6 +19,7 @@ import pokegame.item.potion.Potion;
 import pokegame.item.potion.StatusRemove;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
+import pokegame.pokemon.status.Status;
 
 /**
  *
@@ -61,8 +62,9 @@ public class Battle {
             seconds = seconds - 1;
             System.out.println(seconds);
             battleHandler.updateSeconds(seconds);
-        } else if (seconds == 0) {
-            damage(-1);
+        } 
+        if (seconds == 0) {
+            roundStart(-1);
             battleHandler.updateEverything();
         }
         battleHandler.updateSeconds(seconds);
@@ -72,14 +74,18 @@ public class Battle {
 
     }
 
-    public void damage(int moveID) {
+    public void roundStart(int moveID) {
+        boolean cantAttack = false;
         roundNumber++;
         addText("------------------------------ Round: " + roundNumber);
-        if (moveID == -1) {
+        if (getPokemon().getStatus() == Status.FROZEN){
+            cantAttack = true;
+            addText(getPokemon().getName() + " is frozen solid!");
+        } if (moveID == -1 || cantAttack) {
             enemyMove();
             faintedPokemon();
-        } else if (getPokemon().getSpeed() > enemy.getSpeed()) {
-            allyMove(moveID);
+        } else if (getPokemon().getSpeed() > enemy.getSpeed()) { // need move priority aswell
+            usePlayerMove(moveID);
             if (enemy.getHp() <= 0) {
                 battleHandler.win(); // put winning screen, get exp etc
             } else {
@@ -91,7 +97,7 @@ public class Battle {
             if (getPokemon().getHp() <= 0) {
                 faintedPokemon();
             } else {
-                allyMove(moveID);
+                usePlayerMove(moveID);
             }
             if (enemy.getHp() <= 0) {
                 battleHandler.win(); // put winning screen, get exp etc
@@ -112,7 +118,7 @@ public class Battle {
         }
     }
 
-    public void allyMove(int moveID) {
+    public void usePlayerMove(int moveID) {
         Move m = getPokemon().getMoveset().getMove(moveID);
         int damage = getDamage(getPokemon(), enemy, m);
         addText(getPokemon().getName() + " used " + m.getName() + ".");
@@ -199,7 +205,7 @@ public class Battle {
                     usePotion((Potion) getBag().getItem(item[2]));
                 }
                 getBag().removeItem(item[2], 1);
-                damage(-1);
+                roundStart(-1);
             } else {
                 addText("You have no more " + item[2] + "s!");
             }

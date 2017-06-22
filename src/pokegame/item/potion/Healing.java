@@ -58,6 +58,7 @@ public class Healing extends Potion{
             element.getElementsByTagName("Description").item(0).getTextContent(),
             Utils.parseInt(icon.getElementsByTagName("x").item(0).getTextContent()),
             Utils.parseInt(icon.getElementsByTagName("y").item(0).getTextContent()));
+            Item.items[temp] = healingItems[temp];
         }
     }
     

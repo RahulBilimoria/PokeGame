@@ -5,6 +5,7 @@
  */
 package pokegame.npc;
 
+import pokegame.entity.player.Party;
 import pokegame.handler.Handler;
 
 /**
@@ -13,8 +14,15 @@ import pokegame.handler.Handler;
  */
 public class GymLeader extends NPC{
     
-    public GymLeader(Handler handler, float x, float y) {
-        super(handler, x, y, 0, true, false);
+    private int badgeId;
+    private Party party;
+    
+    public GymLeader(Handler handler, int id, String name, int spriteId,
+            int portraitID, int direction, float x, float y, int distanceToCenter,
+            boolean canTurn, boolean canMove, boolean isSolid, int badgeId, Party party) {
+        super(handler, 2, id, name, spriteId, portraitID, direction, x, y, distanceToCenter, canTurn, canMove, isSolid);
+        this.badgeId = badgeId;
+        this.party = party;
     }
     
 }
