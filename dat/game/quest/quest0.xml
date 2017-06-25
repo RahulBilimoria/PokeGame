@@ -1,14 +1,14 @@
 <Quest>
     <ID>0</ID>
     <Name>Beginners Quest</Name>
-    <ItemID>-1</ItemID>
-    <ItemAmountRequired>-1</ItemAmountRequired>
-    <PokemonID>-1</PokemonID>
-    <PokemonLevel>-1</PokemonLevel>
-    <PokemonAmountRequired>-1</PokemonAmountRequired>
-    <WildPokemonID>0</WildPokemonID>
-    <WildPokemonLevel>1</WildPokemonLevel>
-    <WildPokemonAmountRequired>5</WildPokemonAmountRequired>
+    <ItemID>0</ItemID>
+    <ItemAmountRequired>6</ItemAmountRequired>
+    <PokemonID>0</PokemonID>
+    <PokemonLevel>1</PokemonLevel>
+    <PokemonAmountRequired>2</PokemonAmountRequired>
+    <WildPokemonID>-1</WildPokemonID>
+    <WildPokemonLevel>-1</WildPokemonLevel>
+    <WildPokemonAmountRequired>-1</WildPokemonAmountRequired>
     <MapLocation>-1</MapLocation>
     <ItemRewardID>0</ItemRewardID>
     <ItemRewardAmount>5</ItemRewardAmount>

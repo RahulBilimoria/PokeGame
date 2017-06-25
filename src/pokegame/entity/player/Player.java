@@ -5,6 +5,7 @@
  */
 package pokegame.entity.player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import pokegame.entity.player.Bag.MyItem;
 import pokegame.gfx.Animation;
 import pokegame.gfx.Asset;
 import pokegame.handler.Handler;
+import pokegame.item.Item;
 import pokegame.npc.quest.Quest;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
@@ -35,6 +37,7 @@ public class Player extends Person {
     private int saveX, saveY, saveMap;
     private boolean enabled;
 
+    private int money;
     private Bag bag;
     private Party party;
     private Storage storage;
@@ -187,7 +190,41 @@ public class Player extends Person {
                 }
             }
         }
-        activeQuests.add(q);
+        Quest quest = q.cloneQuest();
+        activeQuests.add(quest);
+    }
+
+    public void addToQuest(int pkmnId, int pkmnLvl) {
+        if (activeQuests == null) {
+            return;
+        }
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getWildPokemonId() == pkmnId && activeQuest.getWildPokemonLvl() <= pkmnLvl) {
+                activeQuest.addWildPokemonFainted();
+            }
+        }
+    }
+
+    public void addToQuest(Item item, int amount) {
+        if (activeQuests == null) {
+            return;
+        }
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getItemId() == item.getItemID()) {
+                activeQuest.addCurrentItems(amount);
+            }
+        }
+    }
+
+    public void addToQuest(Pokemon p, int amount) {
+        if (activeQuests == null) {
+            return;
+        }
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getPokemonId() == p.getID() && p.getLevel() >= activeQuest.getPokemonLevel()) {
+                activeQuest.addCurrentPokemon(amount);
+            }
+        }
     }
 
     public int hasQuest(Quest q) {
@@ -201,16 +238,25 @@ public class Player extends Person {
         if (activeQuests != null) {
             for (Quest activeQuest : activeQuests) {
                 if (activeQuest.getId() == q.getId()) {
-                    return 1;
+                    return 2;
                 }
             }
         }
         return 0;
     }
-    
-    public boolean checkQuest(Quest q){
-        for (Quest activeQuest : activeQuests){
-            if (activeQuest.getId() == q.getId()){
+
+    public Quest getQuest(Quest q) {
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getId() == q.getId()) {
+                return activeQuest;
+            }
+        }
+        return null;
+    }
+
+    public boolean checkQuest(Quest q) {
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getId() == q.getId()) {
                 q = activeQuest;
                 break;
             }
@@ -218,9 +264,73 @@ public class Player extends Person {
         return q.checkQuest();
     }
 
-    public void completeQuest(Quest q) {
-        activeQuests.remove(q);
-        completedQuests.add(q.getId());
+    public String getQuestRemaining(Quest q) {
+        return getQuest(q).toString();
+    }
+
+    public void handInItems(Quest q) {
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getId() == q.getId()) {
+                int amount = Math.min(activeQuest.getRemainingItems(), bag.getNumberOfItems(activeQuest.getItemId()));
+                bag.removeItem(Item.items[activeQuest.getItemId()], -amount);
+                activeQuest.addCurrentItems(amount);
+                return;
+            }
+        }
+    }
+    
+    public void handInPokemon(Quest q){
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getId() == q.getId()) {
+                int amount = Math.min(activeQuest.getRemainingPokemon(), party.getNumberOfPokemon(activeQuest.getPokemonId(), activeQuest.getPokemonLevel()));
+                for (int x = 0; x < amount; x++){
+                    party.removePokemon(activeQuest.getPokemonId(), activeQuest.getPokemonLevel());
+                    activeQuest.addCurrentPokemon(1);
+                }
+                return;
+            }
+        }
+    }
+
+    public void giveReward(Quest q) {
+        Item i = q.getItemReward();
+        Pokemon p = q.getPokemonReward();
+        int iAmount = q.getItemRewardAmount();
+        int pAmount = q.getPokemonRewardAmount();
+        int exp = (int) q.getPokemonExpReward();
+        handler.getGame().addText("[" + q.getName() + "] Quest completed!\n", Color.orange);
+        if (i != null) {
+            handler.getGame().addText("[SYSTEM] You received " + iAmount + " " + i.getName() + "!\n", Color.MAGENTA);
+            bag.addItem(i, iAmount);
+        }
+        if (p != null) {
+            for (int x = 0; x < pAmount; x++) {
+                if (party.getPartySize() == 6) {
+                    storage.storePokemon(p.toStorage());
+                } else {
+                    handler.getGame().addText("[SYSTEM] " + p.getName() + " has been added to your party!\n", Color.MAGENTA);
+                    party.addPokemon(p);
+                }
+            }
+        }
+        if (exp != -1) {
+            party.getPokemon(activePokemon).addExp(exp);
+        }
+        completeQuest(q.getId());
+    }
+
+    public void completeQuest(int id) {
+        removeQuest(id);
+        completedQuests.add(id);
+    }
+
+    public void removeQuest(int id) {
+        for (Quest activeQuest : activeQuests) {
+            if (activeQuest.getId() == id) {
+                activeQuests.remove(activeQuest);
+                break;
+            }
+        }
     }
 
     public void setActiveNumber(int num) {
@@ -266,8 +376,8 @@ public class Player extends Person {
     public Move getMove(int moveID) {
         return party.getPokemon(activePokemon).getMoveset().getMove(moveID);
     }
-    
-    public int getPortraitID(){
+
+    public int getPortraitID() {
         return portraitID;
     }
 

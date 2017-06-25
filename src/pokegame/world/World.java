@@ -22,7 +22,6 @@ import pokegame.world.scripts.Shop;
 import pokegame.world.scripts.SpawnList;
 import pokegame.world.scripts.Warp;
 import pokegame.npc.NPC;
-import pokegame.ui.Dialogue;
 
 /**
  *

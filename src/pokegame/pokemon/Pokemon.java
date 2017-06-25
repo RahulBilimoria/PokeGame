@@ -326,7 +326,7 @@ public class Pokemon {
 
     public void addExp(int exp) {
         this.myExp += exp;
-        h.getGame().addText("You've gained " + exp + " Exp!\n", Color.gray);
+        h.getGame().addText(POKEMON_LIST[id].getName() + " gained " + exp + " Exp!\n", Color.gray);
         while (myExp >= expToLevel) {
             myExp -= expToLevel;
             level++;

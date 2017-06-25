@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -290,6 +289,7 @@ public class Game implements Runnable {
             }
         } catch (BadLocationException e) {
         }
+        text.setCaretPosition(doc.getLength());
         input.setText("");
     }
 
@@ -305,6 +305,7 @@ public class Game implements Runnable {
         StyleConstants.setForeground(style, c);
         try {
             doc.insertString(doc.getLength(), s, style);
+            text.setCaretPosition(doc.getLength());
         } catch (BadLocationException e) {
         }
     }

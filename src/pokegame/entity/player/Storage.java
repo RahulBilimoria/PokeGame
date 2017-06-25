@@ -131,7 +131,6 @@ public class Storage {
             removePokemon(currentBox, storageID);
             storePokemon(currentBox, storageID, data); // can shorten this easily
         } else {
-            p.addPartySize(1);
             p.addPokemon(partyID, getPokemon(currentBox, storageID));
             removePokemon(currentBox, storageID);
         }
@@ -147,7 +146,6 @@ public class Storage {
             return true;
         } else {
             storePokemon(currentBox, storageID, p.getPokemon(partyID).toStorage());
-            p.addPartySize(-1);
             //stores the pokemon in the box
             p.storePokemon(partyID); //removes pokemon from party
             return false;
@@ -155,7 +153,7 @@ public class Storage {
     }
 
     public int getId(int boxNumber, int pokemonIndex) {
-        return pokemonBoxes[currentBox].getPokemonId(pokemonIndex);
+        return pokemonBoxes[boxNumber].getPokemonId(pokemonIndex);
     }
     
     public String getBoxName(int boxNumber){
@@ -174,6 +172,24 @@ public class Storage {
 
     public void storePokemon(int boxNumber, int pokemonIndex, int[] data) {//make pokemon.toStorage work
         pokemonBoxes[boxNumber].storePokemon(pokemonIndex, data);
+    }
+    
+    public void storePokemon(int[] data){
+        int temp = currentBox;
+        for (int x = 0; x < BOXES_COUNT; x++){
+            for (int y = 0; y < BOXES_SIZE; y++){
+                if (getId(temp,y) == -1){
+                    handler.getGame().addText("[SYSTEM] " + Pokemon.getPokemonName(data[0]) + " has been sent to box " + temp + ".\n" , Color.red);
+                    pokemonBoxes[temp].storePokemon(y, data);
+                    return;
+                }
+            }
+            temp++;
+            if (temp > 6){
+                temp = 0;
+            }
+        }
+        handler.getGame().addText("[SYSTEM] All boxes are full.\n" , Color.red);
     }
     
     public void swapPokemon(int box, int poke1, int poke2){

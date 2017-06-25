@@ -48,11 +48,36 @@ public class Party {
     }
     
     public void storePokemon(int partyIndex){
+        partySize--;
+        player.addToQuest(pokemon[partyIndex], -1);
         pokemon[partyIndex] = null;
     }
     
     public void addPokemon(int partyIndex, Pokemon p){
+        partySize++;
+        player.addToQuest(p, 1);
         pokemon[partyIndex] = p;
+    }
+    
+    public void addPokemon(Pokemon p){
+        for (int x = 0; x < 6; x++){
+            if (pokemon[x] == null){
+                partySize++;
+                pokemon[x] = p;
+                return;
+            }
+        }
+    }
+    
+    public void removePokemon(int pokemonId, int pokemonLevel){
+        for (int x = 0; x < 6; x++){
+            if (pokemon[x] != null){
+                if (pokemon[x].getID() == pokemonId && pokemon[x].getLevel() >= pokemonLevel){
+                    pokemon[x] = null;
+                    return;
+                }
+            }
+        }
     }
     
     public String toString(int partyIndex){
@@ -74,15 +99,24 @@ public class Party {
         }
     }
     
-    public void addPartySize(int i){
-        partySize += i;
-    }
-    
     public void heal(){
         for (int x = 0; x < 6; x++){
             if (pokemon[x] != null){
                 pokemon[x].heal();
             }
         }
+    }
+    
+    public int getNumberOfPokemon(int id, int level){
+        if (id == -1) return 0;
+        int amount = 0;
+        for (int x = 0; x < 6; x++){
+            if (pokemon[x] != null){
+                if (pokemon[x].getID() == id && pokemon[x].getLevel() >= level){
+                    amount++;
+                }
+            }
+        }
+        return amount;
     }
 }

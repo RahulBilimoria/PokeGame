@@ -35,15 +35,6 @@ public class Healing extends Potion{
     }
     
     public static void init(){
-        /*String file = Utils.loadFileAsString("dat/item/medicine/Healing.dat");
-        String data[] = file.split("\\s+");
-        for (int x = 0; x < ITEM_COUNT; x++){
-            int i = x*4;
-            healingItems[x] = new Healing(Utils.parseInt(data[i]),
-                    data[i+1].replaceAll("_", " "),
-                    Utils.parseInt(data[i+2]),
-                    Utils.parseInt(data[i+3]));
-        }*/
         Document d = DocumentParser.loadDataFile("dat/item/medicine/Healing.xml");
         NodeList list = d.getElementsByTagName("Item");
         for (int temp = 0; temp < list.getLength(); temp++) {

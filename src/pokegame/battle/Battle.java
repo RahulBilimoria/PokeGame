@@ -252,7 +252,6 @@ public class Battle {
                 if (player.getParty().getPokemon(x) == null) {
                     enemy.setHandler(handler);
                     player.getParty().addPokemon(x, enemy);
-                    player.getParty().addPartySize(1);
                     battleHandler.caughtPokemon();
                     handler.getGame().addText(enemy.getName() + " has been added to your party.\n", Color.red);
                     return;
@@ -293,6 +292,7 @@ public class Battle {
         int s = 1;
         int exp = (a * t * enemy.getBaseExp() * e * enemy.getLevel() * p * f * v) / (7 * s);
         getPokemon().addExp(exp);
+        player.addToQuest(enemy.getID(), enemy.getLevel());
     }
 
     public String getMoveName(int moveID) {

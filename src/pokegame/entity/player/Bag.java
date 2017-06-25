@@ -31,6 +31,10 @@ public class Bag {
         public Item getItem() {
             return item;
         }
+        
+        public int getId(){
+            return item.getItemID();
+        }
 
         public int getItemCount() {
             return itemCount;
@@ -162,6 +166,34 @@ public class Bag {
         if (count > 0){
             bg.add(new MyItem(i, count));
         }
+    }
+    
+    public int getNumberOfItems(int id){
+        if (id == -1) return 0;
+        ArrayList<MyItem> bg;
+        switch (Item.items[id].getItemType()) {
+            case 0:
+                bg = medicine;
+                break;
+            case 1:
+                bg = pokeballs;
+                break;
+            case 2:
+                bg = berries;
+                break;
+            case 3:
+                bg = keyItems;
+                break;
+            default:
+                bg = bag;
+                break;
+        }
+        for (MyItem i : bg) {
+            if (i.getId() == id){
+                return i.getItemCount();
+            }
+        }
+        return 0;
     }
 
     @Override

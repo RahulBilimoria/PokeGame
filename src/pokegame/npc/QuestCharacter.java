@@ -5,6 +5,7 @@
  */
 package pokegame.npc;
 
+import java.awt.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -25,15 +26,15 @@ import pokegame.utils.Utils;
  * @author Rahul
  */
 public class QuestCharacter extends NPC {
-    
+
     private int questID; // ID of quest
     private int questSequence; // Part of the quest that this npc is in (usually 0 = start)
-                               // This is just for the future
+    // This is just for the future
     private String[] questDialogue; // Dialogue the npc says when talking to him before accepting the quest
     private int dialogueLocation; // Location in the dialogue array you are in (resets on decline)
-    
+
     private Quest quest; // Quest the NPC gives out
-    
+
     public QuestCharacter(Handler handler, int id, String name, int spriteId,
             int portraitID, int direction, float x, float y, int distanceToCenter,
             boolean canTurn, boolean canMove, boolean isSolid, int questID,
@@ -46,8 +47,8 @@ public class QuestCharacter extends NPC {
         quest = null;
         loadQuest();
     }
-    
-    private void loadQuest(){
+
+    private void loadQuest() {
         Document d = DocumentParser.loadDataFile("dat/game/quest/quest" + questID + ".xml");
         NodeList list = d.getElementsByTagName("Quest");
         Element element = (Element) (list.item(0));
@@ -60,12 +61,12 @@ public class QuestCharacter extends NPC {
         int itemRewardId = Utils.parseInt(element.getElementsByTagName("ItemRewardID").item(0).getTextContent());
         int pokemonRewardId = Utils.parseInt(pokemon.getElementsByTagName("ID").item(0).getTextContent());
         int pokemonExpReward = Utils.parseInt(element.getElementsByTagName("PokemonExpReward").item(0).getTextContent());
-        if (itemId != -1){
+        if (itemId != -1) {
             quest = new Quest(questID, questName, itemId,
                     Utils.parseInt(element.getElementsByTagName("ItemAmountRequired").item(0).getTextContent()));
         }
-        if (pokemonId != -1){
-            if (quest == null){
+        if (pokemonId != -1) {
+            if (quest == null) {
                 quest = new Quest(questID, questName, pokemonId,
                         Utils.parseInt(element.getElementsByTagName("PokemonLevel").item(0).getTextContent()),
                         Utils.parseInt(element.getElementsByTagName("PokemonAmountRequired").item(0).getTextContent()));
@@ -75,7 +76,7 @@ public class QuestCharacter extends NPC {
                         Utils.parseInt(element.getElementsByTagName("PokemonAmountRequired").item(0).getTextContent()));
             }
         }
-        if (wildPokemonId != -1){
+        if (wildPokemonId != -1) {
             if (quest == null) {
                 quest = new Quest(questID, questName, wildPokemonId,
                         Utils.parseInt(element.getElementsByTagName("WildPokemonLevel").item(0).getTextContent()),
@@ -88,20 +89,22 @@ public class QuestCharacter extends NPC {
                         Utils.parseInt(element.getElementsByTagName("MapLocation").item(0).getTextContent()));
             }
         }
-        if (itemRewardId != -1){
+        if (itemRewardId != -1) {
             quest.addReward(Item.items[itemRewardId], Utils.parseInt(element.getElementsByTagName("ItemRewardAmount").item(0).getTextContent()));
         }
-        if (pokemonExpReward != -1){
+        if (pokemonExpReward != -1) {
             quest.addReward(pokemonExpReward);
         }
-        if (pokemonRewardId != -1){
+        if (pokemonRewardId != -1) {
             boolean shiny = false;
-            if (Utils.parseInt(pokemon.getElementsByTagName("Shiny").item(0).getTextContent()) == 1)
+            if (Utils.parseInt(pokemon.getElementsByTagName("Shiny").item(0).getTextContent()) == 1) {
                 shiny = true;
+            }
             boolean male = false;
-            if (Utils.parseInt(pokemon.getElementsByTagName("Gender").item(0).getTextContent()) == 1)
+            if (Utils.parseInt(pokemon.getElementsByTagName("Gender").item(0).getTextContent()) == 1) {
                 male = true;
-            quest.addReward(new Pokemon(handler, pokemonRewardId, shiny, 
+            }
+            quest.addReward(new Pokemon(handler, pokemonRewardId, shiny,
                     Utils.parseInt(pokemon.getElementsByTagName("Level").item(0).getTextContent()),
                     Utils.parseInt(pokemon.getElementsByTagName("Hp").item(0).getTextContent()),
                     Utils.parseInt(pokemon.getElementsByTagName("Attack").item(0).getTextContent()),
@@ -109,7 +112,7 @@ public class QuestCharacter extends NPC {
                     Utils.parseInt(pokemon.getElementsByTagName("SpecialAttack").item(0).getTextContent()),
                     Utils.parseInt(pokemon.getElementsByTagName("SpecialDefense").item(0).getTextContent()),
                     Utils.parseInt(pokemon.getElementsByTagName("Speed").item(0).getTextContent()),
-                    pokemon.getElementsByTagName("Name").item(0).getTextContent(),
+                    pokemon.getElementsByTagName("Nickname").item(0).getTextContent(),
                     Status.getStatusById(Utils.parseInt(pokemon.getElementsByTagName("StatusID").item(0).getTextContent())),
                     Utils.parseInt(pokemon.getElementsByTagName("TpPoints").item(0).getTextContent()),
                     Utils.parseInt(pokemon.getElementsByTagName("Friendship").item(0).getTextContent()),
@@ -123,42 +126,49 @@ public class QuestCharacter extends NPC {
                     )), Utils.parseInt(element.getElementsByTagName("PokemonRewardAmount").item(0).getTextContent()));
         }
     }
-    
+
     @Override
-    public void onInteract(Player player){
-        if (player.hasQuest(quest) == 0){
-            Dialogue d = new Dialogue(handler, this, player);
-        } else {
-            // see if requirements are met
-            if(checkRequirements(player)){
-            // YES: finish quest + get reward
-            }
-            else {
-            // NO: send message in chat about remaining objectives
-            }
-            player.setEnabled(true);
+    public void onInteract(Player player) {
+        switch (player.hasQuest(quest)) {
+            case 0: // Quest not accepted
+                Dialogue d = new Dialogue(handler, this, player);
+                break;
+            case 1: // Quest already completed
+                player.setEnabled(true);
+                handler.getGame().addText("[" + quest.getName() + "] has already been completed.\n", Color.orange);
+                break;
+            case 2: // Quest in progress
+                questInProgress(player);
+                break;
         }
     }
-    
-    public String getNextMessage(){
-        if (dialogueLocation >= questDialogue.length){
+
+    public String getNextMessage() {
+        if (dialogueLocation >= questDialogue.length) {
             return "done";
         }
         String s = questDialogue[dialogueLocation];
         dialogueLocation++;
         return s;
     }
-    
-    public boolean checkRequirements(Player player){
-        player.checkQuest(quest);
-        return false;
+
+    public void questInProgress(Player player) {
+        player.handInItems(quest);
+            player.handInPokemon(quest);
+        if (player.checkQuest(quest)) {
+            player.giveReward(quest);
+        }
+        else {
+            handler.getGame().addText("[" + quest.getName() + "] " + player.getQuestRemaining(quest), Color.orange);
+        }
+        player.setEnabled(true);
     }
-    
-    public Quest getQuest(){
+
+    public Quest getQuest() {
         return quest;
     }
-    
-    public void resetDialogue(){
+
+    public void resetDialogue() {
         dialogueLocation = 0;
     }
 }

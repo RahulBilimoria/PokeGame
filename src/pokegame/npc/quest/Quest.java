@@ -47,6 +47,9 @@ public class Quest {
         itemReward = null;
         pokemonReward = null;
         pokemonExpReward = -1;
+        currentItemAmount = 0;
+        currentPokemonAmount = 0;
+        currentWildPokemonAmount = 0;
     }
     
     public Quest(int id, String name, int pokemonId, int pokemonLevel, int pokemonAmountRequired){
@@ -61,6 +64,9 @@ public class Quest {
         itemReward = null;
         pokemonReward = null;
         pokemonExpReward = -1;
+        currentItemAmount = 0;
+        currentPokemonAmount = 0;
+        currentWildPokemonAmount = 0;
     }
     
     public Quest(int id, String name, int wildPokemonId, int wildPokemonLevel, int wildPokemonAmountRequired, int mapLocation){
@@ -75,6 +81,34 @@ public class Quest {
         itemReward = null;
         pokemonReward = null;
         pokemonExpReward = -1;
+        currentItemAmount = 0;
+        currentPokemonAmount = 0;
+        currentWildPokemonAmount = 0;
+    }
+    
+    private Quest(int id, String name, int itemId, int itemAmountRequired, int pokemonId,
+            int pokemonLevel, int pokemonAmountRequired, int wildPokemonId, int wildPokemonLevel,
+            int wildPokemonAmountRequired, int mapLocation, Item item, int itemAmount, Pokemon pokemon,
+            int pokemonAmount, int exp){
+        this.id = id;
+        this.name = name;
+        this.itemId = itemId;
+        this.itemAmountRequired = itemAmountRequired;
+        this.pokemonId = pokemonId;
+        this.pokemonLevel = pokemonLevel;
+        this.pokemonAmountRequired = pokemonAmountRequired;
+        this.wildPokemonId = wildPokemonId;
+        this.wildPokemonLevel = wildPokemonLevel;
+        this.wildPokemonAmountRequired = wildPokemonAmountRequired;
+        this.mapLocation = mapLocation;
+        this.itemReward = item;
+        this.itemRewardAmount = itemAmount;
+        this.pokemonReward = pokemon;
+        this.pokemonRewardAmount = pokemonAmount;
+        this.pokemonExpReward = exp;
+        currentItemAmount = 0;
+        currentPokemonAmount = 0;
+        currentWildPokemonAmount = 0;
     }
     
     public void addRequirement(int itemId, int itemAmountRequired){
@@ -109,7 +143,23 @@ public class Quest {
         this.pokemonExpReward = exp;
     }
     
-    public Item giveItemReward(){
+    public int getPokemonId(){
+        return pokemonId;
+    }
+    
+    public int getPokemonLevel(){
+        return pokemonLevel;
+    }
+    
+    public int getWildPokemonId(){
+        return wildPokemonId;
+    }
+    
+    public int getWildPokemonLvl(){
+        return wildPokemonLevel;
+    }
+    
+    public Item getItemReward(){
         return itemReward;
     }
     
@@ -117,20 +167,52 @@ public class Quest {
         return itemRewardAmount;
     }
     
-    public Pokemon givePokemonReward(){
+    public Pokemon getPokemonReward(){
         return pokemonReward;
     }
     
-    public int givePokemonRewardAmount(){
+    public int getPokemonRewardAmount(){
         return pokemonRewardAmount;
     }
     
-    public float givePokemonExpReward(){
+    public float getPokemonExpReward(){
         return pokemonExpReward;
     }
     
     public int getId(){
         return id;
+    }
+    
+    public int getItemId(){
+        return itemId;
+    }
+    
+    public int getItemAmount(){
+        return itemAmountRequired;
+    }
+    
+    public int getRemainingItems(){
+        return itemAmountRequired - currentItemAmount;
+    }
+    
+    public int getRemainingPokemon(){
+        return pokemonAmountRequired - currentPokemonAmount;
+    }
+    
+    public String getName(){
+        return name;
+    }
+    
+    public void addWildPokemonFainted(){
+        currentWildPokemonAmount++;
+    }
+    
+    public void addCurrentItems(int i){
+        currentItemAmount += i;
+    }
+    
+    public void addCurrentPokemon(int i){
+        currentPokemonAmount += i;
     }
     
     public boolean checkQuest(){
@@ -150,5 +232,33 @@ public class Quest {
             }
         }
         return true;
-    }   
+    }
+    
+    @Override
+    public String toString(){
+        String s = "";
+        if (itemId != -1){
+            if (itemAmountRequired > currentItemAmount){
+                s = s + "Handed in " + currentItemAmount +"/"+ itemAmountRequired +" "+ Item.items[itemId].getName() + "s.\n";
+            }
+        }
+        if (pokemonId != -1){
+            if (pokemonAmountRequired > currentPokemonAmount){
+                s = s + "Handed in " + currentPokemonAmount +"/"+ pokemonAmountRequired +" "+ Pokemon.getPokemonName(pokemonId) + "s.\n";
+            }
+        }
+        if (wildPokemonId != -1){
+            if (wildPokemonAmountRequired > currentWildPokemonAmount){
+                s = s + currentWildPokemonAmount + "/" + wildPokemonAmountRequired + " " + Pokemon.getPokemonName(wildPokemonId)+ "s fainted.\n";
+            }
+        }
+        return s;
+    }
+    
+    public Quest cloneQuest(){
+        return new Quest(id, name, itemId, itemAmountRequired, pokemonId,
+        pokemonLevel, pokemonAmountRequired, wildPokemonId, wildPokemonLevel,
+        wildPokemonAmountRequired, mapLocation, itemReward, itemRewardAmount,
+        pokemonReward, pokemonRewardAmount, pokemonExpReward);
+    }
 }
