@@ -119,7 +119,7 @@ public class PokemonMenu {
         pokemonInfoPanel.setSize(475, 150);
         pokemonInfoPanel.add(currentPokemonImage).setBounds(360, 0, currentPokemonImage.getIcon().getIconWidth(), currentPokemonImage.getIcon().getIconHeight());
         pokemonInfoPanel.add(type1).setBounds(375, currentPokemonImage.getIcon().getIconHeight(), type1.getIcon().getIconWidth(), type1.getIcon().getIconHeight());
-        pokemonInfoPanel.add(type2).setBounds(375 + type1.getIcon().getIconWidth(), currentPokemonImage.getIcon().getIconHeight(), type2.getIcon().getIconWidth(), type2.getIcon().getIconHeight());
+        pokemonInfoPanel.add(type2).setBounds(375 + type1.getIcon().getIconWidth(), currentPokemonImage.getIcon().getIconHeight(), type1.getIcon().getIconWidth(), type1.getIcon().getIconHeight());
         pokemonInfoPanel.add(pokedexNumber).setBounds(0, 0, 200, 20);
         pokemonInfoPanel.add(name).setBounds(0, 20, 200, 20);
         pokemonInfoPanel.add(level).setBounds(0, 40, 200, 20);

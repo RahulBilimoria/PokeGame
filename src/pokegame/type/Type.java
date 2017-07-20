@@ -60,6 +60,14 @@ public class Type {
         } 
     }
     
+    public static float getEffectiveness(Type moveType, Type type1, Type type2){
+        if (type2 == null){
+            return MODIFIER[moveType.getID()][type1.getID()];
+        } else {
+            return (MODIFIER[moveType.getID()][type1.getID()] * MODIFIER[moveType.getID()][type2.getID()]);
+        }
+    }
+    
     public void setImage(){
         image = ImageLoader.loadImage("/type/" + name.toLowerCase() + ".png");
     }

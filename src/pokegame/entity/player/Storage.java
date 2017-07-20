@@ -46,8 +46,8 @@ public class Storage {
             return box[y][0];
         }
 
-        String pkmnData[];
         private void parseData(String[] data) {
+            String pkmnData[];
             for (int x = 0; x < BOXES_SIZE; x++) {
                 pkmnData = data[x].split("\\s+");
                 for (int y = 0; y < DATA_PER_POKEMON; y++) {
@@ -127,6 +127,7 @@ public class Storage {
         Party p = player.getParty();
         if (p.getPokemon(partyID) != null){
             int data[] = p.getPokemon(partyID).toStorage();
+            p.storePokemon(partyID);
             p.addPokemon(partyID, getPokemon(currentBox, storageID));
             removePokemon(currentBox, storageID);
             storePokemon(currentBox, storageID, data); // can shorten this easily
@@ -140,6 +141,7 @@ public class Storage {
         Party p = player.getParty();
         if (getId(currentBox, storageID) != -1) {
             int[] data = p.getPokemon(partyID).toStorage(); //gets data from pokemon to store into box
+            p.storePokemon(partyID);
             p.addPokemon(partyID, getPokemon(currentBox, storageID));
             removePokemon(currentBox, storageID);
             storePokemon(currentBox, storageID, data);

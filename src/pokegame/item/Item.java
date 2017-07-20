@@ -54,6 +54,11 @@ public abstract class Item {
         Berry.init();
     }
     
+    public static Item getItem(int id){
+        if (id == -1) return null;
+        return items[id];
+    }
+    
     public int getItemID(){
         return itemId;
     }

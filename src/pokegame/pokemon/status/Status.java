@@ -18,6 +18,7 @@ public class Status {
     public static final Status BURN = new Status(4, "Burn");
     public static final Status FROZEN = new Status(5, "Frozen");
     public static final Status CONFUSION = new Status(6, "Confusion");
+    public static final Status TOXIC = new Status(7, "Badly Poisoned");
     
     private int id;
     private String name;

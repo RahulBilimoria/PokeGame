@@ -5,6 +5,7 @@
  */
 package pokegame.npc;
 
+import pokegame.entity.Trainer;
 import pokegame.entity.player.Party;
 import pokegame.handler.Handler;
 
@@ -12,7 +13,7 @@ import pokegame.handler.Handler;
  *
  * @author Rahul
  */
-public class GymLeader extends NPC{
+public class GymLeader extends Trainer{
     
     private int badgeId;
     private Party party;

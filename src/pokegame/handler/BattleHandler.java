@@ -46,11 +46,6 @@ public class BattleHandler implements ActionListener, MouseListener {
     public void changePanel(boolean hide) {
         bs.hidePokemon(hide);
     }
-
-    public void win() {
-        battle.addExp();
-        bs.exit();
-    }
     
     public void caughtPokemon(){
         bs.exit();
@@ -59,31 +54,30 @@ public class BattleHandler implements ActionListener, MouseListener {
     public void lose() {
         bs.exit();
     }
+    
+    public void checkForFainted(){
+        battle.checkForFainted();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == bs.getMove1()) {
-            battle.roundStart(0);
-            battle.useMove(0);
-            bs.updateMoveLabels(bs.getMove1(), 0);
-        } else if (e.getSource() == bs.getMove2()) {
-            battle.roundStart(1);
-            battle.useMove(1);
-            bs.updateMoveLabels(bs.getMove2(), 1);
-        } else if (e.getSource() == bs.getMove3()) {
-            battle.roundStart(2);
-            battle.useMove(2);
-            bs.updateMoveLabels(bs.getMove3(), 2);
-        } else if (e.getSource() == bs.getMove4()) {
-            battle.roundStart(3);
-            battle.useMove(3);
-            bs.updateMoveLabels(bs.getMove4(), 3);
+        if (e.getSource() == bs.getMove(0)) {
+            battle.startRound(0);
+            bs.updateMoveLabels(0);
+        } else if (e.getSource() == bs.getMove(1)) {
+            battle.startRound(1);
+            bs.updateMoveLabels(1);
+        } else if (e.getSource() == bs.getMove(2)) {
+            battle.startRound(2);
+            bs.updateMoveLabels(2);
+        } else if (e.getSource() == bs.getMove(3)) {
+            battle.startRound(3);
+            bs.updateMoveLabels(3);
         } else if (e.getSource() == bs.getBag()) {
             battle.openBag();
         } else if (e.getSource() == bs.getFlee()) {
             bs.exit(); //need flee % chance etc
         }
-        bs.updateEverything();
     }
 
     @Override
@@ -92,37 +86,37 @@ public class BattleHandler implements ActionListener, MouseListener {
             battle.changePokemon(0);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.roundStart(-1);
+                battle.startRound(-1);
             }
         } else if (e.getSource() == bs.getLabel(1)) {
             battle.changePokemon(1);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.roundStart(-1);
+                battle.startRound(-1);
             }
         } else if (e.getSource() == bs.getLabel(2)) {
             battle.changePokemon(2);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.roundStart(-1);
+                battle.startRound(-1);
             }
         } else if (e.getSource() == bs.getLabel(3)) {
             battle.changePokemon(3);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.roundStart(-1);
+                battle.startRound(-1);
             }
         } else if (e.getSource() == bs.getLabel(4)) {
             battle.changePokemon(4);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.roundStart(-1);
+                battle.startRound(-1);
             }
         } else if (e.getSource() == bs.getLabel(5)) {
             battle.changePokemon(5);
             bs.updateMoves();
             if (!battle.getFainted()){
-                battle.roundStart(-1);
+                battle.startRound(-1);
             }
         } else {
             JLabel label = (JLabel)e.getSource();

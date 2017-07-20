@@ -10,9 +10,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import pokegame.handler.Handler;
+import pokegame.item.Item;
 import pokegame.npc.NPC;
+import pokegame.npc.PokemonTrainer;
 import pokegame.npc.QuestCharacter;
+import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Moveset;
+import pokegame.pokemon.nature.Nature;
+import pokegame.pokemon.status.Status;
 import pokegame.tiles.Tile;
 import pokegame.utils.DocumentParser;
 import pokegame.utils.Utils;
@@ -79,7 +84,7 @@ public class Map {
     public void spawnNPCs(int xOffset, int yOffset){
         int x = 0;
         Document d = DocumentParser.loadDataFile("dat/world/npcs/npc1.xml");
-        NodeList list = d.getElementsByTagName("Quest");
+        /*NodeList list = d.getElementsByTagName("Quest");
         for (x = 0; x < list.getLength(); x++) {
             Element character = (Element) (list.item(x));
             Element speech = (Element) character.getElementsByTagName("Speech").item(0);
@@ -110,6 +115,77 @@ public class Map {
                     Utils.parseInt(character.getElementsByTagName("QuestID").item(0).getTextContent()),
                     Utils.parseInt(character.getElementsByTagName("QuestSequence").item(0).getTextContent()),
                     s);
+        }*/
+        NodeList list = d.getElementsByTagName("Trainer");
+        for (x = 0; x < list.getLength(); x++) {
+            Element character = (Element) (list.item(x));
+            NodeList party = ((Element)character.getElementsByTagName("Party").item(0)).getElementsByTagName("Pokemon");
+            NodeList bag = character.getElementsByTagName("Bag");
+            Pokemon pkmn[] = new Pokemon[party.getLength()];
+            for (int y = 0; y < party.getLength(); y++){
+                Element poke = (Element)(party.item(y));
+                Element moveset = (Element) poke.getElementsByTagName("Moveset").item(0);
+                boolean shiny = false;
+                boolean gender = false;
+                if (Utils.parseInt(poke.getElementsByTagName("Shiny").item(0).getTextContent()) == 1)
+                    shiny = true;
+                if (Utils.parseInt(poke.getElementsByTagName("Gender").item(0).getTextContent()) == 1)
+                    gender = true;
+                pkmn[y] = new Pokemon(handler,
+                    Utils.parseInt(poke.getElementsByTagName("ID").item(0).getTextContent()),
+                    shiny,
+                    Utils.parseInt(poke.getElementsByTagName("Level").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("Hp").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("Attack").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("Defense").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("SpecialAttack").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("SpecialDefense").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("Speed").item(0).getTextContent()),
+                    poke.getElementsByTagName("Nickname").item(0).getTextContent(),
+                    Status.getStatusById(Utils.parseInt(poke.getElementsByTagName("ID").item(0).getTextContent())),
+                    Utils.parseInt(poke.getElementsByTagName("TpPoints").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("Friendship").item(0).getTextContent()),
+                    Utils.parseInt(poke.getElementsByTagName("FriendshipRate").item(0).getTextContent()),
+                    Nature.getNatureById(Utils.parseInt(poke.getElementsByTagName("ID").item(0).getTextContent())),
+                    gender,
+                    new Moveset(Utils.parseInt(moveset.getElementsByTagName("Move1").item(0).getTextContent()),
+                                Utils.parseInt(moveset.getElementsByTagName("Move2").item(0).getTextContent()),
+                                Utils.parseInt(moveset.getElementsByTagName("Move3").item(0).getTextContent()),
+                                Utils.parseInt(moveset.getElementsByTagName("Move4").item(0).getTextContent())));
+            }
+            Item items[] = new Item[bag.getLength()];
+            int itemAmount[] = new int[bag.getLength()];
+            for (int y = 0; y < bag.getLength(); y++){
+                Element item = (Element) (bag.item(y));
+                items[y] = Item.items[Utils.parseInt(item.getElementsByTagName("ID").item(0).getTextContent())];
+                itemAmount[y] = Utils.parseInt(item.getElementsByTagName("Amount").item(0).getTextContent());
+            }
+            boolean canTurn = false;
+            boolean canMove = false;
+            boolean isSolid = false;
+            boolean aggresive = false;
+            if (Utils.parseInt(character.getElementsByTagName("LooksAround").item(0).getTextContent()) == 1)
+                canTurn = true;
+            if (Utils.parseInt(character.getElementsByTagName("WalksAround").item(0).getTextContent()) == 1)
+                canMove = true;
+            if (Utils.parseInt(character.getElementsByTagName("Solid").item(0).getTextContent()) == 1)
+                isSolid = true;
+            if (Utils.parseInt(character.getElementsByTagName("Aggresive").item(0).getTextContent()) == 1)
+                aggresive = true;
+            npcs[x] = new PokemonTrainer(handler,
+                    Utils.parseInt(character.getElementsByTagName("ID").item(0).getTextContent()),
+                    character.getElementsByTagName("Name").item(0).getTextContent(),
+                    Utils.parseInt(character.getElementsByTagName("SpriteID").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("PortraitID").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("Direction").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("X").item(0).getTextContent()) * Tile.TILE_WIDTH + xOffset,
+                    Utils.parseInt(character.getElementsByTagName("Y").item(0).getTextContent()) * Tile.TILE_HEIGHT + yOffset,
+                    Utils.parseInt(character.getElementsByTagName("DistanceFromCenter").item(0).getTextContent()),
+                    canTurn, canMove, isSolid, aggresive,
+                    Item.getItem(Utils.parseInt(character.getElementsByTagName("ItemReward").item(0).getTextContent())),
+                    Utils.parseInt(character.getElementsByTagName("ItemRewardAmount").item(0).getTextContent()),
+                    Utils.parseInt(character.getElementsByTagName("ZeniReward").item(0).getTextContent()),
+                    pkmn, items, itemAmount);
         }
     }
     

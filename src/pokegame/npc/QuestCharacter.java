@@ -54,47 +54,21 @@ public class QuestCharacter extends NPC {
         Element element = (Element) (list.item(0));
         Element pokemon = (Element) (element.getElementsByTagName("PokemonReward").item(0));
         Element moveset = (Element) (pokemon.getElementsByTagName("Moveset").item(0));
-        String questName = element.getElementsByTagName("Name").item(0).getTextContent();
-        int itemId = Utils.parseInt(element.getElementsByTagName("ItemID").item(0).getTextContent());
-        int pokemonId = Utils.parseInt(element.getElementsByTagName("PokemonID").item(0).getTextContent());
-        int wildPokemonId = Utils.parseInt(element.getElementsByTagName("WildPokemonID").item(0).getTextContent());
         int itemRewardId = Utils.parseInt(element.getElementsByTagName("ItemRewardID").item(0).getTextContent());
         int pokemonRewardId = Utils.parseInt(pokemon.getElementsByTagName("ID").item(0).getTextContent());
-        int pokemonExpReward = Utils.parseInt(element.getElementsByTagName("PokemonExpReward").item(0).getTextContent());
-        if (itemId != -1) {
-            quest = new Quest(questID, questName, itemId,
-                    Utils.parseInt(element.getElementsByTagName("ItemAmountRequired").item(0).getTextContent()));
-        }
-        if (pokemonId != -1) {
-            if (quest == null) {
-                quest = new Quest(questID, questName, pokemonId,
-                        Utils.parseInt(element.getElementsByTagName("PokemonLevel").item(0).getTextContent()),
-                        Utils.parseInt(element.getElementsByTagName("PokemonAmountRequired").item(0).getTextContent()));
-            } else {
-                quest.addRequirement(pokemonId,
-                        Utils.parseInt(element.getElementsByTagName("PokemonLevel").item(0).getTextContent()),
-                        Utils.parseInt(element.getElementsByTagName("PokemonAmountRequired").item(0).getTextContent()));
-            }
-        }
-        if (wildPokemonId != -1) {
-            if (quest == null) {
-                quest = new Quest(questID, questName, wildPokemonId,
-                        Utils.parseInt(element.getElementsByTagName("WildPokemonLevel").item(0).getTextContent()),
-                        Utils.parseInt(element.getElementsByTagName("WildPokemonAmountRequired").item(0).getTextContent()),
-                        Utils.parseInt(element.getElementsByTagName("MapLocation").item(0).getTextContent()));
-            } else {
-                quest.addRequirement(wildPokemonId,
-                        Utils.parseInt(element.getElementsByTagName("WildPokemonLevel").item(0).getTextContent()),
-                        Utils.parseInt(element.getElementsByTagName("WildPokemonAmountRequired").item(0).getTextContent()),
-                        Utils.parseInt(element.getElementsByTagName("MapLocation").item(0).getTextContent()));
-            }
-        }
-        if (itemRewardId != -1) {
+        quest = new Quest(questID, element.getElementsByTagName("Name").item(0).getTextContent(),
+            Utils.parseInt(element.getElementsByTagName("ItemID").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("ItemAmountRequired").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("PokemonID").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("PokemonLevel").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("PokemonAmountRequired").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("WildPokemonID").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("WildPokemonLevel").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("WildPokemonAmountRequired").item(0).getTextContent()),
+            Utils.parseInt(element.getElementsByTagName("MapLocation").item(0).getTextContent()));
+        if (itemRewardId != -1)
             quest.addReward(Item.items[itemRewardId], Utils.parseInt(element.getElementsByTagName("ItemRewardAmount").item(0).getTextContent()));
-        }
-        if (pokemonExpReward != -1) {
-            quest.addReward(pokemonExpReward);
-        }
+        quest.addReward(Utils.parseInt(element.getElementsByTagName("PokemonExpReward").item(0).getTextContent()));
         if (pokemonRewardId != -1) {
             boolean shiny = false;
             if (Utils.parseInt(pokemon.getElementsByTagName("Shiny").item(0).getTextContent()) == 1) {

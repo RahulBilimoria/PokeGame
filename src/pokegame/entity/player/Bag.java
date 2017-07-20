@@ -6,6 +6,7 @@
 package pokegame.entity.player;
 
 import java.util.ArrayList;
+import pokegame.entity.Person;
 import pokegame.item.Item;
 import pokegame.item.pokeball.Pokeball;
 import pokegame.item.potion.Healing;
@@ -45,13 +46,13 @@ public class Bag {
         }
     }
 
-    private Player player;
+    private Person person;
     private int itemsCount = 0;
     private ArrayList<MyItem> bag;
     private ArrayList<MyItem> medicine, pokeballs, berries, keyItems;
     private ArrayList<MyItem> list[] = new ArrayList[5];
-    public Bag(Player player) {
-        this.player = player;
+    public Bag(Person person) {
+        this.person = person;
         bag = new ArrayList<>();
         medicine = new ArrayList<>();
         pokeballs = new ArrayList<>();

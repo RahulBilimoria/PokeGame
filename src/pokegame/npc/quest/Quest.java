@@ -36,48 +36,21 @@ public class Quest {
     private int pokemonRewardAmount;
     private int pokemonExpReward;
         
-    public Quest(int id, String name, int itemId, int itemAmountRequired){
+    public Quest(int id, String name, int itemId, int itemAmountRequired, 
+            int pokemonId, int pokemonLevel, int pokemonAmountRequired, 
+            int wildPokemonId, int wildPokemonLevel, int wildPokemonAmountRequired, 
+            int mapLocation){
         this.id = id;
         this.name = name;
         this.itemId = itemId;
         this.itemAmountRequired = itemAmountRequired;
-        pokemonId = -1;
-        wildPokemonId = -1;
-        mapLocation = -1;
-        itemReward = null;
-        pokemonReward = null;
-        pokemonExpReward = -1;
-        currentItemAmount = 0;
-        currentPokemonAmount = 0;
-        currentWildPokemonAmount = 0;
-    }
-    
-    public Quest(int id, String name, int pokemonId, int pokemonLevel, int pokemonAmountRequired){
-        this.id = id;
-        this.name = name;
         this.pokemonId = pokemonId;
         this.pokemonLevel = pokemonLevel;
         this.pokemonAmountRequired = pokemonAmountRequired;
-        itemId = -1;
-        wildPokemonId = -1;
-        mapLocation = -1;
-        itemReward = null;
-        pokemonReward = null;
-        pokemonExpReward = -1;
-        currentItemAmount = 0;
-        currentPokemonAmount = 0;
-        currentWildPokemonAmount = 0;
-    }
-    
-    public Quest(int id, String name, int wildPokemonId, int wildPokemonLevel, int wildPokemonAmountRequired, int mapLocation){
-        this.id = id;
-        this.name = name;
         this.wildPokemonId = wildPokemonId;
         this.wildPokemonLevel = wildPokemonLevel;
         this.wildPokemonAmountRequired = wildPokemonAmountRequired;
         this.mapLocation = mapLocation;
-        itemId = -1;
-        pokemonId = -1;
         itemReward = null;
         pokemonReward = null;
         pokemonExpReward = -1;

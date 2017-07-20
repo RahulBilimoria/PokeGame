@@ -37,6 +37,7 @@ public class BattleScreen {
     private JFrame frame;
     private JTextArea battleHistory;
     private JButton move1, move2, move3, move4, bag, flee;
+    private JButton[] move = new JButton[4];
     private JPanel movePanel, pokemonPanel, allyPokemon, enemyPokemon, bagPanel, expPanel;
     private JLabel[] pkmn = new JLabel[6];
     private JLabel[] items = new JLabel[30];
@@ -67,10 +68,6 @@ public class BattleScreen {
         move4 = newMoveButton(3);
         bag = newOtherButton("Bag");
         flee = newOtherButton("Flee");
-        one.add(move1);
-        one.add(move2);
-        one.add(move3);
-        one.add(move4);
         two.add(bag);
         two.add(flee);
         one.setOpaque(false);
@@ -93,6 +90,12 @@ public class BattleScreen {
         bag.addActionListener(bh);
         flee.addActionListener(bh);
         battle.addBattleHandler(bh);
+        
+        for (int x = 0; x < 4; x++){
+            move[x] = newMoveButton(x);
+            move[x].addActionListener(bh);
+            one.add(move[x]);
+        }
 
         secondsLeft = new JLabel("0");
 
@@ -167,7 +170,7 @@ public class BattleScreen {
         frame.setFocusable(true);
     }
 
-    public JButton newOtherButton(String name) {
+    private JButton newOtherButton(String name) {
         JButton b = new JButton(name);
         b.setSize(75, 30);
         b.setForeground(Color.white);
@@ -181,7 +184,7 @@ public class BattleScreen {
         return b;
     }
 
-    public JButton newMoveButton(int id) {
+    private JButton newMoveButton(int id) {
         JButton b = new JButton();
         b.setSize(150, 30);
         b.setForeground(Color.white);
@@ -206,7 +209,7 @@ public class BattleScreen {
         return b;
     }
 
-    public void setButton(JButton button, int id) {
+    private void setButton(JButton button, int id) { // can refactor this and make it smaller
         Move m = battle.getPokemon().getMoveset().getMove(id);
         String s = battle.getMoveName(id);
         if (s.equals("")) {
@@ -252,15 +255,16 @@ public class BattleScreen {
         flee.setEnabled(true);
     }
 
-    public void updateMoveLabels(JButton button, int moveID) {
+    public void updateMoveLabels(int moveID) {
+        JButton b = move[moveID];
         Move m = battle.getPokemon().getMoveset().getMove(moveID);
         String s = battle.getMoveName(moveID);
         if (s.equals("")) {
-            button.setText("------------");
+            b.setText("------------");
         } else {
-            button.setText(s + " " + m.getPP() + "/" + m.getMaxPP());
+            b.setText(s + " " + m.getPP() + "/" + m.getMaxPP());
             if (m.getPP() <= 0) {
-                button.setEnabled(false);
+                b.setEnabled(false);
             }
         }
     }
@@ -313,6 +317,10 @@ public class BattleScreen {
         }
         ally.setIcon(new ImageIcon(battle.getPokemon().getBack()));
     }
+    
+    public void updateEnemyPokemon(){
+        enemy.setIcon(new ImageIcon(battle.getEnemy().getFront()));
+    }
 
     public void addItems(JPanel panel, BattleHandler bh) {
         Bag b = battle.getBag();
@@ -347,20 +355,8 @@ public class BattleScreen {
         flee.setEnabled(false);
     }
 
-    public JButton getMove1() {
-        return move1;
-    }
-
-    public JButton getMove2() {
-        return move2;
-    }
-
-    public JButton getMove3() {
-        return move3;
-    }
-
-    public JButton getMove4() {
-        return move4;
+    public JButton getMove(int x){
+        return move[x];
     }
 
     public JButton getBag() {

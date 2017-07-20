@@ -5,6 +5,8 @@
  */
 package pokegame.entity.player;
 
+import java.awt.Color;
+import pokegame.entity.Person;
 import pokegame.handler.Handler;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Moveset;
@@ -15,28 +17,16 @@ import pokegame.pokemon.move.Moveset;
  */
 public class Party {
     
-    private Player player;
+    private Person person;
     private Handler h;
     
     private Pokemon[] pokemon = new Pokemon[6];
     private int partySize;
     
-    public Party(Handler h, Player player){
+    public Party(Handler h, Person person){
         this.h = h;
-        this.player = player;
-        pokemon[0] = new Pokemon(h, 0, false, 1, 1, 1,
-                                    11,1,1,1, new Moveset(0));
-        pokemon[1] = new Pokemon(h, 1, false, 2, 8, 7,
-                                    2,2,2,2, new Moveset(0, 1));
-        pokemon[2] = new Pokemon(h, 2, false, 3, 6, 1,
-                                    2,2,2,2, new Moveset(2, 3));
-        pokemon[3] = new Pokemon(h, 3, false, 4, 1, 5,
-                                    2,2,2,2, new Moveset(4, 5));
-        pokemon[4] = new Pokemon(h, 4, false, 5, 2, 2,
-                                    2,2,2,2, new Moveset(6, 7, 8));
-        pokemon[5] = new Pokemon(h, 5, false, 6, 4, 1,
-                                    2,2,2,2, new Moveset(9, 10, 11, 12));
-        partySize = 6;
+        this.person = person;
+        partySize = 0;
     }
     
     public String getPokemonName(int partyIndex){
@@ -49,13 +39,12 @@ public class Party {
     
     public void storePokemon(int partyIndex){
         partySize--;
-        player.addToQuest(pokemon[partyIndex], -1);
         pokemon[partyIndex] = null;
+        setActive();
     }
     
     public void addPokemon(int partyIndex, Pokemon p){
         partySize++;
-        player.addToQuest(p, 1);
         pokemon[partyIndex] = p;
     }
     
@@ -69,13 +58,30 @@ public class Party {
         }
     }
     
-    public void removePokemon(int pokemonId, int pokemonLevel){
+    public int removePokemon(int pokemonId, int pokemonLevel){ // return a code instead for error handling
         for (int x = 0; x < 6; x++){
             if (pokemon[x] != null){
                 if (pokemon[x].getID() == pokemonId && pokemon[x].getLevel() >= pokemonLevel){
+                    if (partySize == 1){
+                        h.getGame().addText("Can't have 0 pokemon in party!\n", Color.red);
+                        return 0;
+                    }
+                    partySize--;
                     pokemon[x] = null;
-                    return;
+                    setActive();
+                    return 1;
                 }
+            }
+        }
+        return 0;
+    }
+    
+    public void setActive(){
+        Player player = (Player) person;
+        if (pokemon[player.getActiveNumber()] != null)return;
+        for (int x = 0; x < 6; x++){
+            if (pokemon[x] != null){
+                player.setActiveNumber(x);
             }
         }
     }
@@ -92,6 +98,7 @@ public class Party {
         Pokemon temp = pokemon[x];
         pokemon[x] = pokemon[y];
         pokemon[y] = temp;
+        Player player = (Player) person;
         if (player.getActiveNumber() == x){
             player.setActiveNumber(y);
         } else if (player.getActiveNumber() == y){

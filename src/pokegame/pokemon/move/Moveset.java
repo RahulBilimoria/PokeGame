@@ -156,7 +156,7 @@ public class Moveset {
         }
     }
     
-    public void createMoveset(int id1, int id2, int id3, int id4){
+    private void createMoveset(int id1, int id2, int id3, int id4){
         move1 = createMove(id1);
         move2 = createMove(id2);
         move3 = createMove(id3);

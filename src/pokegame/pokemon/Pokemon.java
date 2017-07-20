@@ -176,7 +176,7 @@ public class Pokemon {
     private int friendship;
     private int friendshipRate;
     private String nickname;
-    //male = true, female = false
+    //male = true,1 female = false,0
     private boolean gender, shiny;
     private Moveset moveset;
     private Nature nature;
@@ -618,5 +618,11 @@ public class Pokemon {
 
     public static String getPokemonName(int pokemonId) {
         return POKEMON_LIST[pokemonId].getName();
+    }
+    public Pokemon copy(){
+        return new Pokemon(h, this.id, this.shiny, this.level, this.hp, this.att, 
+            this.def, this.spatt, this.spdef, this.speed, this.nickname,
+            this.status, this.tpPoints, this.friendship, this.friendshipRate, 
+            this.nature, this.gender, this.moveset);
     }
 }

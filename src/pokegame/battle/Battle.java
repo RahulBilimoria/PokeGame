@@ -7,6 +7,7 @@ package pokegame.battle;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import pokegame.entity.ai.AI;
 import pokegame.entity.player.Bag;
 import pokegame.entity.player.Player;
 import pokegame.entity.player.Storage;
@@ -19,34 +20,38 @@ import pokegame.item.potion.Potion;
 import pokegame.item.potion.StatusRemove;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
-import pokegame.pokemon.status.Status;
 
 /**
  *
  * @author Rahul
  */
-public class Battle {
+public abstract class Battle {
 
     //When all your pokemon faint, respawn at pokemon center
     //When one of your pokemon faints, need selection to a new pokemon
     //When you win, need to show win screen
-    private BattleHandler battleHandler;
-    private Handler handler;
-    private Player player;
-    private Pokemon enemy;
+    protected BattleHandler battleHandler;
+    protected BattleScreen screen;
+    protected Handler handler;
+    protected Player player;
+    protected Pokemon ally, enemy;
 
     private int activePokemon;
     private int seconds;
     private int roundNumber;
+    private int difficulty;
     private long lastTime;
-    private boolean fainted;
+    protected boolean fainted;
+    protected boolean won;
     private boolean bag;
     private boolean itemUsed;
 
-    public Battle(Handler handler, Player player, Pokemon enemy) {
+    public Battle(Handler handler, Player player, Pokemon enemy, int difficulty) {
         this.handler = handler;
         this.player = player;
         this.enemy = enemy;
+        this.difficulty = difficulty;
+        ally = player.getPokemon(player.getActiveNumber());
         seconds = 60;
         roundNumber = 0;
         lastTime = System.currentTimeMillis();
@@ -54,6 +59,7 @@ public class Battle {
         fainted = false;
         bag = false;
         itemUsed = false;
+        won = false;
     }
 
     public void tick() {
@@ -62,9 +68,9 @@ public class Battle {
             seconds = seconds - 1;
             System.out.println(seconds);
             battleHandler.updateSeconds(seconds);
-        } 
+        }
         if (seconds == 0) {
-            roundStart(-1);
+            //roundStart(-1);
             battleHandler.updateEverything();
         }
         battleHandler.updateSeconds(seconds);
@@ -73,62 +79,59 @@ public class Battle {
     public void render(Graphics g) {
 
     }
-
-    public void roundStart(int moveID) {
-        boolean cantAttack = false;
+    
+    public void startRound(int allyMoveID){
         roundNumber++;
         addText("------------------------------ Round: " + roundNumber);
-        if (getPokemon().getStatus() == Status.FROZEN){
-            cantAttack = true;
-            addText(getPokemon().getName() + " is frozen solid!");
-        } if (moveID == -1 || cantAttack) {
-            enemyMove();
-            faintedPokemon();
-        } else if (getPokemon().getSpeed() > enemy.getSpeed()) { // need move priority aswell
-            usePlayerMove(moveID);
-            if (enemy.getHp() <= 0) {
-                battleHandler.win(); // put winning screen, get exp etc
-            } else {
-                enemyMove();
-            }
-            faintedPokemon();
-        } else {
-            enemyMove();
-            if (getPokemon().getHp() <= 0) {
-                faintedPokemon();
-            } else {
-                usePlayerMove(moveID);
-            }
-            if (enemy.getHp() <= 0) {
-                battleHandler.win(); // put winning screen, get exp etc
-            }
-        }
+        battleSequence(allyMoveID, AI.chooseNextMove(difficulty, enemy, ally));
         seconds = 60;
+        if (won) screen.exit();
+        else screen.updateEverything();
     }
 
-    public void enemyMove() {
-        Move m = enemy.getMoveset().getMove(1);
-        int damage = getDamage(enemy, getPokemon(), m);
-        addText(enemy.getName() + " used " + m.getName() + ".");
-        if (Math.random() < m.getAccuracy()) {
-            addText(getPokemon().getName() + " was hit for " + damage + " damage!");
-            getPokemon().damage(damage);
+    public void battleSequence(int allyMoveID, int enemyMoveID) {
+        if (fainted){
+            fainted = false;
+            return;
+        }
+        if (allyMoveID == -1) {
+            battleTurn(enemy, ally, enemyMoveID);
+        } else if (ally.getSpeed() > enemy.getSpeed()) {
+            battleTurn(ally, enemy, allyMoveID);
+            if (checkForFainted()) return;
+            battleTurn(enemy, ally, enemyMoveID);
+        } else if (ally.getSpeed() < enemy.getSpeed()) {
+            battleTurn(enemy, ally, enemyMoveID);
+            if (checkForFainted()) return;
+            battleTurn(ally, enemy, allyMoveID);
+        } else if (Math.random() < 0.5) {
+            battleTurn(ally, enemy, allyMoveID);
+            if (checkForFainted()) return;
+            battleTurn(enemy, ally, enemyMoveID);
         } else {
-            addText(enemy.getName() + "'s attack missed!");
+            battleTurn(enemy, ally, enemyMoveID);
+            if (checkForFainted()) return;
+            battleTurn(ally, enemy, allyMoveID);
+        }
+        checkForFainted();
+    }
+
+    protected void battleTurn(Pokemon attacking, Pokemon defending, int attMoveID) {
+        if (attMoveID == -1)return;
+        Move m = attacking.getMoveset().getMove(attMoveID);
+        System.out.println(m.getId() + ": " + m.getName());
+        m.usePP();
+        int damage = getDamage(attacking, defending, m);
+        addText(attacking.getName() + " used " + m.getName() + ".");
+        if (Math.random() < m.getAccuracy()) {
+            addText(defending.getName() + " was hit for " + damage + " damage!");
+            defending.damage(damage);
+        } else {
+            addText(attacking.getName() + "'s attack missed!");
         }
     }
 
-    public void usePlayerMove(int moveID) {
-        Move m = getPokemon().getMoveset().getMove(moveID);
-        int damage = getDamage(getPokemon(), enemy, m);
-        addText(getPokemon().getName() + " used " + m.getName() + ".");
-        if (Math.random() < m.getAccuracy()) {
-            addText(enemy.getName() + " was hit for " + damage + " damage!");
-            enemy.damage(damage);
-        } else {
-            addText(getPokemon().getName() + "'s attack missed!");
-        }
-    }
+    public abstract boolean checkForFainted();
 
     public int getDamage(Pokemon attack, Pokemon defend, Move m) {
         int att = 1;
@@ -157,41 +160,9 @@ public class Battle {
         return (int) (damage * modifier);
     }
 
-    public void faintedPokemon() {
-        boolean f = true;
-        if (getPokemon().getHp() <= 0) {
-            fainted = true;
-            addText(getPokemon().getName() + " has fainted!");
-            if (bag) {
-                openBag();
-            }
-            battleHandler.disableButtons();
-            for (int x = 0; x < 6; x++) {
-                if (player.getPokemon(x) != null) {
-                    if (player.getPokemon(x).getHp() > 0) {
-                        f = false;
-                        addText("Pick your next pokemon.");
-                        break;
-                    }
-                }
-            }
-            if (f) {
-                battleHandler.lose(); // put fainted screen
-            }
-        }
-    }
-
-    public boolean getFainted() {
-        return fainted;
-    }
-
     public void openBag() {
         bag = !bag;
         battleHandler.changePanel(bag);
-    }
-
-    public void useMove(int moveID) {
-        getPokemon().getMoveset().getMove(moveID).usePP();
     }
 
     public void useItem(String name) {
@@ -205,7 +176,7 @@ public class Battle {
                     usePotion((Potion) getBag().getItem(item[2]));
                 }
                 getBag().removeItem(item[2], 1);
-                roundStart(-1);
+                //roundStart(-1);
             } else {
                 addText("You have no more " + item[2] + "s!");
             }
@@ -279,7 +250,7 @@ public class Battle {
         // t | 1 for original owner, 1.5 for otherwise
         int t = 1;
         // base pokemon exp
-        // e | 1.5 for holding lucky egg, 1.5 otherwise
+        // e | 1.5 for holding lucky egg, 1 otherwise
         int e = 1;
         //level of the enemy pokemon
         // p | exp power point or some shit (its gen 5 and 6 so fk it)
@@ -297,9 +268,16 @@ public class Battle {
 
     public String getMoveName(int moveID) {
         Move m = getPokemon().getMoveset().getMove(moveID);
-        if (m == null)
+        if (m == null) {
             return "";
+        }
         return m.getName();
+    }
+    
+    protected void closeBag() {
+        if (bag) {
+            openBag();
+        }
     }
 
     public int getActiveNumber() {
@@ -307,7 +285,7 @@ public class Battle {
     }
 
     public Pokemon getPokemon() {
-        return player.getPokemon(activePokemon);
+        return ally;
     }
 
     public Pokemon getEnemy() {
@@ -329,7 +307,7 @@ public class Battle {
     }
 
     public void changePokemon(int ap) {
-        activePokemon = ap;
+        ally = player.getPokemon(ap);
     }
 
     public boolean getItemUsed() {
@@ -348,9 +326,14 @@ public class Battle {
         return player;
     }
 
+    public boolean getFainted() {
+        return fainted;
+    }
+
     public void exit() {
         if (player.getActivePokemon().getHp() <= 0) {
             for (int x = 0; x < 6; x++) {
+                if (player.getPokemon(x) == null) continue;
                 if (player.getPokemon(x).getHp() > 0) {
                     player.setActiveNumber(x);
                     break;

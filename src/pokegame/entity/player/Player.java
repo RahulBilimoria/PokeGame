@@ -18,6 +18,7 @@ import pokegame.item.Item;
 import pokegame.npc.quest.Quest;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
+import pokegame.pokemon.move.Moveset;
 import pokegame.tiles.Tile;
 
 /**
@@ -43,6 +44,7 @@ public class Player extends Person {
     private Storage storage;
     private ArrayList<Quest> activeQuests;
     private ArrayList<Integer> completedQuests;
+    private ArrayList<Integer> defeatedTrainers;
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Person.DEFAULT_CREATURE_WIDTH, Person.DEFAULT_CREATURE_HEIGHT);
@@ -60,6 +62,8 @@ public class Player extends Person {
         enabled = true;
         activeQuests = new ArrayList<>();
         completedQuests = new ArrayList<>();
+        defeatedTrainers = new ArrayList<>();
+        party.addPokemon(new Pokemon(handler, 5, true, 15, 20, 15, 14, 16, 14, 7, new Moveset(0,3,6,9)));
     }
 
     @Override
@@ -158,23 +162,6 @@ public class Player extends Person {
         }
     }
 
-    /*protected boolean collisionWithTile(int xPixel, int yPixel, int direction) {
-        if (handler.getWorld().getEdit()) {
-            return false;
-        }
-        switch (direction) {
-            case 0:
-                return handler.getWorld().getMap().getScript(xPixel, yPixel - 1, true).isSolid(); //up
-            case 1:
-                return handler.getWorld().getMap().getScript(xPixel + 1, yPixel, true).isSolid(); //right
-            case 2:
-                return handler.getWorld().getMap().getScript(xPixel, yPixel + 1, true).isSolid(); //down
-            case 3:
-                return handler.getWorld().getMap().getScript(xPixel - 1, yPixel, true).isSolid(); //left
-            default:
-                return false;
-        }
-    }*/
     public void addQuest(Quest q) {
         if (completedQuests != null) {
             for (Integer x : completedQuests) {
@@ -284,8 +271,7 @@ public class Player extends Person {
             if (activeQuest.getId() == q.getId()) {
                 int amount = Math.min(activeQuest.getRemainingPokemon(), party.getNumberOfPokemon(activeQuest.getPokemonId(), activeQuest.getPokemonLevel()));
                 for (int x = 0; x < amount; x++){
-                    party.removePokemon(activeQuest.getPokemonId(), activeQuest.getPokemonLevel());
-                    activeQuest.addCurrentPokemon(1);
+                    activeQuest.addCurrentPokemon(party.removePokemon(activeQuest.getPokemonId(), activeQuest.getPokemonLevel()));
                 }
                 return;
             }
@@ -331,6 +317,15 @@ public class Player extends Person {
                 break;
             }
         }
+    }
+    
+    public boolean hasDefeated(int id){
+        for (Integer i : defeatedTrainers){
+            if (i == id){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setActiveNumber(int num) {

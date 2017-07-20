@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import pokegame.battle.Battle;
 import pokegame.battle.BattleScreen;
+import pokegame.battle.WildBattle;
 import pokegame.entity.player.Player;
 import pokegame.handler.GameHandler;
 import pokegame.handler.Handler;
@@ -32,11 +33,9 @@ public class World {
     private Map currentMap, upMap, downMap, leftMap, rightMap;
     private Handler handler;
     private GameHandler gameHandler;
-    private BattleScreen battleScreen;
     private StorageScreen storage;
     private ShopScreen shop;
     private Battle battle;
-    private Pokemon p;
     private MapEditor me;
 
     private float playerX, playerY;
@@ -286,9 +285,7 @@ public class World {
                     handler.getKeyManager().reset();
                     gameHandler.getPlayer().setEnabled(false);
                     b = false;
-                    p = s1.getSpawn().getPokemon();
-                    battle = new Battle(handler, gameHandler.getPlayer(), s1.getSpawn().getPokemon());
-                    battleScreen = new BattleScreen(battle);
+                    battle = new WildBattle(handler, gameHandler.getPlayer(), s1.getSpawn().getPokemon(), 10);
                 }
             }
         }
