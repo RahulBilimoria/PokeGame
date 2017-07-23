@@ -5,6 +5,8 @@
  */
 package pokegame.battle;
 
+import java.awt.Color;
+import pokegame.entity.ai.AI;
 import pokegame.entity.player.Player;
 import pokegame.handler.Handler;
 import pokegame.npc.GymLeader;
@@ -17,16 +19,70 @@ import pokegame.pokemon.Pokemon;
 public class GymBattle extends Battle{
     
     private GymLeader leader;
+    private Pokemon[] leaderPokemon;
+    private Pokemon[] playerPokemon;
     private int[] restrictedItems;
     
     
-    public GymBattle(Handler handler, Player player, Pokemon enemy) {
-        super(handler, player, enemy, 0);
+    public GymBattle(Handler handler, Player player, GymLeader leader) {
+        super(handler, player, leader.getActivePokemon(), 0);
+        screen = new BattleScreen(this);
+        this.leader = leader;
+        leaderPokemon = leader.getCopyOfPokemon();
+        enemy = leaderPokemon[leader.getActiveNumber()];
+        playerPokemon = new Pokemon[6];
+        playerPokemon[0] = player.getPokemon(player.getActiveNumber());
+        for (int x = 1; x < 6; x++){
+            playerPokemon[x] = null;
+        }
     }
 
     @Override
     public boolean checkForFainted() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (enemy.getHp() <= 0) {
+            String faintedPkmn = enemy.getName();
+            addExp();
+            enemy = AI.chooseNextPokemon(leader.getDifficulty(), leaderPokemon, ally);
+            if (enemy == null) won = true;
+            else {
+                screen.updateEnemyPokemon();
+                addText(faintedPkmn + " has fainted! " + leader.getName() + " sent out " + enemy.getName()+"!");
+            }
+            return true;
+        }
+        if (ally.getHp() > 0) {
+            return false;
+        }
+        fainted = true;
+        addText(ally.getName() + " has fainted!");
+        closeBag();
+        screen.disableButtons();
+        for (int x = 0; x < 6; x++) {
+            if (player.getPokemon(x) != null) {
+                if (player.getPokemon(x).getHp() > 0) {
+                    addText("Pick your next pokemon.");
+                    break;
+                }
+                else if (x == 6) {
+                    lose(); // put fainted screen
+                }
+            }
+        }
+        return true;
     }
     
+    @Override
+    public void win(){
+        handler.getGame().addText("You've defeated Gym Leader " + leader.getName()+".\n", Color.blue);
+        player.addBadge(leader.getRegion(), leader.getBadge());
+        exit();
+    }
+    
+    @Override
+    public void lose(){
+        screen.exit();
+        player.respawn();
+        player.getParty().heal();
+        exit();
+    }
 }

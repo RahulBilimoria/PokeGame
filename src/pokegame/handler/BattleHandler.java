@@ -26,37 +26,9 @@ public class BattleHandler implements ActionListener, MouseListener {
         this.bs = bs;
         this.battle = battle;
     }
-
-    public void disableButtons() {
-        bs.disableButtons();
-    }
-
-    public void addText(String text) {
-        bs.updateBattleHistory(text);
-    }
-
-    public void updateSeconds(int seconds) {
-        bs.updateSeconds(seconds);
-    }
-
-    public void updateEverything() {
-        bs.updateEverything();
-    }
-
+    
     public void changePanel(boolean hide) {
         bs.hidePokemon(hide);
-    }
-    
-    public void caughtPokemon(){
-        bs.exit();
-    }
-
-    public void lose() {
-        bs.exit();
-    }
-    
-    public void checkForFainted(){
-        battle.checkForFainted();
     }
 
     @Override
@@ -76,7 +48,7 @@ public class BattleHandler implements ActionListener, MouseListener {
         } else if (e.getSource() == bs.getBag()) {
             battle.openBag();
         } else if (e.getSource() == bs.getFlee()) {
-            bs.exit(); //need flee % chance etc
+            battle.exit(); //need flee % chance etc
         }
     }
 
@@ -123,7 +95,6 @@ public class BattleHandler implements ActionListener, MouseListener {
             battle.useItem(label.getText());
             bs.updateItemLabels(label);
         }
-        battle.setFainted(false);
         bs.updateEverything();
     }
 

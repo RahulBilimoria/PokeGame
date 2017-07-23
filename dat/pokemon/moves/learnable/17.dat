@@ -1,6 +1,8 @@
+1   Hurricane
 1   Tackle
 1   Sand_Attack
 1   Gust
+1   Quick_Attack
 5   Sand_Attack
 9   Gust
 13  Quick_Attack
@@ -8,9 +10,9 @@
 22  Twister
 27  Feather_Dance
 32  Agility
-37  Wing_Attack
-42  Roost
-47  Tailwind
-52  Mirror_Move
-57  Air_Slash
-62  Hurricane
+38  Wing_Attack
+44  Roost
+50  Tailwind
+56  Mirror_Move
+62  Air_Slash
+68  Hurricane

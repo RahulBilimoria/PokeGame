@@ -86,6 +86,14 @@ public class Party {
         }
     }
     
+    public void setBattle(boolean battle){
+        for (int x = 0; x < 6; x++){
+            if (pokemon[x] == null) continue;
+                pokemon[x].setInBattle(battle);
+            if (battle) pokemon[x].resetLevelsGained();
+        }
+    }
+    
     public String toString(int partyIndex){
         return pokemon[partyIndex].toString();
     }

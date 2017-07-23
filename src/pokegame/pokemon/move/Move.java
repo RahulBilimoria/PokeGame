@@ -98,6 +98,7 @@ public class Move {
     }
 
     public Move(BaseMove move) {
+        id = move.getId();
         pp = move.getMaxPP();
     }
 

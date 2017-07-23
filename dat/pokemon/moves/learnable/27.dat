@@ -1,5 +1,8 @@
+1   Crush_Claw
 1   Scratch
 1   Defense_Curl
+1   Sand_Attack
+1   Poison_Sting
 3   Sand_Attack
 5   Poison_Sting
 7   Rollout
@@ -8,10 +11,10 @@
 14  Magnitude
 17  Swift
 20  Fury_Swipes
-23  Sand_Tomb
-26  Slash
-30  Dig
-34  Gyro_Ball
-38  Swords_Dance
-42  Sandstorm
-46  Earthquake
+24  Sand_Tomb
+28  Slash
+33  Dig
+38  Gyro_Ball
+43  Swords_Dance
+48  Sandstorm
+53  Earthquake

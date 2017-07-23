@@ -66,26 +66,20 @@ public abstract class Battle {
         if (System.currentTimeMillis() - lastTime > 1000) {
             lastTime = System.currentTimeMillis();
             seconds = seconds - 1;
-            System.out.println(seconds);
-            battleHandler.updateSeconds(seconds);
         }
         if (seconds == 0) {
-            //roundStart(-1);
-            battleHandler.updateEverything();
+            startRound(-1);
+            screen.updateEverything();
         }
-        battleHandler.updateSeconds(seconds);
+        screen.updateSeconds(seconds);
     }
-
-    public void render(Graphics g) {
-
-    }
-    
+     
     public void startRound(int allyMoveID){
         roundNumber++;
         addText("------------------------------ Round: " + roundNumber);
         battleSequence(allyMoveID, AI.chooseNextMove(difficulty, enemy, ally));
         seconds = 60;
-        if (won) screen.exit();
+        if (won) win();
         else screen.updateEverything();
     }
 
@@ -119,7 +113,6 @@ public abstract class Battle {
     protected void battleTurn(Pokemon attacking, Pokemon defending, int attMoveID) {
         if (attMoveID == -1)return;
         Move m = attacking.getMoveset().getMove(attMoveID);
-        System.out.println(m.getId() + ": " + m.getName());
         m.usePP();
         int damage = getDamage(attacking, defending, m);
         addText(attacking.getName() + " used " + m.getName() + ".");
@@ -133,6 +126,10 @@ public abstract class Battle {
 
     public abstract boolean checkForFainted();
 
+    public abstract void win();
+    
+    public abstract void lose();
+    
     public int getDamage(Pokemon attack, Pokemon defend, Move m) {
         int att = 1;
         int def = 1;
@@ -176,7 +173,7 @@ public abstract class Battle {
                     usePotion((Potion) getBag().getItem(item[2]));
                 }
                 getBag().removeItem(item[2], 1);
-                //roundStart(-1);
+                startRound(-1);
             } else {
                 addText("You have no more " + item[2] + "s!");
             }
@@ -201,7 +198,7 @@ public abstract class Battle {
         switch (potion.getItemType()) {
             case 0:
                 Healing h = (Healing) potion;
-                h.use(getPokemon());
+                h.use(ally);
                 break;
             case 1:
                 PPRestore p = (PPRestore) potion;
@@ -212,7 +209,7 @@ public abstract class Battle {
                 break;
             case 3:
                 StatusRemove r = (StatusRemove) potion;
-                r.use(getPokemon());
+                r.use(ally);
                 break;
         }
     }
@@ -223,7 +220,7 @@ public abstract class Battle {
                 if (player.getParty().getPokemon(x) == null) {
                     enemy.setHandler(handler);
                     player.getParty().addPokemon(x, enemy);
-                    battleHandler.caughtPokemon();
+                    exit();
                     handler.getGame().addText(enemy.getName() + " has been added to your party.\n", Color.red);
                     return;
                 }
@@ -235,13 +232,13 @@ public abstract class Battle {
                         enemy.setHandler(handler);
                         handler.getGame().addText(enemy.getName() + " has been sent to storage.\n", Color.red);
                         player.getStorage().storePokemon(x, y, enemy.toStorage());
-                        battleHandler.caughtPokemon();
+                        exit();
                         return;
                     }
                 }
             }
         }
-        handler.getGame().addText("No space in box, " + enemy.getName() + " has been released!\n", Color.red);
+        handler.getGame().addText("No space in party or box, " + enemy.getName() + " has been released!\n", Color.red);
     } // NEED TO DO SOMETHING WITH POKES AFTER CATCHING
 
     public void addExp() {
@@ -262,12 +259,12 @@ public abstract class Battle {
         // s | 1 for pokemon participated in battle, 2 for exp share turned on
         int s = 1;
         int exp = (a * t * enemy.getBaseExp() * e * enemy.getLevel() * p * f * v) / (7 * s);
-        getPokemon().addExp(exp);
+        ally.addExp(exp);
         player.addToQuest(enemy.getID(), enemy.getLevel());
     }
 
     public String getMoveName(int moveID) {
-        Move m = getPokemon().getMoveset().getMove(moveID);
+        Move m = ally.getMoveset().getMove(moveID);
         if (m == null) {
             return "";
         }
@@ -284,7 +281,7 @@ public abstract class Battle {
         return activePokemon;
     }
 
-    public Pokemon getPokemon() {
+    public Pokemon getAlly() {
         return ally;
     }
 
@@ -294,16 +291,10 @@ public abstract class Battle {
 
     public void addBattleHandler(BattleHandler battleHandler) {
         this.battleHandler = battleHandler;
-        addText("Wild " + enemy.getName() + " encountered!");
-        addText("Go " + getPokemon().getName() + "!");
     }
 
     public void addText(String text) {
-        battleHandler.addText("\n" + text);
-    }
-
-    public void setFainted(boolean f) {
-        this.fainted = f;
+        screen.updateBattleHistory("\n" + text);
     }
 
     public void changePokemon(int ap) {
@@ -331,7 +322,7 @@ public abstract class Battle {
     }
 
     public void exit() {
-        if (player.getActivePokemon().getHp() <= 0) {
+        if (ally.getHp() <= 0) {
             for (int x = 0; x < 6; x++) {
                 if (player.getPokemon(x) == null) continue;
                 if (player.getPokemon(x).getHp() > 0) {
@@ -340,6 +331,9 @@ public abstract class Battle {
                 }
             }
         }
-        handler.getWorld().setExit();
+        screen.exit();
+        player.setEnabled(true);
+        player.removeBattle();
+        handler.getKeyManager().reset();
     }
 }

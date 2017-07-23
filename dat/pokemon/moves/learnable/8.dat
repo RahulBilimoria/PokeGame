@@ -1,6 +1,8 @@
+1   Flash_Cannon
 1   Tackle
 1   Tail_Whip
 1   Water_Gun
+1   Withdraw
 4   Tail_Whip
 7   Water_Gun
 10  Withdraw
@@ -10,7 +12,7 @@
 24  Protect
 28  Water_Pulse
 32  Aqua_Tail
-36  Skull_Bash
-40  Iron_Defense
-44  Rain_Dance
-48  Hydro_Pump
+39  Skull_Bash
+46  Iron_Defense
+53  Rain_Dance
+60  Hydro_Pump

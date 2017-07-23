@@ -5,10 +5,6 @@
  */
 package pokegame.entity;
 
-import pokegame.entity.ai.AI;
-import pokegame.entity.ai.Easy;
-import pokegame.entity.ai.Hard;
-import pokegame.entity.ai.Medium;
 import pokegame.entity.player.Bag;
 import pokegame.entity.player.Party;
 import pokegame.handler.Handler;
@@ -26,7 +22,7 @@ public abstract class Trainer extends NPC{
     protected int activePokemon;
     protected Party party;
     protected Bag bag;
-    
+        
     public Trainer(Handler handler, int type, int id, String name, int spriteId, int portraitID, int direction, float x, float y, int distanceFromCenter, boolean canTurn, boolean canMove, boolean isSolid) {
         super(handler, type, id, name, spriteId, portraitID, direction, x, y, distanceFromCenter, canTurn, canMove, isSolid);
     }
@@ -37,6 +33,26 @@ public abstract class Trainer extends NPC{
     
     public int getDifficulty(){
         return difficulty;
+    }
+    
+    public Pokemon getActivePokemon(){
+        return party.getPokemon(activePokemon);
+    }
+    
+    public int getActiveNumber(){
+        return activePokemon;
+    }
+    
+    public Pokemon[] getCopyOfPokemon(){
+        Pokemon p[] = new Pokemon[6];
+        for (int x = 0; x < 6; x++){
+            if (party.getPokemon(x) != null){
+                p[x] = party.getPokemon(x).copy();
+            } else {
+                p[x] = null;
+            }
+        }
+        return p;
     }
     
 }

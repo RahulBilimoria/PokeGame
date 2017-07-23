@@ -5,12 +5,9 @@
  */
 package pokegame.npc;
 
+import java.awt.Color;
 import pokegame.battle.TrainerBattle;
 import pokegame.entity.Trainer;
-import pokegame.entity.ai.AI;
-import pokegame.entity.ai.Easy;
-import pokegame.entity.ai.Hard;
-import pokegame.entity.ai.Medium;
 import pokegame.entity.player.Bag;
 import pokegame.entity.player.Party;
 import pokegame.entity.player.Player;
@@ -31,9 +28,7 @@ public class PokemonTrainer extends Trainer{
     
     //Behaviour of the trainer
     private boolean aggresive;
-    
-    private AI ai;
-    
+        
     public PokemonTrainer(Handler handler, int id, String name, int spriteId,
             int portraitID, int direction, float x, float y, int distanceToCenter,
             boolean canTurn, boolean canMove, boolean isSolid, boolean aggresive,
@@ -59,29 +54,10 @@ public class PokemonTrainer extends Trainer{
     public void onInteract(Player player){
         if (player.hasDefeated(id)){
             player.setEnabled(true);
+            handler.getGame().addText("You have already defeated Pokemon Trainer " + name + "./n", Color.blue);
         } else {
-            new TrainerBattle(handler, player, this);
+            player.addBattle(new TrainerBattle(handler, player, this));
         }
-    }
-    
-    public Pokemon[] getCopyOfPokemon(){
-        Pokemon p[] = new Pokemon[6];
-        for (int x = 0; x < 6; x++){
-            if (party.getPokemon(x) != null){
-                p[x] = party.getPokemon(x).copy();
-            } else {
-                p[x] = null;
-            }
-        }
-        return p;
-    }
-    
-    public Pokemon getActivePokemon(){
-        return party.getPokemon(activePokemon);
-    }
-    
-    public int getActiveNumber(){
-        return activePokemon;
     }
     
     public Item getItem(){

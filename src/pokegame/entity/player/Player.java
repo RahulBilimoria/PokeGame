@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import pokegame.battle.Battle;
 import pokegame.entity.Person;
 import pokegame.entity.player.Bag.MyItem;
 import pokegame.gfx.Animation;
@@ -42,6 +43,8 @@ public class Player extends Person {
     private Bag bag;
     private Party party;
     private Storage storage;
+    private Battle battle;
+    private boolean badges[][] = new boolean[8][8];
     private ArrayList<Quest> activeQuests;
     private ArrayList<Integer> completedQuests;
     private ArrayList<Integer> defeatedTrainers;
@@ -54,16 +57,23 @@ public class Player extends Person {
         right = new Animation(400, Asset.player_right);
         portraitID = 2;
         direction = 0;
+        money = 0;
         moved = false;
         bag = new Bag(this);
         party = new Party(handler, this);
         storage = new Storage(handler, this);
+        battle = null;
         activePokemon = 0;
         enabled = true;
         activeQuests = new ArrayList<>();
         completedQuests = new ArrayList<>();
         defeatedTrainers = new ArrayList<>();
-        party.addPokemon(new Pokemon(handler, 5, true, 15, 20, 15, 14, 16, 14, 7, new Moveset(0,3,6,9)));
+        party.addPokemon(new Pokemon(handler, 0, true, 1, 200, 150, 140, 160, 140, 700, new Moveset(0,3,6,9)));
+        for (int a = 0; a < 8; a++){
+            for (int b = 0; b < 8; b++){
+                badges[a][b] = false;
+            }
+        }
     }
 
     @Override
@@ -90,6 +100,7 @@ public class Player extends Person {
 
         }
         handler.getGameCamera().centerOnEntity(this);
+        if (battle != null) battle.tick();
     }
 
     private void getInput() {
@@ -125,6 +136,13 @@ public class Player extends Person {
                     break;
             }
         }
+    }
+    
+    public void respawn(){
+        /*handler.getWorld().getMap().setCurr(saveMap);
+        setX(saveX);
+        setY(saveY);
+        handler.getWorld().reload();*/
     }
 
     @Override
@@ -327,6 +345,28 @@ public class Player extends Person {
         }
         return false;
     }
+    
+    public void addToDefeated(int id){
+        defeatedTrainers.add(id);
+    }
+    
+    public boolean getBadge(int region, int badgeID){
+        return badges[region][badgeID];
+    }
+    
+    public void addBadge(int region, int badgeID){
+        badges[region][badgeID] = true;
+    }
+    
+    public void addBattle(Battle battle){
+        this.battle = battle;
+        party.setBattle(true);
+    }
+    
+    public void removeBattle(){
+        battle = null;
+        party.setBattle(false);
+    }
 
     public void setActiveNumber(int num) {
         activePokemon = num;
@@ -394,5 +434,13 @@ public class Player extends Person {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    public void addMoney(int money){
+        this.money += money;
+    }
+    
+    public void removeMoney(int money){
+        this.money -= money;
     }
 }

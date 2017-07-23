@@ -69,7 +69,7 @@ public class Pokemon {
             loadImages();
         }
 
-        public void loadImages() {
+        private void loadImages() {
             icon = ImageLoader.loadImage("/pokemon/icons/" + (id + 1) + ".png");
             front = ImageLoader.loadImage("/pokemon/front/normal/" + (id + 1) + ".png");
             back = ImageLoader.loadImage("/pokemon/back/normal/" + (id + 1) + ".png");
@@ -167,17 +167,17 @@ public class Pokemon {
             return learnableMoves;
         }
     }
-    
+
     private Handler h;
 
     private int id, level, currentHP, hp, att, def, spatt, spdef, speed;
-    private int myExp, expToLevel;
+    private int myExp, expToLevel, levelsGained;
     private int tpPoints;
     private int friendship;
     private int friendshipRate;
     private String nickname;
     //male = true,1 female = false,0
-    private boolean gender, shiny;
+    private boolean gender, shiny, inBattle;
     private Moveset moveset;
     private Nature nature;
     private Status status;
@@ -208,8 +208,10 @@ public class Pokemon {
         currentHP = this.hp;
         nature = Nature.getRandomNature();
         chooseGender();
+        inBattle = false;
+        levelsGained = 0;
     }
-    
+
     public Pokemon(Handler h, int id, boolean shiny, int level, int hp,
             int att, int def, int spatt, int spdef, int speed, String nickname,
             Status status, int tpPoints, int friendship, int friendshipRate,
@@ -235,6 +237,8 @@ public class Pokemon {
         currentHP = this.hp;
         this.nature = nature;
         this.gender = gender;
+        inBattle = false;
+        levelsGained = 0;
     }
 
     public Pokemon(int[] data) {
@@ -264,6 +268,8 @@ public class Pokemon {
         for (int x = 0; x < 4; x++) {
             moveset.setMovePP(x, data[18 + 2 * x]);
         }
+        inBattle = false;
+        levelsGained = 0;
     }
 
     public static void init() {
@@ -317,7 +323,7 @@ public class Pokemon {
         moveset.heal();
     }
 
-    public void chooseGender() {
+    private void chooseGender() {
         if (Math.random() < POKEMON_LIST[id].getGenderChance()) {
             gender = true;
         }
@@ -330,30 +336,31 @@ public class Pokemon {
         while (myExp >= expToLevel) {
             myExp -= expToLevel;
             level++;
+            if (inBattle){
+                levelsGained++;
+            }
             addTp(3);
             expToLevel = EXP[POKEMON_LIST[id].getExpType()][level];
             h.getGame().addText(POKEMON_LIST[id].getName() + " has leveled up!\n", Color.green);
             checkLevelUp();
             //check moves when level up
             //check evolution when leveling up
-            //add tp
         }
     }
 
     public void checkLevelUp() {
         if (level == POKEMON_LIST[id].getEvolvesAt()) {
 
-        } else {
-            Move[] learnable = getLearnableMoves();
-            for (int x = 0; x < learnable.length; x++) {
-                for (int y = 0; y < 4; y++) {
-                    if (moveset.getMove(y) == null) {
-                        moveset.setMove(y, learnable[x]);
-                        break;
-                    }
+        }
+        Move[] learnable = getLearnableMoves();
+        for (int x = 0; x < learnable.length; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (moveset.getMove(y) == null) {
+                    moveset.setMove(y, learnable[x]);
+                    break;
                 }
-
             }
+
         }
     }
 
@@ -369,8 +376,8 @@ public class Pokemon {
         }
         return m;
     }
-    
-    public void addFriendship(int amount){
+
+    public void addFriendship(int amount) {
         this.friendship = amount * friendshipRate;
     }
 
@@ -378,6 +385,18 @@ public class Pokemon {
         this.tpPoints += tp;
     }
 
+    public void setInBattle(boolean inBattle){
+        this.inBattle = inBattle;
+    }
+    
+    public int getLevelsGained(){
+        return levelsGained;
+    }
+    
+    public void resetLevelsGained(){
+        levelsGained = 0;
+    }
+    
     public int getExp() {
         return myExp;
     }
@@ -403,7 +422,7 @@ public class Pokemon {
     }
 
     public boolean getGender() {
-       return gender;
+        return gender;
     }
 
     public String getNick() {
@@ -445,12 +464,12 @@ public class Pokemon {
     public int getSpeed() {
         return speed;
     }
-    
-    public int getFriendship(){
+
+    public int getFriendship() {
         return friendship;
     }
-    
-    public int getFriendshipRate(){
+
+    public int getFriendshipRate() {
         return friendshipRate;
     }
 
@@ -477,32 +496,33 @@ public class Pokemon {
     public void addSpeed(int speed) {
         this.speed += speed;
     }
-    
-    public void addLevel(int levels){
-        level+=levels; // might have to change for learning moves to work properly
+
+    public void addLevel(int levels) {
+        level += levels; // might have to change for learning moves to work properly
         addTp(3 * levels);
+        levelsGained = levels;
         expToLevel = EXP[POKEMON_LIST[id].getExpType()][level];
         h.getGame().addText(POKEMON_LIST[id].getName() + " has leveled up!\n", Color.green);
         checkLevelUp();
     }
-    
-    public void setFriendship(int amount){
+
+    public void setFriendship(int amount) {
         this.friendship = amount;
     }
-    
-    public void setFriendshipRate(int value){
+
+    public void setFriendshipRate(int value) {
         this.friendshipRate = value;
     }
 
     public Status getStatus() {
         return status;
     }
-    
-    public void setStatus(Status status){
+
+    public void setStatus(Status status) {
         this.status = status;
     }
-    
-    public void restoreMovePP(int amount){
+
+    public void restoreMovePP(int amount) {
         moveset.restoreDepleted(amount);
     }
 
@@ -516,8 +536,8 @@ public class Pokemon {
             currentHP = hp;
         }
     }
-    
-    public void setHandler(Handler handler){
+
+    public void setHandler(Handler handler) {
         this.h = handler;
     }
 
@@ -550,7 +570,7 @@ public class Pokemon {
     }
 
     public Move[] getLearnableMoves() {
-        return POKEMON_LIST[id].getLearnableMoves().getLearnableMove(level);
+        return POKEMON_LIST[id].getLearnableMoves().getLearnableMove(level, levelsGained);
     }
 
     public static int getIdByName(String s) {
@@ -619,10 +639,11 @@ public class Pokemon {
     public static String getPokemonName(int pokemonId) {
         return POKEMON_LIST[pokemonId].getName();
     }
-    public Pokemon copy(){
-        return new Pokemon(h, this.id, this.shiny, this.level, this.hp, this.att, 
-            this.def, this.spatt, this.spdef, this.speed, this.nickname,
-            this.status, this.tpPoints, this.friendship, this.friendshipRate, 
-            this.nature, this.gender, this.moveset);
+
+    public Pokemon copy() {
+        return new Pokemon(h, this.id, this.shiny, this.level, this.hp, this.att,
+                this.def, this.spatt, this.spdef, this.speed, this.nickname,
+                this.status, this.tpPoints, this.friendship, this.friendshipRate,
+                this.nature, this.gender, this.moveset);
     }
 }

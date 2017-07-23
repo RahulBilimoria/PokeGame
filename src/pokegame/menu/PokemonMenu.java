@@ -53,7 +53,8 @@ public class PokemonMenu {
     private JButton learnMoves;
     private JButton setActivePokemon;
     private JButton move[] = new JButton[4],
-            yes, cancel;
+            yes, cancel, moveUp, moveDown;
+    private int moveIndex;
 
     private JPanel panel, pokemonPanel;
     private JPanel movePanel[] = new JPanel[4];
@@ -89,6 +90,7 @@ public class PokemonMenu {
         spdefTemp = 0;
         speedTemp = 0;
         tpTemp = 0;
+        moveIndex = 0;
         show = true;
 
         currentPokemonImage = new JLabel(new ImageIcon(player.getPokemon(selectedPokemon).getFront()));
@@ -155,6 +157,8 @@ public class PokemonMenu {
     }
 
     public void createMoves() {
+        moveUp = new JButton("Scroll Up");
+        moveDown = new JButton("Scroll Down");
         for (int x = 0; x < 4; x++) {
             movePanel[x] = new JPanel(null);
             movePanel[x].setOpaque(false);
@@ -181,6 +185,11 @@ public class PokemonMenu {
         selectedMove.setSize(210, 300);
         selectedMove.setOpaque(false);
         selectedMove.setVisible(false);
+        
+        moveUp.setVisible(false);
+        moveUp.addActionListener(pmh);
+        moveDown.setVisible(false);
+        moveDown.addActionListener(pmh);
     }
 
     public void createButtons() {
@@ -241,6 +250,8 @@ public class PokemonMenu {
         panel.add(learnPanel[4]).setBounds(35, 357, learnPanel[4].getWidth(), learnPanel[4].getHeight());
         panel.add(learnPanel[5]).setBounds(35, 412, learnPanel[5].getWidth(), learnPanel[5].getHeight());
         panel.add(selectedMove).setBounds(275, 150, selectedMove.getWidth(), selectedMove.getHeight());
+        panel.add(moveUp).setBounds(35,124,movePanel[0].getWidth(),10);
+        panel.add(moveDown).setBounds(35,415 + movePanel[0].getHeight(),movePanel[0].getWidth(),10);
     }
 
     public void addButtons() {
@@ -258,7 +269,7 @@ public class PokemonMenu {
         statsPanel.add(stats[11]).setBounds(425, 125, 45, 30);
     }
 
-    public JButton setButtonStyle(String text, int i) {
+    private JButton setButtonStyle(String text, int i) {
         JButton b = new JButton();
         b.setSize(90, 25);
         b.setText(text);
@@ -439,6 +450,8 @@ public class PokemonMenu {
         for (int x = 0; x < 6; x++) {
             learnPanel[x].setVisible(false);
         }
+        moveUp.setVisible(false);
+        moveDown.setVisible(false);
     }
 
     public void loadLearnableMoves() {
@@ -446,6 +459,14 @@ public class PokemonMenu {
             Move[] m = player.getPokemon(selectedPokemon).getLearnableMoves();
             int y = m.length;
             if (y > 6) {
+                if (moveIndex != 0){
+                    moveUp.setVisible(true);
+                } else
+                    moveUp.setVisible(false);
+                if (moveIndex != y-6){
+                    moveDown.setVisible(true);
+                } else
+                    moveDown.setVisible(false);
                 y = 6;
             }
             for (int x = 0; x < 6; x++) {
@@ -456,10 +477,10 @@ public class PokemonMenu {
             JLabel name1, pp1, type3, cat1;
             for (int x = 0; x < y; x++) {
                 learnPanel[x].setVisible(true);
-                name1 = new JLabel(m[x].getName());
-                pp1 = new JLabel("PP: " + m[x].getPP() + " / " + m[x].getMaxPP());
-                type3 = new JLabel(new ImageIcon(m[x].getType().getImage()));
-                cat1 = new JLabel(new ImageIcon(m[x].getCategoryImage()));
+                name1 = new JLabel(m[x+moveIndex].getName());
+                pp1 = new JLabel("PP: " + m[x+moveIndex].getPP() + " / " + m[x+moveIndex].getMaxPP());
+                type3 = new JLabel(new ImageIcon(m[x+moveIndex].getType().getImage()));
+                cat1 = new JLabel(new ImageIcon(m[x+moveIndex].getCategoryImage()));
                 name1.setForeground(Color.white);
                 pp1.setForeground(Color.white);
                 learnPanel[x].add(name1).setBounds(5, 0, 150, 25);
@@ -471,18 +492,18 @@ public class PokemonMenu {
     }
 
     public void showInfo(int i) {
-        replace = player.getPokemon(selectedPokemon).getLearnableMoves()[i];
-        boolean show = true;
+        replace = player.getPokemon(selectedPokemon).getLearnableMoves()[i+moveIndex];
+        boolean showInfo = true;
         for (int x = 0; x < 4; x++) {
             if (player.getPokemon(selectedPokemon).getMoveset().getMove(x) == null) {
                 break;
             }
             if (replace.getId() == player.getPokemon(selectedPokemon).getMoveset().getMove(x).getId()) {
-                show = false;
+                showInfo = false;
                 System.out.println("Move already learned!");
             }
         }
-        if (show) {
+        if (showInfo) {
             selectedMove.removeAll();
             JLabel name1, power, acc, maxPP, cat, type;
             warning = new JLabel("");
@@ -528,7 +549,7 @@ public class PokemonMenu {
         yes.setVisible(false);
         cancel.setVisible(false);
         selectedMove.setVisible(false);
-        player.getPokemon(selectedPokemon).getMoveset().setMove(replaceMove, replace); // if PP is universal with moves then this is why
+        player.getPokemon(selectedPokemon).getMoveset().setMove(replaceMove, replace);
     }
 
     public void cancelReplace() {
@@ -667,6 +688,18 @@ public class PokemonMenu {
 
     public JPanel getMove(int i) {
         return learnPanel[i];
+    }
+    
+    public JButton getMoveUp(){
+        return moveUp;
+    }
+    
+    public JButton getMoveDown(){
+        return moveDown;
+    }
+    
+    public void addMoveIndex(int i){
+        moveIndex += i;
     }
 
     public JButton getMoveButton(int i) {

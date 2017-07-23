@@ -45,9 +45,16 @@ public class PokemonMenuHandler implements ActionListener, MouseListener {
             m.addMove(3);
         } else if (e.getSource() == m.getYes()){
             m.replaceMove();
+            m.loadMoves();
         } else if (e.getSource() == m.getCancel()){
             m.cancelReplace();
-        }{
+        } else if (e.getSource() == m.getMoveUp()){
+            m.addMoveIndex(-1);
+            m.loadLearnableMoves();
+        } else if (e.getSource() == m.getMoveDown()) {
+            m.addMoveIndex(1);
+            m.loadLearnableMoves();
+        } else {
             JButton b = (JButton) e.getSource();
             m.addStat(b);
             m.update();

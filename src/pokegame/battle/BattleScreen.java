@@ -96,12 +96,15 @@ public class BattleScreen {
             move[x].addActionListener(bh);
             one.add(move[x]);
         }
+        
+        updateBattleHistory("\nWild " + battle.getEnemy().getName() + " encountered!");
+        updateBattleHistory("\nGo " + battle.getAlly().getName() + "!");
 
         secondsLeft = new JLabel("0");
 
-        expRemaining = new JLabel("Exp to Level: " + battle.getPokemon().getExp() + " / " + battle.getPokemon().getMaxExp());
-        expBar = new JProgressBar(0, battle.getPokemon().getMaxExp());
-        expBar.setValue(battle.getPokemon().getExp());
+        expRemaining = new JLabel("Exp to Level: " + battle.getAlly().getExp() + " / " + battle.getAlly().getMaxExp());
+        expBar = new JProgressBar(0, battle.getAlly().getMaxExp());
+        expBar.setValue(battle.getAlly().getExp());
         expPanel = new JPanel(new GridLayout(2, 1));
         expPanel.setSize(WIDTH, 30);
         expRemaining.setForeground(Color.white);
@@ -111,11 +114,11 @@ public class BattleScreen {
 
         background = new JLabel(new ImageIcon(ImageLoader.loadImage("/battle/background/grass6.png")));
 
-        ally = new JLabel(new ImageIcon(battle.getPokemon().getBack()));
-        allyPokemonName = new JLabel(battle.getPokemon().getName());
-        allyPokemonLevel = new JLabel("Level: " + battle.getPokemon().getLevel());
-        allyPokemonHp = new JLabel("Hp: " + battle.getPokemon().getHp() + " / "
-                + battle.getPokemon().getMaxHp());
+        ally = new JLabel(new ImageIcon(battle.getAlly().getBack()));
+        allyPokemonName = new JLabel(battle.getAlly().getName());
+        allyPokemonLevel = new JLabel("Level: " + battle.getAlly().getLevel());
+        allyPokemonHp = new JLabel("Hp: " + battle.getAlly().getHp() + " / "
+                + battle.getAlly().getMaxHp());
 
         enemy = new JLabel(new ImageIcon(battle.getEnemy().getFront()));
         enemyPokemonName = new JLabel(battle.getEnemy().getName());
@@ -195,7 +198,7 @@ public class BattleScreen {
         b.setBorderPainted(false);
         b.setBorder(null);
         b.setHorizontalTextPosition(SwingConstants.CENTER);
-        Move m = battle.getPokemon().getMoveset().getMove(id);
+        Move m = battle.getAlly().getMoveset().getMove(id);
         String s = battle.getMoveName(id);
         if (s.equals("")) {
             b.setText("------------");
@@ -210,7 +213,7 @@ public class BattleScreen {
     }
 
     private void setButton(JButton button, int id) { // can refactor this and make it smaller
-        Move m = battle.getPokemon().getMoveset().getMove(id);
+        Move m = battle.getAlly().getMoveset().getMove(id);
         String s = battle.getMoveName(id);
         if (s.equals("")) {
             button.setText("------------");
@@ -233,17 +236,17 @@ public class BattleScreen {
     }
 
     public void updateLabels() {
-        allyPokemonName.setText(battle.getPokemon().getName());
-        allyPokemonLevel.setText("Level: " + battle.getPokemon().getLevel());
-        allyPokemonHp.setText("Hp: " + battle.getPokemon().getHp() + " / "
-                + battle.getPokemon().getMaxHp());
+        allyPokemonName.setText(battle.getAlly().getName());
+        allyPokemonLevel.setText("Level: " + battle.getAlly().getLevel());
+        allyPokemonHp.setText("Hp: " + battle.getAlly().getHp() + " / "
+                + battle.getAlly().getMaxHp());
         enemyPokemonName.setText(battle.getEnemy().getName());
         enemyPokemonLevel.setText("Level: " + battle.getEnemy().getLevel() + "");
         enemyPokemonHp.setText("Hp: " + battle.getEnemy().getHp() + " / "
                 + battle.getEnemy().getMaxHp());
-        expRemaining.setText("Exp to Level: " + battle.getPokemon().getExp() + " / " + battle.getPokemon().getMaxExp());
-        expBar.setMaximum(battle.getPokemon().getMaxExp());
-        expBar.setValue(battle.getPokemon().getExp());
+        expRemaining.setText("Exp to Level: " + battle.getAlly().getExp() + " / " + battle.getAlly().getMaxExp());
+        expBar.setMaximum(battle.getAlly().getMaxExp());
+        expBar.setValue(battle.getAlly().getExp());
     }
 
     public void updateMoves() {
@@ -257,7 +260,7 @@ public class BattleScreen {
 
     public void updateMoveLabels(int moveID) {
         JButton b = move[moveID];
-        Move m = battle.getPokemon().getMoveset().getMove(moveID);
+        Move m = battle.getAlly().getMoveset().getMove(moveID);
         String s = battle.getMoveName(moveID);
         if (s.equals("")) {
             b.setText("------------");
@@ -315,7 +318,7 @@ public class BattleScreen {
                 }
             }
         }
-        ally.setIcon(new ImageIcon(battle.getPokemon().getBack()));
+        ally.setIcon(new ImageIcon(battle.getAlly().getBack()));
     }
     
     public void updateEnemyPokemon(){
@@ -376,7 +379,6 @@ public class BattleScreen {
     }
 
     public void exit() {
-        battle.exit();
         frame.dispose();
     }
 }

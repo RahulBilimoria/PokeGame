@@ -5,6 +5,7 @@
  */
 package pokegame.battle;
 
+import java.awt.Color;
 import pokegame.entity.ai.AI;
 import pokegame.entity.player.Player;
 import pokegame.handler.Handler;
@@ -17,16 +18,16 @@ import pokegame.pokemon.Pokemon;
  */
 public class TrainerBattle extends Battle{
     
-    private PokemonTrainer enemyTrainer;
+    private PokemonTrainer trainer;
     private Pokemon[] trainerPokemon;
     private Pokemon[] playerPokemon;
     
-    public TrainerBattle(Handler handler, Player player, PokemonTrainer enemyTrainer) {
-        super(handler, player, enemyTrainer.getActivePokemon(), enemyTrainer.getDifficulty());
+    public TrainerBattle(Handler handler, Player player, PokemonTrainer trainer) {
+        super(handler, player, trainer.getActivePokemon(), trainer.getDifficulty());
         screen = new BattleScreen(this);
-        this.enemyTrainer = enemyTrainer;
-        trainerPokemon = enemyTrainer.getCopyOfPokemon();
-        enemy = trainerPokemon[enemyTrainer.getActiveNumber()];
+        this.trainer = trainer;
+        trainerPokemon = trainer.getCopyOfPokemon();
+        enemy = trainerPokemon[trainer.getActiveNumber()];
         playerPokemon = new Pokemon[6];
         playerPokemon[0] = player.getPokemon(player.getActiveNumber());
         for (int x = 1; x < 6; x++){
@@ -37,10 +38,14 @@ public class TrainerBattle extends Battle{
     @Override
     public boolean checkForFainted() {
         if (enemy.getHp() <= 0) {
+            String faintedPkmn = enemy.getName();
             addExp();
-            enemy = AI.chooseNextPokemon(enemyTrainer.getDifficulty(), trainerPokemon, ally);
+            enemy = AI.chooseNextPokemon(trainer.getDifficulty(), trainerPokemon, ally);
             if (enemy == null) won = true;
-            else screen.updateEnemyPokemon();
+            else {
+                screen.updateEnemyPokemon();
+                addText(faintedPkmn + " has fainted! " + trainer.getName() + " sent out " + enemy.getName()+"!");
+            }
             return true;
         }
         if (ally.getHp() > 0) {
@@ -49,7 +54,7 @@ public class TrainerBattle extends Battle{
         fainted = true;
         addText(ally.getName() + " has fainted!");
         closeBag();
-        battleHandler.disableButtons();
+        screen.disableButtons();
         for (int x = 0; x < 6; x++) {
             if (player.getPokemon(x) != null) {
                 if (player.getPokemon(x).getHp() > 0) {
@@ -57,10 +62,28 @@ public class TrainerBattle extends Battle{
                     break;
                 }
                 else if (x == 6) {
-                    battleHandler.lose(); // put fainted screen
+                    lose(); // put fainted screen
                 }
             }
         }
         return true;
+    }
+    
+    @Override
+    public void win(){
+        handler.getGame().addText("You've defeated Pokemon Trainer " + trainer.getName()+".\n", Color.blue);
+        player.addToDefeated(trainer.getID());
+        player.addMoney(trainer.getMoney());
+        if (trainer.getItem() != null){
+            player.getBag().addItem(trainer.getItem(), trainer.getItemAmount());
+        }
+        exit();
+    }
+    
+    @Override
+    public void lose(){
+        player.respawn();
+        player.getParty().heal();
+        exit();
     }
 }

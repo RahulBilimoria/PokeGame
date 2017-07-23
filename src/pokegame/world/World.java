@@ -7,14 +7,11 @@ package pokegame.world;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import pokegame.battle.Battle;
-import pokegame.battle.BattleScreen;
 import pokegame.battle.WildBattle;
 import pokegame.entity.player.Player;
 import pokegame.handler.GameHandler;
 import pokegame.handler.Handler;
 import pokegame.pokemart.ShopScreen;
-import pokegame.pokemon.Pokemon;
 import pokegame.storage.StorageScreen;
 import pokegame.tiles.Tile;
 import pokegame.world.mapeditor.MapEditor;
@@ -35,7 +32,6 @@ public class World {
     private GameHandler gameHandler;
     private StorageScreen storage;
     private ShopScreen shop;
-    private Battle battle;
     private MapEditor me;
 
     private float playerX, playerY;
@@ -71,9 +67,6 @@ public class World {
             me.tick();
         } else {
             gameHandler.getPlayer().setSpeed(2.0f);
-        }
-        if (battle != null) {
-            battle.tick();
         }
         if (!gameHandler.getPlayer().getIsMoving()) {
             b = true;
@@ -285,7 +278,7 @@ public class World {
                     handler.getKeyManager().reset();
                     gameHandler.getPlayer().setEnabled(false);
                     b = false;
-                    battle = new WildBattle(handler, gameHandler.getPlayer(), s1.getSpawn().getPokemon(), 10);
+                    gameHandler.getPlayer().addBattle(new WildBattle(handler, gameHandler.getPlayer(), s1.getSpawn().getPokemon(), 10));
                 }
             }
         }
@@ -353,12 +346,6 @@ public class World {
 
     public void reload() {
         loadMap(currentMap);
-    }
-
-    public void setExit() {
-        gameHandler.getPlayer().setEnabled(true);
-        handler.getKeyManager().reset();
-        battle = null;
     }
 
     public void setPlayerEnabled(boolean enabled) {

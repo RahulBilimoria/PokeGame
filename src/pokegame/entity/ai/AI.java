@@ -46,7 +46,7 @@ public class AI {
         for (int x = 0; x < 6; x++) {
             Pokemon p = yourParty[x];
             if (p != null) {
-                if (p.getHp() >= 0) {
+                if (p.getHp() > 0) {
                     return p;
                 }
             }
@@ -64,29 +64,31 @@ public class AI {
             score = 0;
             Pokemon p = yourParty[x];
             if (p != null) {
-                Type type1 = activePokemon.getType1();
-                Type type2 = activePokemon.getType2();
-                Move move1 = p.getMoveset().getMove1();
-                Move move2 = p.getMoveset().getMove2();
-                Move move3 = p.getMoveset().getMove3();
-                Move move4 = p.getMoveset().getMove4();
-                if (move1 != null) {
-                    moves++;
-                    score = score + (Type.getEffectiveness(move1.getType(), type1, type2) * 5 * (move1.getPP() / move1.getMaxPP()));
+                if (p.getHp() > 0) {
+                    Type type1 = activePokemon.getType1();
+                    Type type2 = activePokemon.getType2();
+                    Move move1 = p.getMoveset().getMove1();
+                    Move move2 = p.getMoveset().getMove2();
+                    Move move3 = p.getMoveset().getMove3();
+                    Move move4 = p.getMoveset().getMove4();
+                    if (move1 != null) {
+                        moves++;
+                        score = score + (Type.getEffectiveness(move1.getType(), type1, type2) * 5 * (move1.getPP() / move1.getMaxPP()));
+                    }
+                    if (move2 != null) {
+                        moves++;
+                        score = score + (Type.getEffectiveness(move2.getType(), type1, type2) * 5 * (move2.getPP() / move2.getMaxPP()));
+                    }
+                    if (move3 != null) {
+                        moves++;
+                        score = score + (Type.getEffectiveness(move3.getType(), type1, type2) * 5 * (move3.getPP() / move3.getMaxPP()));
+                    }
+                    if (move4 != null) {
+                        moves++;
+                        score = score + (Type.getEffectiveness(move4.getType(), type1, type2) * 5 * (move4.getPP() / move4.getMaxPP()));
+                    }
+                    score = score / moves;
                 }
-                if (move2 != null) {
-                    moves++;
-                    score = score + (Type.getEffectiveness(move2.getType(), type1, type2) * 5 * (move2.getPP() / move2.getMaxPP()));
-                }
-                if (move3 != null) {
-                    moves++;
-                    score = score + (Type.getEffectiveness(move3.getType(), type1, type2) * 5 * (move3.getPP() / move3.getMaxPP()));
-                }
-                if (move4 != null) {
-                    moves++;
-                    score = score + (Type.getEffectiveness(move4.getType(), type1, type2) * 5 * (move4.getPP() / move4.getMaxPP()));
-                }
-                score = score / moves;
                 //Trainers pokemon moves vs ur pokemon type
             }
             if (score > bestScore) {

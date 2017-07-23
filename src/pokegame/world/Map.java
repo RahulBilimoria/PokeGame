@@ -81,7 +81,7 @@ public class Map {
         spawnNPCs(x, y);
     }
     
-    public void spawnNPCs(int xOffset, int yOffset){
+    private void spawnNPCs(int xOffset, int yOffset){
         int x = 0;
         Document d = DocumentParser.loadDataFile("dat/world/npcs/npc1.xml");
         /*NodeList list = d.getElementsByTagName("Quest");
@@ -805,6 +805,10 @@ public class Map {
 
     public void setRight(int right) {
         this.right = right;
+    }
+    
+    public void setCurr(int curr){
+        this.curr = curr;
     }
 
     public void setSafe(boolean safeZone) {

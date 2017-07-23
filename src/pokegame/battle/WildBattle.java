@@ -19,7 +19,7 @@ public class WildBattle extends Battle {
 
     public WildBattle(Handler handler, Player player, Pokemon enemy, int moneyGained) {
         super(handler, player, enemy, 0);
-        
+        screen = new BattleScreen(this);
         this.moneyGained = moneyGained;
     }
 
@@ -34,7 +34,7 @@ public class WildBattle extends Battle {
         fainted = true;
         addText(ally.getName() + " has fainted!");
         closeBag();
-        battleHandler.disableButtons();
+        screen.disableButtons();
         for (int x = 0; x < 6; x++) {
             if (player.getPokemon(x) != null) {
                 if (player.getPokemon(x).getHp() > 0) {
@@ -42,14 +42,25 @@ public class WildBattle extends Battle {
                     break;
                 }
                 else if (x == 6) {
-                    battleHandler.lose(); // put fainted screen
+                    lose(); // put fainted screen
                 }
             }
         }
         return true;
     }
     
-    private int getMoneyGained(){
-        return moneyGained;
+    @Override
+    public void win(){
+        screen.exit();
+        player.addMoney(moneyGained);
+        exit();
+    }
+    
+    @Override
+    public void lose(){
+        screen.exit();
+        player.respawn();
+        player.getParty().heal();
+        exit();
     }
 }

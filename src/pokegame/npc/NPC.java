@@ -195,6 +195,10 @@ public class NPC extends Person {
     public int getType(){
         return type;
     }
+    
+    public int getID(){
+        return id;
+    }
 
     public void onInteract(Player player) {
 
