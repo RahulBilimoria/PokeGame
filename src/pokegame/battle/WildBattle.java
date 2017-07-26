@@ -41,7 +41,7 @@ public class WildBattle extends Battle {
                     addText("Pick your next pokemon.");
                     break;
                 }
-                else if (x == 6) {
+                else if (x == 5) {
                     lose(); // put fainted screen
                 }
             }

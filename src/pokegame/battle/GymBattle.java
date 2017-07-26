@@ -45,6 +45,7 @@ public class GymBattle extends Battle{
             enemy = AI.chooseNextPokemon(leader.getDifficulty(), leaderPokemon, ally);
             if (enemy == null) won = true;
             else {
+                resetModifiers(false);
                 screen.updateEnemyPokemon();
                 addText(faintedPkmn + " has fainted! " + leader.getName() + " sent out " + enemy.getName()+"!");
             }
@@ -63,7 +64,7 @@ public class GymBattle extends Battle{
                     addText("Pick your next pokemon.");
                     break;
                 }
-                else if (x == 6) {
+                else if (x == 5) {
                     lose(); // put fainted screen
                 }
             }

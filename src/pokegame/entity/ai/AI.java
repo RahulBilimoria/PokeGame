@@ -149,7 +149,7 @@ public class AI {
                     Status cond = p.getStatus();
                     if (cond == Status.NORMAL) {
                         score += 10;
-                    } else if (cond == Status.POISONED || cond == Status.BURN || cond == Status.CONFUSION) {
+                    } else if (cond == Status.POISONED || cond == Status.BURN /*|| cond == Status.CONFUSION*/) {
                         score -= 5;
                     } else {
                         score -= 10;

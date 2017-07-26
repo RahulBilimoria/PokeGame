@@ -424,6 +424,12 @@ public class Pokemon {
     public boolean getGender() {
         return gender;
     }
+    
+    public String getGenderString(){
+        if (gender)
+            return "Male";
+        return "Female";
+    }
 
     public String getNick() {
         return nickname;

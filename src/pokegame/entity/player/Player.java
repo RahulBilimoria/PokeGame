@@ -20,6 +20,7 @@ import pokegame.npc.quest.Quest;
 import pokegame.pokemon.Pokemon;
 import pokegame.pokemon.move.Move;
 import pokegame.pokemon.move.Moveset;
+import pokegame.pokemon.status.Status;
 import pokegame.tiles.Tile;
 
 /**
@@ -68,7 +69,7 @@ public class Player extends Person {
         activeQuests = new ArrayList<>();
         completedQuests = new ArrayList<>();
         defeatedTrainers = new ArrayList<>();
-        party.addPokemon(new Pokemon(handler, 0, true, 1, 200, 150, 140, 160, 140, 700, new Moveset(0,3,6,9)));
+        party.addPokemon(new Pokemon(handler, 0, true, 1, 600, 1, 1, 1, 1, 700, new Moveset(0,3,6,9)));
         for (int a = 0; a < 8; a++){
             for (int b = 0; b < 8; b++){
                 badges[a][b] = false;

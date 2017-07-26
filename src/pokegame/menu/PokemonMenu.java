@@ -372,9 +372,9 @@ public class PokemonMenu {
         tp.setText("TP Points: " + (player.getPokemon(selectedPokemon).getTP() - tpTemp));
         exptoLevel.setText("Experience Points: " + player.getPokemon(selectedPokemon).getExp() + " / " + player.getPokemon(selectedPokemon).getMaxExp());
         pokedexNumber.setText("Pokedex Number: " + (player.getPokemon(selectedPokemon).getID() + 1));
-        gender.setText("Gender: " + player.getPokemon(selectedPokemon).getGender());
+        gender.setText("Gender: " + player.getPokemon(selectedPokemon).getGenderString());
         nature.setText("Nature: " + player.getPokemon(selectedPokemon).getNature());
-        status.setText("Status: " + player.getPokemon(selectedPokemon).getStatus());
+        status.setText("Status: " + player.getPokemon(selectedPokemon).getStatus().getName());
     }
 
     public void loadMoves() {

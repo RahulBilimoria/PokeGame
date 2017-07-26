@@ -5,6 +5,8 @@
  */
 package pokegame.pokemon.status;
 
+import pokegame.pokemon.Pokemon;
+
 /**
  *
  * @author Rahul
@@ -12,19 +14,18 @@ package pokegame.pokemon.status;
 public class Status {
     
     public static final Status NORMAL = new Status(0, "Normal");
-    public static final Status POISONED = new Status(1, "Poisoned");
+    public static final Status POISONED = new Status(1, "Poison");
     public static final Status PARALYZED = new Status(2, "Paralyzed");
     public static final Status SLEEP = new Status(3, "Sleep");
     public static final Status BURN = new Status(4, "Burn");
     public static final Status FROZEN = new Status(5, "Frozen");
-    public static final Status CONFUSION = new Status(6, "Confusion");
-    public static final Status TOXIC = new Status(7, "Badly Poisoned");
+    public static final Status TOXIC = new Status(6, "Poison");
     
     private int id;
     private String name;
     
     public Status(int id, String name){
-        this.id = 0;
+        this.id = id;
         this.name = name;
     }
     
@@ -43,8 +44,32 @@ public class Status {
             case 3: return SLEEP;
             case 4: return BURN;
             case 5: return FROZEN;
-            case 6: return CONFUSION;
+            case 6: return TOXIC;
             default: return NORMAL;
         }
+    }
+    
+    public static int applyStatus(Pokemon p, int duration){
+        switch(p.getStatus().getId()) {
+            case 1: return applyPoison(p);
+            case 2: return -2;
+            case 3: return -3;
+            case 4: return applyBurn(p);
+            case 5: return -5;
+            case 6: return applyToxic(p, duration);
+            default: return 0;
+        }
+    }
+    
+    private static int applyPoison(Pokemon p){
+        return Math.max(p.getMaxHp()/8, 1);
+    }
+    
+    private static int applyBurn(Pokemon p){
+        return Math.max(p.getMaxHp()/16, 1);
+    }
+    
+    private static int applyToxic(Pokemon p, int d){
+        return Math.max(p.getMaxHp()/16, 1) * d;
     }
 }

@@ -138,7 +138,7 @@ public class Berry extends Item{
                 break;
             case 6: player.heal(10);
                 break;
-            case 7: if (player.getStatus() == Status.CONFUSION) player.setStatus(Status.NORMAL);
+            case 7: //if (player.getStatus() == Status.CONFUSION) player.setStatus(Status.NORMAL);
                 break;
             case 8: player.setStatus(Status.NORMAL);
                 break;
