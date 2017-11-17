@@ -216,7 +216,7 @@ public abstract class Battle {
         m.usePP();
         int damage = getDamage(attacking, defending, m, attackStatus, defendStatus);
         addText(a + attacking.getName() + " used " + m.getName() + ".");
-        if (Math.random() < m.getAccuracy()) {
+        if (Math.random() < m.getAccuracy(attacking, defending)) {
             if (attacking.getStatus() == Status.BURN && m.getCategory() == 0) {
                 damage = damage / 2;
             }
@@ -263,8 +263,8 @@ public abstract class Battle {
         if (m.getType() == attack.getType1() || m.getType() == attack.getType2()) {
             stab = 1.5f;
         }
-        if (Math.random() <= 0.01) {
-            critical = 2;
+        if (Math.random() <= m.getCrit()) {
+            critical = 2; // fix this because crits will never be proc'ed
         }
         rand = (rand - (int) (Math.random() * 16)) / 100;
         float modifier = stab * type * critical * rand;

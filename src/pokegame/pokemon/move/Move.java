@@ -7,6 +7,7 @@ package pokegame.pokemon.move;
 
 import java.awt.image.BufferedImage;
 import pokegame.gfx.ImageLoader;
+import pokegame.pokemon.Pokemon;
 import pokegame.type.Type;
 import pokegame.utils.Utils;
 
@@ -16,8 +17,8 @@ import pokegame.utils.Utils;
  */
 public class Move {
 
-    private static final int MOVE_COUNT = 621;
-    private static final int MOVE_COL = 7; //columns
+    protected static final int MOVE_COUNT = 621;
+    protected static final int MOVE_COL = 7; //columns
     public static final BaseMove MOVE_LIST[] = new BaseMove[MOVE_COUNT];
 
     public static class BaseMove {
@@ -25,7 +26,7 @@ public class Move {
         private static BufferedImage[] image = new BufferedImage[3];
 
         private final int id, maxPP, power, category, numOfHits;
-        private final float acc;
+        private final float acc, crit;
         private final String name;
         private final Type type;
 
@@ -39,6 +40,7 @@ public class Move {
             this.power = power;
             this.acc = acc;
             numOfHits = 1;
+            crit = 0.01f;
         }
         
         public static void init(){
@@ -57,6 +59,10 @@ public class Move {
         
         public float getAcc(){
             return acc;
+        }
+        
+        public float getCrit(){
+            return crit;
         }
         
         public int getMaxPP(){
@@ -80,8 +86,8 @@ public class Move {
         }
     }
 
-    private int id;
-    private int pp;
+    protected int id;
+    protected int pp;
 
     public Move(int id) {
         this.id = id;
@@ -174,8 +180,12 @@ public class Move {
         return MOVE_LIST[id].getImage();
     }
 
-    public float getAccuracy() {
+    public float getAccuracy(Pokemon p, Pokemon a) {
         return MOVE_LIST[id].getAcc();
+    }
+    
+    public float getCrit(){
+        return MOVE_LIST[id].getCrit();
     }
 
     public void setPP(int num) {

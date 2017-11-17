@@ -512,7 +512,7 @@ public class PokemonMenu {
             name1.setForeground(Color.white);
             power = new JLabel("Power: " + replace.getPower());
             power.setForeground(Color.white);
-            acc = new JLabel("Accuracy: " + ((int) (replace.getAccuracy() * 100)) + "%");
+            acc = new JLabel("Accuracy: " + ((int) (replace.getAccuracy(null, null) * 100)) + "%");
             acc.setForeground(Color.white);
             maxPP = new JLabel("PP: " + replace.getMaxPP());
             maxPP.setForeground(Color.white);
