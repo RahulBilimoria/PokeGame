@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SpecialPokeball>
+    <Pokeball>
+        <ID>0</ID>
+        <Name>Level Ball</Name>
+        <Icon>
+            <x>10</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on Pokémon of levels lower than the Pokémon currently in battle.</Effect>
+        <Description>A Poké Ball that makes it easier to catch Pokémon that are at a lower level than your own Pokémon.</Description>
+        <Condition>0</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>2.0</Rate2>
+            <Rate3>4.0</Rate3>
+            <Rate4>8.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>1</ID>
+        <Name>Lure Ball</Name>
+        <Icon>
+            <x>11</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better while fishing.</Effect>
+        <Description>A Poké Ball that is good for catching Pokémon that you reel in with a Rod while out fishing.</Description>
+        <Condition>1</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>3.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>2</ID>
+        <Name>Moon Ball</Name>
+        <Icon>
+            <x>12</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on Pokémon that evolve with a Moon Stone.</Effect>
+        <Description>A Poké Ball that will make it easier to catch Pokémon that can evolve using a Moon Stone.</Description>
+        <Condition>2</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>4.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>3</ID>
+        <Name>Friend Ball</Name>
+        <Icon>
+            <x>13</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon. Sets caught Pokémon's friendship to 200.</Effect>
+        <Description>A strange Poké Ball that will make the wild Pokémon caught with it more friendly toward you immediately.</Description>
+        <Condition>3</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>-1.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>4</ID>
+        <Name>Love Ball</Name>
+        <Icon>
+            <x>14</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on Pokémon of the opposite gender, but same species as the player's Pokémon.</Effect>
+        <Description>A Poké Ball that works best when catching a Pokémon that is of the opposite gender of your Pokémon.</Description>
+        <Condition>4</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>8.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>5</ID>
+        <Name>Heavy Ball</Name>
+        <Icon>
+            <x>15</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on heavier Pokémon</Effect>
+        <Description>A Poké Ball that is better than usual at catching very heavy Pokémon.</Description>
+        <Condition>5</Condition>
+        <CatchRates>
+            <Rate1>-20.0</Rate1>
+            <Rate2>20.0</Rate2>
+            <Rate3>30.0</Rate3>
+            <Rate4>40.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>6</ID>
+        <Name>Fast Ball</Name>
+        <Icon>
+            <x>16</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on fast Pokémon.</Effect>
+        <Description>A Poké Ball that makes it easier to catch Pokémon that are usually very quick to run away.</Description>
+        <Condition>6</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>4.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>7</ID>
+        <Name>Repeat Ball</Name>
+        <Icon>
+            <x>17</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on Pokémon that are registered in the Pokédex as caught.</Effect>
+        <Description>A somewhat different Poké Ball that works especially well on a Pokémon species that has been caught before.</Description>
+        <Condition>7</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>3.5</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>8</ID>
+        <Name>Timer Ball</Name>
+        <Icon>
+            <x>18</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better in battles that have lasted longer.</Effect>
+        <Description>A somewhat different Poké Ball that becomes progressively more effective the more turns that are taken in battle.</Description>
+        <Condition>8</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>4.0</Rate2>
+            <Rate3>0.3</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>9</ID>
+        <Name>Nest Ball</Name>
+        <Icon>
+            <x>19</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on lower-level Pokémon.</Effect>
+        <Description>A somewhat different Poké Ball that becomes more effective the lower the level of the wild Pokémon.</Description>
+        <Condition>9</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>8.0</Rate2>
+            <Rate3>0.2</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>10</ID>
+        <Name>Net Ball</Name>
+        <Icon>
+            <x>20</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on Water- and Bug-type Pokémon (this does not stack if the Pokémon is both types).</Effect>
+        <Description>A somewhat different Poké Ball that is more effective when attempting to catch Water- or Bug-type Pokémon.</Description>
+        <Condition>10</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>3.5</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>11</ID>
+        <Name>Dive Ball</Name>
+        <Icon>
+            <x>21</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better on Pokémon encountered underwater.</Effect>
+        <Description>A somewhat different Poké Ball that works especially well when catching Pokémon that live underwater.</Description>
+        <Condition>11</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>3.5</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>12</ID>
+        <Name>Luxury Ball</Name>
+        <Icon>
+            <x>22</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon. Alters the amount by which a caught Pokémon's friendship rises.</Effect>
+        <Description>A particularly comfortable Poké Ball that makes a wild Pokémon quickly grow friendlier after being caught.</Description>
+        <Condition>12</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>-1.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>13</ID>
+        <Name>Heal Ball</Name>
+        <Icon>
+            <x>23</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon. Fully restores a caught Pokémon's HP, PP, and status.</Effect>
+        <Description>A remedial Poké Ball that restores the HP of a Pokémon caught with it and eliminates any status conditions.</Description>
+        <Condition>13</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>-1.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>14</ID>
+        <Name>Quick Ball</Name>
+        <Icon>
+            <x>24</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works best when used during the first turn of the battle.</Effect>
+        <Description>A somewhat different Poké Ball that has a more successful catch rate if used at the start of a wild encounter.</Description>
+        <Condition>14</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>5.0</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+    <Pokeball>
+        <ID>15</ID>
+        <Name>Dusk Ball</Name>
+        <Icon>
+            <x>25</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Allows the player to catch wild Pokémon; works better when used in caves or at night.</Effect>
+        <Description>A somewhat different Poké Ball that makes it easier to catch wild Pokémon at night or in dark places like caves.</Description>
+        <Condition>15</Condition>
+        <CatchRates>
+            <Rate1>1.0</Rate1>
+            <Rate2>3.5</Rate2>
+            <Rate3>-1.0</Rate3>
+            <Rate4>-1.0</Rate4>
+        </CatchRates>
+    </Pokeball>
+</SpecialPokeball>

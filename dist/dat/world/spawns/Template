@@ -1,0 +1,40 @@
+Spawnrate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+PokemonID minlvl(1) maxlvl(100) spawnrate(out of 1)
+Hp Att Def SpAtt SpDef Speed
+Move1ID Move2ID Move3ID Move4ID
+ItemID droprate(out of 1)
+
+//each map has 3 different sets of spawns, scripts 3, 4, 5, is for each respective set
+//might add stats of each pokemon later on and moves each pokemon has

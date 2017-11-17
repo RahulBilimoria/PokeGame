@@ -1,0 +1,45 @@
+<Quest>
+    <ID>0</ID>
+    <Name>Story Quest</Name>
+    <ItemID>0</ItemID>
+    <ItemAmountRequired>6</ItemAmountRequired>
+    <PokemonID>0</PokemonID>
+    <PokemonLevel>1</PokemonLevel>
+    <PokemonAmountRequired>2</PokemonAmountRequired>
+    <WildPokemonID>-1</WildPokemonID>
+    <WildPokemonLevel>-1</WildPokemonLevel>
+    <WildPokemonAmountRequired>-1</WildPokemonAmountRequired>
+    <MapLocation>-1</MapLocation>
+    <NpcID>0</NpcID>
+    <KeyMapLocation>-1</KeyMapLocation>
+    <KeyItemID>5</KeyItemID>
+    <LevelsToGain>-1</LevelsToGain>
+    <ItemRewardID>0</ItemRewardID>
+    <ItemRewardAmount>5</ItemRewardAmount>
+    <PokemonReward>
+        <ID>-1</ID>
+        <Nickname>-1</Nickname>
+        <Shiny>-1</Shiny>
+        <Level>-1</Level>
+        <TpPoints>-1</TpPoints>
+        <Hp>-1</Hp>
+        <Attack>-1</Attack>
+        <Defense>-1</Defense>
+        <SpecialAttack>-1</SpecialAttack>
+        <SpecialDefense>-1</SpecialDefense>
+        <Speed>-1</Speed>
+        <Friendship>-1</Friendship>
+        <FriendshipRate>-1</FriendshipRate>
+        <StatusID>-1</StatusID>
+        <NatureID>-1</NatureID>
+        <Gender>-1</Gender>
+        <Moveset>
+            <Move1>-1</Move1>
+            <Move2>-1</Move2>
+            <Move3>-1</Move3>
+            <Move4>-1</Move4>
+        </Moveset>
+    </PokemonReward>
+    <PokemonRewardAmount>-1</PokemonRewardAmount>
+    <PokemonExpReward>-1</PokemonExpReward>
+</Quest>

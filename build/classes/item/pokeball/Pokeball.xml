@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pokeballs>
+    <Pokeball>
+        <ID>0</ID>
+        <Name>Poke Ball</Name>
+        <Icon>
+            <x>0</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>1.0</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon.</Effect>
+        <Description>A device for catching wild Pokémon. It's thrown like a ball at a Pokémon, comfortably encapsulating its target.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>1</ID>
+        <Name>Great Ball</Name>
+        <Icon>
+            <x>1</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>1.5</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon.</Effect>
+        <Description>A good, high-performance Poké Ball that provides a higher Pokémon catch rate than a standard Poké Ball.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>2</ID>
+        <Name>Ultra Ball</Name>
+        <Icon>
+            <x>2</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>2.0</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon.</Effect>
+        <Description>An ultra-high-performance Poké Ball that provides a higher success rate for catching Pokémon than a Great Ball.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>3</ID>
+        <Name>Master Ball</Name>
+        <Icon>
+            <x>3</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>999.0</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon without fail.</Effect>
+        <Description>The best Poké Ball with the ultimate level of performance. With it, you will catch any wild Pokémon without fail.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>4</ID>
+        <Name>Safari Ball</Name>
+        <Icon>
+            <x>4</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>1.5</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon in the Safari Zone.</Effect>
+        <Description>A special Poké Ball that is used only in the Great Marsh. It is recognizable by the camouflage pattern decorating it.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>5</ID>
+        <Name>Sport Ball</Name>
+        <Icon>
+            <x>5</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>1.5</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon in the Bug-Catching Contest.</Effect>
+        <Description>A special Poké Ball that is used during the Bug-Catching Contest.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>6</ID>
+        <Name>Premiere Ball</Name>
+        <Icon>
+            <x>6</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>1.0</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon.</Effect>
+        <Description>A somewhat rare Poké Ball that was made as a commemorative item used to celebrate an event of some sort.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>7</ID>
+        <Name>Cherish Ball</Name>
+        <Icon>
+            <x>7</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>1.0</CatchRate>
+        <Effect>Contains event Pokémon.</Effect>
+        <Description>A quite rare Poké Ball that has been crafted in order to commemorate a special occasion of some sort.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>8</ID>
+        <Name>Park Ball</Name>
+        <Icon>
+            <x>8</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>999.0</CatchRate>
+        <Effect>Recatches Pokémon sent through Pal Park.</Effect>
+        <Description>A special Poké Ball for the Pal Park.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>9</ID>
+        <Name>Dream Ball</Name>
+        <Icon>
+            <x>9</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>999.0</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon in the Entree Forest.</Effect>
+        <Description>A special Poké Ball that appears in your Bag out of nowhere in the Entree Forest. It can catch any Pokémon.</Description>
+    </Pokeball>
+    <Pokeball>
+        <ID>10</ID>
+        <Name>Beast Ball</Name>
+        <Icon>
+            <x>26</x>
+            <y>0</y>
+        </Icon>
+        <CatchRate>0.1</CatchRate>
+        <Effect>Allows the player to catch wild Pokémon; works better on Ultra Beasts.</Effect>
+        <Description>A special Poké Ball designed to catch Ultra Beasts. It has a low success rate for catching others.</Description>
+    </Pokeball>
+</Pokeballs>

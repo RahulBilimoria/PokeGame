@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StatBoost>
+    <Item>
+        <ID>0</ID>
+        <Name>HP Up</Name>
+        <Icon>
+            <x>6</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 3 HP to the target Pokémon per use.</Effect>
+        <Description>A nutritious drink for Pokémon. When consumed, it raises the base HP of a single Pokémon.</Description>
+        <Condition>0</Condition>
+        <BoostAmount>3</BoostAmount>
+    </Item>
+    <Item>
+        <ID>1</ID>
+        <Name>Protein</Name>
+        <Icon>
+            <x>7</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 3 Attack to the target Pokémon per use.</Effect>
+        <Description>A nutritious drink for Pokémon. When consumed, it raises the base Attack stat of a single Pokémon.</Description>
+        <Condition>1</Condition>
+        <BoostAmount>3</BoostAmount>
+    </Item>
+    <Item>
+        <ID>2</ID>
+        <Name>Iron</Name>
+        <Icon>
+            <x>8</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 3 Defense to the target Pokémon per use.</Effect>
+        <Description>A nutritious drink for Pokémon. When consumed, it raises the base Defense stat of a single Pokémon.</Description>
+        <Condition>2</Condition>
+        <BoostAmount>3</BoostAmount>
+    </Item>
+    <Item>
+        <ID>3</ID>
+        <Name>Calcium</Name>
+        <Icon>
+            <x>9</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 3 Special Attack to the target Pokémon per use.</Effect>
+        <Description>A nutritious drink for Pokémon. When consumed, it raises the base Sp. Atk stat of a single Pokémon.</Description>
+        <Condition>3</Condition>
+        <BoostAmount>3</BoostAmount>
+    </Item>
+    <Item>
+        <ID>4</ID>
+        <Name>Zinc</Name>
+        <Icon>
+            <x>10</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 3 Special Defense to the target Pokémon per use.</Effect>
+        <Description>A nutritious drink for Pokémon. When consumed, it raises the base Sp. Def stat of a single Pokémon.</Description>
+        <Condition>4</Condition>
+        <BoostAmount>3</BoostAmount>
+    </Item>
+    <Item>
+        <ID>5</ID>
+        <Name>Carbos</Name>
+        <Icon>
+            <x>11</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 3 Speed to the target Pokémon per use.</Effect>
+        <Description>A nutritious drink for Pokémon. When consumed, it raises the base Speed stat of a single Pokémon.</Description>
+        <Condition>5</Condition>
+        <BoostAmount>3</BoostAmount>
+    </Item>
+    <Item>
+        <ID>6</ID>
+        <Name>PP Up</Name>
+        <Icon>
+            <x>12</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Raises the PP of a selected move by 1/5 of the move's base PP, until 3 PP Ups or one PP Max have been used on the Pokémon's move.</Effect>
+        <Description>A medicine that can slightly raise the maximum PP of a single move that has been learned by the target Pokémon.</Description>
+        <Condition>6</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>7</ID>
+        <Name>PP Max</Name>
+        <Icon>
+            <x>13</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Raises the PP of a selected move to 8/5 of the move's base PP, but can only be used once per move on a given Pokémon.</Effect>
+        <Description>A medicine that can optimally raise the maximum PP of a single move that has been learned by the target Pokémon.</Description>
+        <Condition>7</Condition>
+        <BoostAmount>99</BoostAmount>
+    </Item>
+    <Item>
+        <ID>8</ID>
+        <Name>Rare Candy</Name>
+        <Icon>
+            <x>14</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Raises a Pokémon by one level, up to level 100.</Effect>
+        <Description>A candy that is packed with energy. When consumed, it will instantly raise the level of a single Pokémon by one.</Description>
+        <Condition>8</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>9</ID>
+        <Name>Health Wing</Name>
+        <Icon>
+            <x>15</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 1 HP to the target Pokémon per use.</Effect>
+        <Description>An item for use on a Pokémon. It slightly increases the base HP of a single Pokémon.</Description>
+        <Condition>0</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>10</ID>
+        <Name>Muscle Wing</Name>
+        <Icon>
+            <x>16</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 1 Attack to the target Pokémon per use.</Effect>
+        <Description>An item for use on a Pokémon. It slightly increases the base Attack stat of a single Pokémon.</Description>
+        <Condition>1</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>11</ID>
+        <Name>Resist Wing</Name>
+        <Icon>
+            <x>17</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 1 Defense to the target Pokémon per use.</Effect>
+        <Description>An item for use on a Pokémon. It slightly increases the base Defense stat of a single Pokémon.</Description>
+        <Condition>2</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>12</ID>
+        <Name>Genius Wing</Name>
+        <Icon>
+            <x>18</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 1 Special Attack to the target Pokémon per use.</Effect>
+        <Description>An item for use on a Pokémon. It slightly increases the base Sp. Atk stat of a single Pokémon.</Description>
+        <Condition>3</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>13</ID>
+        <Name>Clever Wing</Name>
+        <Icon>
+            <x>19</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 1 Special Defense to the target Pokémon per use.</Effect>
+        <Description>An item for use on a Pokémon. It slightly increases the base Sp. Def stat of a single Pokémon.</Description>
+        <Condition>4</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>14</ID>
+        <Name>Swift Wing</Name>
+        <Icon>
+            <x>20</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 1 Speed to the target Pokémon per use.</Effect>
+        <Description>An item for use on a Pokémon. It slightly increases the base Speed stat of a single Pokémon.</Description>
+        <Condition>5</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+    <Item>
+        <ID>15</ID>
+        <Name>Pretty Wing</Name>
+        <Icon>
+            <x>21</x>
+            <y>2</y>
+        </Icon>
+        <Effect>Adds 1 Point for each stat to the target Pokémon per use.</Effect>
+        <Description>An item for use on a Pokémon. It slightly increases each base stat of a single Pokémon.</Description>
+        <Condition>9</Condition>
+        <BoostAmount>1</BoostAmount>
+    </Item>
+</StatBoost>

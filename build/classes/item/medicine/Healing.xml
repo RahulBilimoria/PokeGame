@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Healing>
+    <Item>
+        <ID>0</ID>
+        <Name>Potion</Name>
+        <Icon>
+            <x>27</x>
+            <y>0</y>
+        </Icon>
+        <Effect>Heals a Pokémon by 20 HP.</Effect>
+        <Description>A spray-type medicine for treating wounds. It can be used to restore 20 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>20</HealAmount>
+    </Item>
+    <Item>
+        <ID>1</ID>
+        <Name>Super Potion</Name>
+        <Icon>
+            <x>0</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Heals a Pokémon by 60 HP.</Effect>
+        <Description>A spray-type medicine for treating wounds. It can be used to restore 60 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>60</HealAmount>
+    </Item>
+    <Item>
+        <ID>2</ID>
+        <Name>Hyper Potion</Name>
+        <Icon>
+            <x>1</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Heals a Pokémon by 120 HP.</Effect>
+        <Description>A spray-type medicine for treating wounds. It can be used to restore 120 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>120</HealAmount>
+    </Item>
+    <Item>
+        <ID>3</ID>
+        <Name>Max Potion</Name>
+        <Icon>
+            <x>2</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Heals a Pokémon to its full HP.</Effect>
+        <Description>A spray-type medicine for treating wounds. It will completely restore the max HP of a single Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>999</HealAmount>
+    </Item>
+    <Item>
+        <ID>4</ID>
+        <Name>Full Restore</Name>
+        <Icon>
+            <x>3</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Heals a Pokémon to its full HP and restores all status conditions.</Effect>
+        <Description>A medicine that can be used to fully restore the HP of a single Pokémon and heal any status conditions it has.</Description>
+        <Condition>1</Condition>
+        <HealAmount>999</HealAmount>
+    </Item>
+    <Item>
+        <ID>5</ID>
+        <Name>Secret Potion</Name>
+        <Icon>
+            <x>4</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Heals an ailing Pokémon on the field as part of the storyline of the game.</Effect>
+        <Description>A fantastic medicine dispensed by the pharmacy in Cianwood City. It fully heals a Pokémon of any ailment.</Description>
+        <Condition>0</Condition>
+        <HealAmount>100</HealAmount>
+    </Item>
+    <Item>
+        <ID>6</ID>
+        <Name>Fresh Water</Name>
+        <Icon>
+            <x>5</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores 30 HP.</Effect>
+        <Description>Water with a high mineral content. When consumed, it restores up to 30 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>30</HealAmount>
+    </Item>
+    <Item>
+        <ID>7</ID>
+        <Name>Soda Pop</Name>
+        <Icon>
+            <x>6</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores 50 HP.</Effect>
+        <Description>A highly carbonated soda drink. When consumed, it restores up to 50 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>50</HealAmount>
+    </Item>
+    <Item>
+        <ID>8</ID>
+        <Name>Lemonade</Name>
+        <Icon>
+            <x>7</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores 70 HP.</Effect>
+        <Description>A very sweet and refreshing drink. When consumed, it restores up to 70 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>50</HealAmount>
+    </Item>
+    <Item>
+        <ID>9</ID>
+        <Name>Moomoo Milk</Name>
+        <Icon>
+            <x>8</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores 100 HP.</Effect>
+        <Description>A bottle of highly nutritious milk. When consumed, it restores up to 100 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>100</HealAmount>
+    </Item>
+    <Item>
+        <ID>10</ID>
+        <Name>Berry Juice</Name>
+        <Icon>
+            <x>9</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores 20 HP. Can be activated as a held item.</Effect>
+        <Description>A 100 percent pure juice made of Berries. When consumed, it restores 20 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>20</HealAmount>
+    </Item>
+    <Item>
+        <ID>11</ID>
+        <Name>Tea</Name>
+        <Icon>
+            <x>9</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Give it to the Saffron City guards to be granted access to the city.</Effect>
+        <Description>A thirst-quenching tea prepared by an old lady.</Description>
+        <Condition>0</Condition>
+        <HealAmount>45</HealAmount>
+    </Item>
+    <Item>
+        <ID>12</ID>
+        <Name>Revive</Name>
+        <Icon>
+            <x>10</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores a fainted Pokémon to half of its full HP.</Effect>
+        <Description>A medicine that can revive fainted Pokémon. It also restores half of a fainted Pokémon's maximum HP.</Description>
+        <Condition>2</Condition>
+        <HealAmount>0</HealAmount>
+    </Item>
+    <Item>
+        <ID>13</ID>
+        <Name>Max Revive</Name>
+        <Icon>
+            <x>11</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores a fainted Pokémon, completely restoring its HP.</Effect>
+        <Description>A medicine that can revive fainted Pokémon. It also fully restores a fainted Pokémon's maximum HP.</Description>
+        <Condition>3</Condition>
+        <HealAmount>999</HealAmount>
+    </Item>
+    <Item>
+        <ID>14</ID>
+        <Name>Sacred Ash</Name>
+        <Icon>
+            <x>12</x>
+            <y>1</y>
+        </Icon>
+        <Effect>When used from the Bag, Sacred Ash fully restores the HP of all fainted Pokémon in the party. It can only be used outside of battle. It is consumed after use.</Effect>
+        <Description>This rare ash can revive all fainted Pokémon in a party. In doing so, it also fully restores their maximum HP.</Description>
+        <Condition>4</Condition>
+        <HealAmount>0</HealAmount>
+    </Item>
+    <Item>
+        <ID>15</ID>
+        <Name>Energy Powder</Name>
+        <Icon>
+            <x>13</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores a Pokémon by 60 HP but lowers friendship.</Effect>
+        <Description>A very bitter medicinal powder. When consumed, it restores up to 60 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>60</HealAmount>
+    </Item>
+    <Item>
+        <ID>16</ID>
+        <Name>Energy Root</Name>
+        <Icon>
+            <x>14</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Restores a Pokémon by 120 HP but lowers friendship.</Effect>
+        <Description>An extremely bitter medicinal root. When consumed, it restores up to 120 HP to an injured Pokémon.</Description>
+        <Condition>0</Condition>
+        <HealAmount>120</HealAmount>
+    </Item>
+    <Item>
+        <ID>17</ID>
+        <Name>Revival Herb</Name>
+        <Icon>
+            <x>15</x>
+            <y>1</y>
+        </Icon>
+        <Effect>Revives a fainted Pokémon and restores it to full HP but lowers friendship.</Effect>
+        <Description>A terribly bitter medicinal herb. It revives a fainted Pokémon and fully restores its maximum HP.</Description>
+        <Condition>3</Condition>
+        <HealAmount>999</HealAmount>
+    </Item>
+</Healing>

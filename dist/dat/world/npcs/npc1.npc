@@ -1,0 +1,15 @@
+NumberOfNpcs:
+Type:
+Name:
+Sprite:
+Direction:
+X:
+Y:
+DistanceFromCenter:
+Solid:
+WalksAround:
+SpeechCount:
+Speech:
+1:
+2:
+3:

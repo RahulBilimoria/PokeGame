@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BattleItems>
+    <Item>
+        <ID>0</ID>
+        <Name>X Attack</Name>
+        <Icon>
+            <x>22</x>
+            <y>2</y>
+        </Icon>
+        <Type>0</Type>
+        <Effect>Raises the Attack of a Pokémon currently in battle by 1 level.</Effect>
+        <Description>An item that sharply boosts the Attack stat of a Pokémon during a battle. It wears off once the Pokémon is withdrawn.</Description>
+        <Condition>0</Condition>
+        <IncreaseAmount>10.0</IncreaseAmount>
+    </Item>
+    <Item>
+        <ID>1</ID>
+        <Name>X Defense</Name>
+        <Icon>
+            <x>23</x>
+            <y>2</y>
+        </Icon>
+        <Type>1</Type>
+        <Effect>Raises the Defense of a Pokémon currently in battle by 1 level.</Effect>
+        <Description>An item that sharply boosts the Defense stat of a Pokémon during a battle. It wears off once the Pokémon is withdrawn.</Description>
+        <Condition>1</Condition>
+        <IncreaseAmount>10.0</IncreaseAmount>
+    </Item>
+    <Item>
+        <ID>2</ID>
+        <Name>X Sp. Atk</Name>
+        <Icon>
+            <x>24</x>
+            <y>2</y>
+        </Icon>
+        <Type>2</Type>
+        <Effect>Raises the Special Attack of a Pokémon currently in battle by 1 level.</Effect>
+        <Description>An item that sharply boosts the Sp. Atk stat of a Pokémon during a battle. It wears off once the Pokémon is withdrawn.</Description>
+        <Condition>2</Condition>
+        <IncreaseAmount>10.0</IncreaseAmount>
+    </Item>
+    <Item>
+        <ID>3</ID>
+        <Name>X Sp. Def</Name>
+        <Icon>
+            <x>25</x>
+            <y>2</y>
+        </Icon>
+        <Type>3</Type>
+        <Effect>Raises the Special Defense of a Pokémon currently in battle by 1 level.</Effect>
+        <Description>An item that sharply boosts the Sp. Def stat of a Pokémon during a battle. It wears off once the Pokémon is withdrawn.</Description>
+        <Condition>3</Condition>
+        <IncreaseAmount>10.0</IncreaseAmount>
+    </Item>
+    <Item>
+        <ID>4</ID>
+        <Name>X Speed</Name>
+        <Icon>
+            <x>26</x>
+            <y>2</y>
+        </Icon>
+        <Type>4</Type>
+        <Effect>Raises the Speed of a Pokémon currently in battle by 1 level.</Effect>
+        <Description>An item that sharply boosts the Speed stat of a Pokémon during a battle. It wears off once the Pokémon is withdrawn.</Description>
+        <Condition>4</Condition>
+        <IncreaseAmount>10.0</IncreaseAmount>
+    </Item>
+    <Item>
+        <ID>5</ID>
+        <Name>X Accuracy</Name>
+        <Icon>
+            <x>27</x>
+            <y>2</y>
+        </Icon>
+        <Type>5</Type>
+        <Effect>Raises the accuracy of a Pokémon currently in battle by 1 level.</Effect>
+        <Description>An item that sharply boosts the accuracy stat of a Pokémon during a battle. It wears off once the Pokémon is withdrawn.</Description>
+        <Condition>5</Condition>
+        <IncreaseAmount>15.0</IncreaseAmount>
+    </Item>
+    <Item>
+        <ID>6</ID>
+        <Name>Dire Hit</Name>
+        <Icon>
+            <x>0</x>
+            <y>3</y>
+        </Icon>
+        <Type>6</Type>
+        <Effect>Raises the critical hit ratio of a Pokémon currently in battle by 1 level. Does not stack with itself or Focus Energy.</Effect>
+        <Description>An item that raises the critical-hit ratio greatly. It can be used only once and wears off if the Pokémon is withdrawn.</Description>
+        <Condition>6</Condition>
+        <IncreaseAmount>10.0</IncreaseAmount>
+    </Item>
+    <Item>
+        <ID>7</ID>
+        <Name>Guard Spec.</Name>
+        <Icon>
+            <x>1</x>
+            <y>3</y>
+        </Icon>
+        <Type>7</Type>
+        <Effect>Prevents stat reduction by opponents' moves for the user's party for five turns.</Effect>
+        <Description>An item that prevents stat reduction among the Trainer's party Pokémon for five turns after it is used in battle.</Description>
+        <Condition>7</Condition>
+        <IncreaseAmount>20.0</IncreaseAmount>
+    </Item>
+</BattleItems>
